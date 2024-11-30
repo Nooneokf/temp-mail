@@ -1,0 +1,32 @@
+"use client"
+
+import { QRCodeSVG } from 'qrcode.react'
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+
+interface QRCodeModalProps {
+  email: string
+  isOpen: boolean
+  onClose: () => void
+}
+
+export function QRCodeModal({ email, isOpen, onClose }: QRCodeModalProps) {
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <div className="flex flex-col items-center justify-center p-6">
+          <QRCodeSVG
+            value={`mailto:${email}`}
+            size={200}
+            level="L"
+            includeMargin
+            className="dark:bg-white p-2 rounded-lg"
+          />
+          <p className="mt-4 text-sm text-muted-foreground">
+            Scan to send email to {email}
+          </p>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
