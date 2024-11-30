@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export function AppFooter() {
   const links = [
     "Privacy Policy (please read)",
@@ -8,13 +10,13 @@ export function AppFooter() {
       <div className="container mx-auto px-4">
         <nav className="flex flex-wrap justify-center gap-4">
           {links.map((link) => (
-            <a
+            <Link
               key={link}
               href="/blog/privacy-policy"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
               {link}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
