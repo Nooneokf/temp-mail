@@ -22,8 +22,9 @@ export function AppHeader() {
           <span className="text-xl font-bold">FREE TEMPMAIL</span>
         </div>
         <div className="flex items-center gap-4">
-          <Button  variant="outline">API</Button>
-          <Button variant="secondary">Premium</Button>
+          <Button  variant="outline">
+            <a href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1">API</a>
+          </Button>
           <Button
             variant="ghost"
             size="icon"

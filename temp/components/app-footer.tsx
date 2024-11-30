@@ -1,6 +1,5 @@
 export function AppFooter() {
   const links = [
-    "PREMIUM",
     "API",
     "ARTICLES",
     "10 MINUTE MAIL",
@@ -19,7 +18,7 @@ export function AppFooter() {
           {links.map((link) => (
             <a
               key={link}
-              href="#"
+              href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
               {link}
