@@ -1,4 +1,4 @@
-import { Mail } from 'lucide-react'
+
 import { AppFooter } from "@/components/app-footer"
 import { AppHeader } from "@/components/app-header"
 import { EmailBox } from "@/components/email-box"

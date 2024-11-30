@@ -24,6 +24,7 @@ async function authenticateRequest(request: Request) {
     await verify(token)
     return true
   } catch (error) {
+    console.error('Failed to verify token:', error)
     return false
   }
 }

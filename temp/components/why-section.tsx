@@ -11,7 +11,7 @@ export function WhySection() {
       <div>
         <h3 className="mb-4 text-xl font-bold">Sign-Up For Store Loyalty Card:</h3>
         <p className="text-muted-foreground">
-          If you don't want to get promotional emails from the store adverting new products, use a disposable email address instead of your business email address, and you rule out spam emails. If the store gets hacked for email, you real email address won't get stolen.
+          If you don&apos;t want to get promotional emails from the store adverting new products, use a disposable email address instead of your business email address, and you rule out spam emails. If the store gets hacked for email, you real email address won&apos;t get stolen.
         </p>
       </div>
 
