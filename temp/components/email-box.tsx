@@ -42,22 +42,26 @@ export function EmailBox() {
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      setToken(storedToken);
-    } else {
-      fetchToken();
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem('authToken');
+      if (storedToken) {
+        setToken(storedToken);
+      } else {
+        fetchToken();
+      }
+      setEmail(generateRandomEmail());
     }
-    setEmail(generateRandomEmail());
   }, []);
 
   useEffect(() => {
-    const storedHistory = localStorage.getItem('emailHistory')
-    if (storedHistory) {
-      setEmailHistory(JSON.parse(storedHistory))
-    }
-    if (email) {
-      refreshInbox()
+    if (typeof window !== 'undefined') {
+      const storedHistory = localStorage.getItem('emailHistory')
+      if (storedHistory) {
+        setEmailHistory(JSON.parse(storedHistory))
+      }
+      if (email) {
+        refreshInbox()
+      }
     }
   }, [email])
 
@@ -75,7 +79,9 @@ export function EmailBox() {
       const data = await response.json();
       if (data.token) {
         setToken(data.token);
-        localStorage.setItem('authToken', data.token);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('authToken', data.token);
+        }
       } else {
         throw new Error('No token received from server');
       }
@@ -130,7 +136,9 @@ export function EmailBox() {
         
         const updatedHistory = [newEmail, ...emailHistory.filter(e => e !== newEmail)].slice(0, 5)
         setEmailHistory(updatedHistory)
-        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        }
       } else {
         setError('Please enter a valid email prefix')
       }
@@ -162,7 +170,9 @@ export function EmailBox() {
       
       const updatedHistory = [newEmail, ...emailHistory.filter(e => e !== newEmail)].slice(0, 5)
       setEmailHistory(updatedHistory)
-      localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+      }
     } else if (itemToDelete?.type === 'message' && itemToDelete.id) {
       try {
         const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}&messageId=${itemToDelete.id}`, {
@@ -334,4 +344,3 @@ export function EmailBox() {
     </Card>
   )
 }
-
