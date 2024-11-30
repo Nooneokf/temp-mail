@@ -4,13 +4,11 @@ import matter from 'gray-matter'
 import MarkdownRenderer from '@/components/md-renderer'
 
 interface BlogPostProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export default async function BlogPost({ params }: BlogPostProps) {
-  const { slug } = params
+  const { slug } = await params
   const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`)
   const fileContent = fs.readFileSync(filePath, 'utf8')
   const { data, content } = matter(fileContent)
@@ -20,10 +18,8 @@ export default async function BlogPost({ params }: BlogPostProps) {
       <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
       <p className="text-sm text-gray-500 mb-6">{new Date(data.date).toLocaleDateString()}</p>
       <div className="text-lg mb-5 md:mb-10">
-
-      <MarkdownRenderer content={content} />
+        <MarkdownRenderer content={content} />
       </div>
     </div>
   )
 }
-
