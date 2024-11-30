@@ -21,7 +21,12 @@ interface MessageModalProps {
 
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
   const [fullMessage, setFullMessage] = useState<Message | null>(null)
-  const token = localStorage.getItem('authToken');
+  const [token, setToken] = useState<string | null>(null)
+  
+  if (typeof window !== 'undefined') {
+
+    setToken(localStorage.getItem('authToken'));
+  }
 
   useEffect(() => {
     if (message && isOpen) {
