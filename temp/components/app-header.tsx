@@ -11,15 +11,18 @@ export function AppHeader() {
     <header className="border-b">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
+          <span className="bg-white rounded-full">
+
           <img
-            src="/placeholder.svg?height=32&width=32"
+            src="/logo.png"
             alt="Temp Mail"
-            className="h-8 w-8"
+            className="h-8 w-8 "
           />
-          <span className="text-xl font-bold">TEMPMAIL</span>
+          </span>
+          <span className="text-xl font-bold">FREE TEMPMAIL</span>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="outline">Temp Number</Button>
+          <Button  variant="outline">API</Button>
           <Button variant="secondary">Premium</Button>
           <Button
             variant="ghost"
