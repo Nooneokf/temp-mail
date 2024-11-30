@@ -1,57 +1,80 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { QRCodeModal } from "./qr-code-modal"
-import { cn } from "@/lib/utils"
-import { MessageModal } from "./message-modal"
-import { ErrorPopup } from "./error-popup"
-import { DeleteConfirmationModal } from "./delete-confirmation-modal"
+import { useState, useEffect } from "react";
+import { getCookie, setCookie } from "cookies-next";
+import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { QRCodeModal } from "./qr-code-modal";
+import { cn } from "@/lib/utils";
+import { MessageModal } from "./message-modal";
+import { ErrorPopup } from "./error-popup";
+import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 
-const DOMAIN = 'kodewith.me'
+const DOMAIN = "kodewith.me";
 
 function generateRandomEmail() {
-  return `user-${Math.floor(Math.random() * 1000000)}@${DOMAIN}`;
+  const chars = "abcdefghijklmnopqrstuvwxyz";
+  const length = 6; // Define the desired length of the email prefix
+  let prefix = "";
+
+  for (let i = 0; i < length; i++) {
+    prefix += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return `${prefix}@${DOMAIN}`;
 }
 
 interface Message {
-  id: string
-  from: string
-  to: string
-  subject: string
-  date: string
+  id: string;
+  from: string;
+  to: string;
+  subject: string;
+  date: string;
 }
 
 export function EmailBox() {
-  const [email, setEmail] = useState('');
-  const [isEditing, setIsEditing] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [emailHistory, setEmailHistory] = useState<string[]>([])
-  const [isQRModalOpen, setIsQRModalOpen] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [itemToDelete, setItemToDelete] = useState<{ type: 'email' | 'message', id?: string } | null>(null)
-  const [token, setToken] = useState<string | null>(null)
+  const [email, setEmail] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [emailHistory, setEmailHistory] = useState<string[]>([]);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ type: "email" | "message"; id?: string } | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem('authToken');
+    const initializeEmailBox = async () => {
+      // Check for stored token or fetch a new one
+      const storedToken = getCookie("authToken") as string | undefined;
       if (storedToken) {
+        console.log("Using stored token:", storedToken);
         setToken(storedToken);
       } else {
-        fetchToken();
+        await fetchToken(); // Fetches and sets token in state
       }
-      setEmail(generateRandomEmail());
-    }
+
+      // Generate a random email after ensuring the token is set
+      if (typeof window !== 'undefined') {
+        setEmail(generateRandomEmail());
+      }
+    };
+
+    initializeEmailBox();
   }, []);
+
+  useEffect(() => {
+    if (email && token) {
+      refreshInbox(); // Refresh inbox only when both email and token are available
+    }
+  }, []); // Trigger refreshInbox only when both dependencies are updated
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -59,18 +82,20 @@ export function EmailBox() {
       if (storedHistory) {
         setEmailHistory(JSON.parse(storedHistory))
       }
-      if (email) {
-        refreshInbox()
+      if (email && !isEditing) {
+        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
+        setEmailHistory(updatedHistory)
+        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
       }
     }
   }, [email])
 
   const fetchToken = async () => {
     try {
-      const response = await fetch('/api/auth', { 
-        method: 'POST',
+      const response = await fetch("/api/auth", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       if (!response.ok) {
@@ -79,17 +104,21 @@ export function EmailBox() {
       const data = await response.json();
       if (data.token) {
         setToken(data.token);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('authToken', data.token);
-        }
+        setCookie("authToken", data.token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 3600, // 1 hour in seconds
+        });
       } else {
-        throw new Error('No token received from server');
+        throw new Error("No token received from server");
       }
     } catch (error) {
-      console.error('Failed to fetch token:', error);
-      setError('Failed to authenticate. Please try again later.');
+      console.error("Failed to fetch token:", error);
+      setError("Failed to authenticate. Please try again later.");
     }
   };
+
 
   const refreshInbox = async () => {
     if (!token) {
@@ -133,17 +162,22 @@ export function EmailBox() {
         const newEmail = `${prefix}@${DOMAIN}`
         setEmail(newEmail)
         setIsEditing(false)
-        
-        const updatedHistory = [newEmail, ...emailHistory.filter(e => e !== newEmail)].slice(0, 5)
-        setEmailHistory(updatedHistory)
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
-        }
+
       } else {
         setError('Please enter a valid email prefix')
       }
+      if (email && token) {
+        refreshInbox(); // Refresh inbox only when both email and token are available
+        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
+        setEmailHistory(updatedHistory)
+        if (typeof window !== 'undefined') {
+
+          localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        }
+      }
     } else {
       setIsEditing(true)
+
     }
   }
 
@@ -167,12 +201,10 @@ export function EmailBox() {
       const newEmail = generateRandomEmail()
       setEmail(newEmail)
       setMessages([])
-      
-      const updatedHistory = [newEmail, ...emailHistory.filter(e => e !== newEmail)].slice(0, 5)
-      setEmailHistory(updatedHistory)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+      if (email && token) {
+        refreshInbox(); // Refresh inbox only when both email and token are available
       }
+
     } else if (itemToDelete?.type === 'message' && itemToDelete.id) {
       try {
         const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}&messageId=${itemToDelete.id}`, {
@@ -201,12 +233,7 @@ export function EmailBox() {
 
   return (
     <Card className="border-dashed">
-      <CardHeader>
-        <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
-        <p className="text-sm text-muted-foreground">
-          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
-        </p>
-      </CardHeader>
+
       <CardContent className="space-y-4">
         <div className="flex items-center gap-2">
           {isEditing ? (
@@ -221,8 +248,8 @@ export function EmailBox() {
             </div>
           )}
           <div className="flex gap-2">
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               size="icon"
               onClick={copyEmail}
               className="relative"
@@ -284,8 +311,8 @@ export function EmailBox() {
                 </TableCell>
               </TableRow>
             ) : (
-              messages.map((message) => (
-                <TableRow key={message.id}>
+              messages.map((message, index) => (
+                <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
                   <TableCell>{message.from}</TableCell>
                   <TableCell>{message.subject}</TableCell>
                   <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
@@ -297,8 +324,9 @@ export function EmailBox() {
               ))
             )}
           </TableBody>
+
         </Table>
-        
+
         {emailHistory.length > 0 && (
           <div className="mt-8">
             <h3 className="text-lg font-semibold mb-2">Email History</h3>
@@ -306,10 +334,13 @@ export function EmailBox() {
               {emailHistory.map((historyEmail, index) => (
                 <li key={index} className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">{historyEmail}</span>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => setEmail(historyEmail)}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setEmail(historyEmail);
+                      
+                    }}
                   >
                     Use
                   </Button>
@@ -319,7 +350,13 @@ export function EmailBox() {
           </div>
         )}
       </CardContent>
-      <QRCodeModal 
+      <CardHeader>
+        <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
+        <p className="text-sm text-muted-foreground">
+          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
+        </p>
+      </CardHeader>
+      <QRCodeModal
         email={email}
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}

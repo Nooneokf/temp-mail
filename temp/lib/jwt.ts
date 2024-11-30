@@ -1,4 +1,4 @@
-import { JWTPayload, SignJWT, jwtVerify } from 'jose'
+import { JWTPayload, SignJWT, jwtVerify, errors } from 'jose'
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default-secret-change-me')
 
@@ -15,9 +15,15 @@ export async function sign(payload: JWTPayload | undefined): Promise<string> {
 }
 
 export async function verify(token: string): Promise<JWTPayload> {
-  const { payload } = await jwtVerify(token, secret, {
-    algorithms: ['HS256'],
-  })
-  return payload
+  try {
+    const { payload } = await jwtVerify(token, secret, {
+      algorithms: ['HS256'],
+    })
+    return payload
+  } catch (error) {
+    if (error instanceof errors.JWTExpired) {
+      throw new Error('JWTExpired: Token has expired')
+    }
+    throw error
+  }
 }
-

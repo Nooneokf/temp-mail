@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { getCookie,setCookie } from "cookies-next"
 
 interface Message {
   id: string
@@ -21,12 +22,43 @@ interface MessageModalProps {
 
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
   const [fullMessage, setFullMessage] = useState<Message | null>(null)
-  const [token, setToken] = useState<string | null>(null)
-  
-  if (typeof window !== 'undefined') {
-
-    setToken(localStorage.getItem('authToken'));
-  }
+  const [token, setToken] = useState<string | undefined>(undefined)
+  useEffect(() => {
+    const storedToken = getCookie("authToken") as string | undefined;
+    if (storedToken) {
+      console.log("Using stored token:", storedToken);
+      setToken(storedToken);
+    } else {
+      fetchToken();
+    }
+  }, []);
+  const fetchToken = async () => {
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.token) {
+        setToken(data.token);
+        setCookie("authToken", data.token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 3600, // 1 hour in seconds
+        });
+      } else {
+        throw new Error("No token received from server");
+      }
+    } catch (error) {
+      console.error("Failed to fetch token:", error);
+    }
+  };
 
   useEffect(() => {
     if (message && isOpen) {
@@ -77,4 +109,3 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     </Dialog>
   )
 }
-
