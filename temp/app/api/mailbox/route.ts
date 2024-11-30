@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { verify } from '@/lib/jwt'
 
-const API_KEY = process.env.RAPIDAPI_KEY || 'e82abc5b10mshab69fe8596f15a9p1b67e6jsn08340b57ec0a'
-const API_HOST = 'temp-mail-maildrop1.p.rapidapi.com'
+const API_KEY = process.env.RAPIDAPI_KEY || ''
+const API_HOST = process.env.RAPIDAPI_URL || ''
 
 async function fetchFromAPI(path: string, method: string = 'GET') {
   const response = await fetch(`https://${API_HOST}${path}`, {
@@ -76,20 +76,3 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Failed to delete the message' }, { status: 500 })
   }
 }
-
-Now, let's create a new API route to generate JWT tokens for client-side use:
-
-```typescript file="app/api/auth/route.ts"
-import { NextResponse } from 'next/server'
-import { sign } from '@/lib/jwt'
-
-export async function POST() {
-  try {
-    const token = await sign({ authorized: true })
-    return NextResponse.json({ token })
-  } catch (error) {
-    console.error('Failed to generate token:', error)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
-  }
-}
-

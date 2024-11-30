@@ -11,7 +11,7 @@ interface BlogPost {
 }
 
 export function PopularArticles() {
-  const blogDir = path.join(process.cwd(), 'app/blog')
+  const blogDir = path.join(process.cwd(), 'content/blog')
   const files = fs.readdirSync(blogDir)
 
   const posts: BlogPost[] = files

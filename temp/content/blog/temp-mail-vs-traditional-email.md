@@ -1,5 +1,5 @@
 ---
-title: Temp Mail vs. Traditional Email: When to Use Each
+title: "Temp Mail vs. Traditional Email: When to Use Each"
 description: Learn the pros and cons of temporary and traditional email services and when to use each.
 date: 2023-06-15
 ---

@@ -1,7 +1,7 @@
 ---
-title: The Future of Email Privacy: Trends and Predictions
-description: Explore upcoming trends in email privacy and how they might affect temporary email services.
-date: 2023-07-15
+title: "The Future of Email Privacy: Trends and Predictions"
+description: "An in-depth look at the future of email privacy."
+date: "2023-10-01"
 ---
 
 # The Future of Email Privacy: Trends and Predictions

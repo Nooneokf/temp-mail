@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { headers } from 'next/headers'
 
 interface Message {
   id: string
@@ -21,6 +22,7 @@ interface MessageModalProps {
 
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
   const [fullMessage, setFullMessage] = useState<Message | null>(null)
+  const token = localStorage.getItem('authToken');
 
   useEffect(() => {
     if (message && isOpen) {
@@ -30,8 +32,13 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
   const fetchFullMessage = async (messageId: string) => {
     try {
-      const response = await fetch(`/api/mailbox?mailbox=${message?.to.split('@')[0]}&messageId=${messageId}`)
+      const response = await fetch(`/api/mailbox?mailbox=${message?.to.split('@')[0]}&messageId=${messageId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json()
+      console.log('Full message data:', data)
       if (data.success) {
         setFullMessage(data.data)
       } else {

@@ -15,12 +15,7 @@ import { DeleteConfirmationModal } from "./delete-confirmation-modal"
 const DOMAIN = 'kodewith.me'
 
 function generateRandomEmail() {
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
-  let result = ''
-  for (let i = 0; i < 10; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return `${result}@${DOMAIN}`
+  return `user-${Math.floor(Math.random() * 1000000)}@${DOMAIN}`;
 }
 
 interface Message {
@@ -32,7 +27,7 @@ interface Message {
 }
 
 export function EmailBox() {
-  const [email, setEmail] = useState(generateRandomEmail())
+  const [email, setEmail] = useState('');
   const [isEditing, setIsEditing] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [emailHistory, setEmailHistory] = useState<string[]>([])
@@ -47,51 +42,77 @@ export function EmailBox() {
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
+      fetchToken();
+    }
+    setEmail(generateRandomEmail());
+  }, []);
+
+  useEffect(() => {
     const storedHistory = localStorage.getItem('emailHistory')
     if (storedHistory) {
       setEmailHistory(JSON.parse(storedHistory))
     }
-    fetchToken()
-    refreshInbox()
+    if (email) {
+      refreshInbox()
+    }
   }, [email])
 
   const fetchToken = async () => {
     try {
-      const response = await fetch('/api/auth', { method: 'POST' })
-      const data = await response.json()
+      const response = await fetch('/api/auth', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
       if (data.token) {
-        setToken(data.token)
+        setToken(data.token);
+        localStorage.setItem('authToken', data.token);
+      } else {
+        throw new Error('No token received from server');
       }
     } catch (error) {
-      console.error('Failed to fetch token:', error)
-      setError('Failed to authenticate')
+      console.error('Failed to fetch token:', error);
+      setError('Failed to authenticate. Please try again later.');
     }
-  }
+  };
 
   const refreshInbox = async () => {
     if (!token) {
-      setError('Not authenticated')
-      return
+      setError('Not authenticated');
+      return;
     }
-    setIsRefreshing(true)
+    setIsRefreshing(true);
     try {
       const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      })
-      const data = await response.json()
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
       if (data.success && Array.isArray(data.data)) {
-        setMessages(data.data)
+        setMessages(data.data);
       } else {
-        setError('Failed to fetch messages: ' + data.message)
+        throw new Error(data.message || 'Failed to fetch messages');
       }
     } catch (error) {
-      setError('Error fetching messages: ' + (error instanceof Error ? error.message : String(error)))
+      console.error('Error fetching messages:', error);
+      setError('Error fetching messages. Please try again later.');
     } finally {
-      setIsRefreshing(false)
+      setIsRefreshing(false);
     }
-  }
+  };
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText(email)
@@ -150,14 +171,18 @@ export function EmailBox() {
             'Authorization': `Bearer ${token}`
           }
         })
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json()
         if (data.success) {
           setMessages(messages.filter(m => m.id !== itemToDelete.id))
         } else {
-          setError('Failed to delete message: ' + data.message)
+          throw new Error(data.message || 'Failed to delete message');
         }
       } catch (error) {
-        setError('Error deleting message: ' + (error instanceof Error ? error.message : String(error)))
+        console.error('Error deleting message:', error);
+        setError('Error deleting message. Please try again later.');
       }
     }
     setIsDeleteModalOpen(false)
@@ -182,7 +207,7 @@ export function EmailBox() {
             />
           ) : (
             <div className="flex-1 rounded-md bg-muted p-2">
-              {email}
+              {email || 'Loading...'}
             </div>
           )}
           <div className="flex gap-2">
