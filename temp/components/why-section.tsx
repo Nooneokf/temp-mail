@@ -20,7 +20,7 @@ export function WhySection() {
             <strong>Sign-Up for Store Loyalty Cards:</strong> Avoid spam and protect your real email by using a disposable email when signing up for store loyalty cards or offers.
           </li>
           <li className="mt-2">
-            <strong>Test Your App:</strong> If you've built an app, you can use disposable emails to test your app by creating dummy accounts.
+            <strong>Test Your App:</strong> If you&apos;ve built an app, you can use disposable emails to test your app by creating dummy accounts.
           </li>
           <li className="mt-2">
             <strong>Sign-Up for Multiple Accounts:</strong> Use disposable emails to sign up for multiple accounts on web apps (like IFTTT or Twitter) without managing separate inboxes.
@@ -55,7 +55,7 @@ export function WhySection() {
 
         <h3 className="mb-4 text-xl font-bold mt-6">To Conclude</h3>
         <p className="text-muted-foreground">
-          Setting up a disposable email system with <strong>Freecustom.email</strong> ensures your real identity remains protected. Whether you're signing up for online forums, chat rooms, or file-sharing services, your privacy stays intact. Say goodbye to spam and unwanted emails, and enjoy a safer online experience with <strong>Freecustom.email</strong>.
+          Setting up a disposable email system with <strong>Freecustom.email</strong> ensures your real identity remains protected. Whether you&apos;re signing up for online forums, chat rooms, or file-sharing services, your privacy stays intact. Say goodbye to spam and unwanted emails, and enjoy a safer online experience with <strong>Freecustom.email</strong>.
         </p>
       </div>
 
