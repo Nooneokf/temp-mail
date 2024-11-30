@@ -49,6 +49,7 @@ export function EmailBox() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ type: "email" | "message"; id?: string } | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [oldEmailUsed, setOldEmailUsed] = useState(false);
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -69,6 +70,12 @@ export function EmailBox() {
 
     initializeEmailBox();
   }, []);
+
+  useEffect(() => {
+    if (email && token) {
+      refreshInbox(); // Refresh inbox only when both email and token are available
+    }
+  }, [oldEmailUsed]); // Trigger refreshInbox only when both dependencies are updated
 
   useEffect(() => {
     if (email && token) {
@@ -234,7 +241,7 @@ export function EmailBox() {
   return (
     <Card className="border-dashed">
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pt-10">
         <div className="flex items-center gap-2">
           {isEditing ? (
             <Input
@@ -297,7 +304,7 @@ export function EmailBox() {
               <TableHead>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody >
             {messages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center">
@@ -311,17 +318,24 @@ export function EmailBox() {
                 </TableCell>
               </TableRow>
             ) : (
-              messages.map((message, index) => (
-                <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
-                  <TableCell>{message.from}</TableCell>
-                  <TableCell>{message.subject}</TableCell>
-                  <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
-                  <TableCell>
-                    <Button variant="link" onClick={() => viewMessage(message)}>View</Button>
-                    <Button variant="link" onClick={() => deleteMessage(message.id)}>Delete</Button>
-                  </TableCell>
-                </TableRow>
-              ))
+              <>
+                {messages.map((message, index) => (
+                  <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
+                    <TableCell>{message.from}</TableCell>
+                    <TableCell>{message.subject}</TableCell>
+                    <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
+                    <TableCell>
+                      <Button variant="link" onClick={() => viewMessage(message)}>View</Button>
+                      <Button variant="link" onClick={() => deleteMessage(message.id)}>Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {Array.from({ length: 5 - messages.length }).map((_, index) => (
+                  <TableRow key={`blank-${index}`} >
+                    <TableCell colSpan={4}>&nbsp;</TableCell>
+                  </TableRow>
+                ))}
+              </>
             )}
           </TableBody>
 
@@ -339,7 +353,7 @@ export function EmailBox() {
                     size="sm"
                     onClick={() => {
                       setEmail(historyEmail);
-                      
+                      setOldEmailUsed(!oldEmailUsed);
                     }}
                   >
                     Use
