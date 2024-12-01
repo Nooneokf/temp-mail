@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getCookie, setCookie } from "cookies-next";
-import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy } from "lucide-react";
+import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -269,10 +269,11 @@ export function EmailBox() {
                 "absolute inset-0 flex items-center justify-center transition-all",
                 copied ? "opacity-100" : "opacity-0"
               )}>
-                ✓
+                <Check className="h-4 w-4 transition-all"/>
               </span>
             </Button>
             <Button
+            className="hidden xs:flex"
               variant="secondary"
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
@@ -281,18 +282,18 @@ export function EmailBox() {
             </Button>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button variant="outline" className="flex-1" onClick={refreshInbox} disabled={isRefreshing}>
             <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
-            {isRefreshing ? 'Refreshing' : 'Refresh'}
+            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
           </Button>
           <Button variant="outline" className="flex-1" onClick={changeEmail}>
-            <Edit className="mr-2 h-4 w-4" />
-            {isEditing ? 'Save' : 'Change'}
+            {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4"/>}
+            <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
           </Button>
           <Button variant="outline" className="flex-1" onClick={deleteEmail}>
             <Trash2 className="mr-2 h-4 w-4" />
-            Delete
+            <span className="hidden sm:inline">Delete</span>
           </Button>
         </div>
         <Table>

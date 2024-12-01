@@ -89,7 +89,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[800px] max-w-full">
         <DialogHeader>
           <DialogTitle>{message.subject}</DialogTitle>
         </DialogHeader>

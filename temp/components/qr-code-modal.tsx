@@ -12,15 +12,14 @@ interface QRCodeModalProps {
 
 export function QRCodeModal({ email, isOpen, onClose }: QRCodeModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen}  onOpenChange={onClose}>
       <DialogTitle className='hidden'>Scan to send email</DialogTitle>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-w-full">
         <div className="flex flex-col items-center justify-center p-6">
           <QRCodeSVG
             value={`mailto:${email}`}
             size={200}
             level="L"
-            includeMargin
             className="dark:bg-white p-2 rounded-lg"
           />
           <p className="mt-4 text-sm text-muted-foreground">
