@@ -174,7 +174,7 @@ export function EmailBox() {
       } else {
         setError('Please enter a valid email prefix')
       }
-      if (email && token) {
+      if (prefix && token) {
         refreshInbox(); // Refresh inbox only when both email and token are available
         const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
         setEmailHistory(updatedHistory)
