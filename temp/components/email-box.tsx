@@ -50,6 +50,7 @@ export function EmailBox() {
   const [itemToDelete, setItemToDelete] = useState<{ type: "email" | "message"; id?: string } | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [oldEmailUsed, setOldEmailUsed] = useState(false);
+  const [blockButtons, setBlockButtons] = useState(false);
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -173,7 +174,7 @@ export function EmailBox() {
       } else {
         setError('Please enter a valid email prefix')
       }
-      if (email && token) {
+      if (prefix && token) {
         refreshInbox(); // Refresh inbox only when both email and token are available
         const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
         setEmailHistory(updatedHistory)
@@ -244,6 +245,11 @@ export function EmailBox() {
     // remove any special characters
     newPrefix = newPrefix.replace(/[^a-z]/g, '')
     setEmail(`${newPrefix}@${DOMAIN}`)
+    if (newPrefix.length === 0){
+      setBlockButtons(true)
+    } else {
+      setBlockButtons(false)
+    }
   }
 
   return (
@@ -268,6 +274,7 @@ export function EmailBox() {
               size="icon"
               onClick={copyEmail}
               className="relative"
+              disabled={blockButtons}
             >
               <Copy className={cn(
                 "h-4 w-4 transition-all",
@@ -285,21 +292,22 @@ export function EmailBox() {
               variant="secondary"
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
+              disabled={blockButtons}
             >
               <QrCode className="h-4 w-4" />
             </Button>
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Button variant="outline" className="flex-1" onClick={refreshInbox} disabled={isRefreshing}>
-            <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
+          <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={refreshInbox}>
+            <RefreshCw  className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
             <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
           </Button>
-          <Button variant="outline" className="flex-1" onClick={changeEmail}>
+          <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={changeEmail}>
             {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4"/>}
             <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
           </Button>
-          <Button variant="outline" className="flex-1" onClick={deleteEmail}>
+          <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={deleteEmail}>
             <Trash2 className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Delete</span>
           </Button>
