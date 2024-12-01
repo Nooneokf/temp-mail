@@ -12,7 +12,7 @@ export default function Page() {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="min-h-screen bg-background">
         <AppHeader />
-        <main className="container mx-auto px-4 py-8">
+        <main className="mx-auto m-2 px-4 py-8">
           <section className="mb-12">
             <EmailBox />
             <h1 className="mt-6 text-3xl font-bold">The Tech behind Disposable Temp Mail Address</h1>
