@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { getCookie,setCookie } from "cookies-next"
+import { getCookie, setCookie } from "cookies-next"
 
 interface Message {
   id: string
@@ -23,6 +23,7 @@ interface MessageModalProps {
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
   const [fullMessage, setFullMessage] = useState<Message | null>(null)
   const [token, setToken] = useState<string | undefined>(undefined)
+
   useEffect(() => {
     const storedToken = getCookie("authToken") as string | undefined;
     if (storedToken) {
@@ -32,6 +33,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
       fetchToken();
     }
   }, []);
+
   const fetchToken = async () => {
     try {
       const response = await fetch("/api/auth", {
@@ -62,9 +64,10 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
   useEffect(() => {
     if (message && isOpen) {
-      fetchFullMessage(message.id)
+      setFullMessage(null); // Reset fullMessage when a new message is opened
+      fetchFullMessage(message.id);
     }
-  }, [message, isOpen])
+  }, [message, isOpen]);
 
   const fetchFullMessage = async (messageId: string) => {
     try {
@@ -73,23 +76,23 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           'Authorization': `Bearer ${token}`
         }
       });
-      const data = await response.json()
-      console.log('Full message data:', data)
+      const data = await response.json();
+      console.log('Full message data:', data);
       if (data.success) {
-        setFullMessage(data.data)
+        setFullMessage(data.data);
       } else {
-        console.error('Failed to fetch full message:', data.message)
+        console.error('Failed to fetch full message:', data.message);
       }
     } catch (error) {
-      console.error('Error fetching full message:', error)
+      console.error('Error fetching full message:', error);
     }
-  }
+  };
 
-  if (!message) return null
+  if (!message) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-w-full">
+      <DialogContent className="sm:max-w-[800px] max-w-full max-h-full overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{message.subject}</DialogTitle>
         </DialogHeader>
@@ -98,7 +101,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>To:</strong> {message.to}</p>
           <p><strong>Date:</strong> {new Date(message.date).toLocaleString()}</p>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 bg-gray-100 dark:bg-gray-800 text-black dark:text-white p-4 rounded-md">
           {fullMessage?.html ? (
             <div dangerouslySetInnerHTML={{ __html: fullMessage.html }} />
           ) : (
@@ -107,5 +110,5 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
