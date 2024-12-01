@@ -238,6 +238,14 @@ export function EmailBox() {
     setItemToDelete(null)
   }
 
+  const handleEmailInputChage = (newPrefix: string) => {
+    // only small aplhabets allowed if upper then change to lower
+    newPrefix = newPrefix.toLowerCase()
+    // remove any special characters
+    newPrefix = newPrefix.replace(/[^a-z]/g, '')
+    setEmail(`${newPrefix}@${DOMAIN}`)
+  }
+
   return (
     <Card className="border-dashed">
 
@@ -246,7 +254,7 @@ export function EmailBox() {
           {isEditing ? (
             <Input
               value={email.split('@')[0]}
-              onChange={(e) => setEmail(`${e.target.value}@${DOMAIN}`)}
+              onChange={(e) => handleEmailInputChage(e.target.value)}
               className="flex-1"
             />
           ) : (
