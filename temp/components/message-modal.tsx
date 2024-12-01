@@ -92,7 +92,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-w-full max-h-full overflow-y-scroll">
+      <DialogContent className="sm:max-w-[800px] max-w-full max-h-full overflow-y-scroll ">
         <DialogHeader>
           <DialogTitle>{message.subject}</DialogTitle>
         </DialogHeader>
@@ -101,7 +101,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>To:</strong> {message.to}</p>
           <p><strong>Date:</strong> {new Date(message.date).toLocaleString()}</p>
         </div>
-        <div className="mt-4 bg-gray-100 dark:bg-gray-800 text-black dark:text-white p-4 rounded-md">
+        <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
           {fullMessage?.html ? (
             <div dangerouslySetInnerHTML={{ __html: fullMessage.html }} />
           ) : (
