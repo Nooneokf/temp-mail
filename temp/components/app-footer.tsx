@@ -1,9 +1,6 @@
 import Link from "next/link"
 
 export function AppFooter() {
-  const links = [
-    "Privacy Policy (please read)",
-  ]
 
   return (
     <footer className="bg-muted py-6">
