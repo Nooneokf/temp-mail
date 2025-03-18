@@ -13,7 +13,7 @@ import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 
-const DOMAIN = "kodewith.me";
+const DOMAIN = "saleis.live";
 
 function generateRandomEmail() {
   const chars = "abcdefghijklmnopqrstuvwxyz";
