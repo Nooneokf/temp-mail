@@ -23,6 +23,7 @@ export function AppHeader() {
           </span>
           <span className="text-lg md:text-xl font-bold">FREE TEMPMAIL</span>
         </Link>
+        
         <div className="flex items-center gap-4">
           <Button variant="outline">
             <a
