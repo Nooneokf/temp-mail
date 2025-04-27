@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from 'lucide-react'
+import Link from "next/link"
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
@@ -10,21 +11,30 @@ export function AppHeader() {
   return (
     <header className="border-b">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-2">
+        <Link href={"/"} className="flex items-center gap-2">
           <span className="bg-white rounded-full">
-
-          <img
-            src="/logo.png"
-            alt="Temp Mail"
-            className="h-8 w-8 "
-          />
+            <img
+              src="/logo.png"
+              alt="Temp Mail"
+              className="h-8 w-8"
+              loading="lazy"
+            />
           </span>
-          <span className="text-xl font-bold">FREE TEMPMAIL</span>
-        </div>
+          <span className="text-lg md:text-xl font-bold">FREE TEMPMAIL</span>
+        </Link>
         <div className="flex items-center gap-4">
-          <Button  variant="outline">
-            <a href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1">API</a>
+          
+          <Button variant="outline">
+            <a
+              href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1"
+              title="Build your own app or website and use it with the free plan"
+            >
+              API
+            </a>
           </Button>
+          <Link href="/pricing" className="text-sm text-gray-600 hover:text-blue-600">
+            Pricing
+          </Link>
           <Button
             variant="ghost"
             size="icon"

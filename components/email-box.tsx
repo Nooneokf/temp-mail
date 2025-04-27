@@ -13,9 +13,9 @@ import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 
-const DOMAIN = "saleis.live";
+const DOMAINS = ["saleis.live", "arrangewith.me"];
 
-function generateRandomEmail() {
+function generateRandomEmail(domain: string = DOMAINS[0]): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
   const length = 6; // Define the desired length of the email prefix
   let prefix = "";
@@ -24,7 +24,7 @@ function generateRandomEmail() {
     prefix += chars[Math.floor(Math.random() * chars.length)];
   }
 
-  return `${prefix}@${DOMAIN}`;
+  return `${prefix}@${domain}`;
 }
 
 interface Message {
@@ -51,6 +51,7 @@ export function EmailBox() {
   const [token, setToken] = useState<string | null>(null);
   const [oldEmailUsed, setOldEmailUsed] = useState(false);
   const [blockButtons, setBlockButtons] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState(DOMAINS[0]); // Default to the first domain
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -65,7 +66,7 @@ export function EmailBox() {
 
       // Generate a random email after ensuring the token is set
       if (typeof window !== 'undefined') {
-        setEmail(generateRandomEmail());
+        setEmail(generateRandomEmail(selectedDomain));
       }
     };
 
@@ -167,7 +168,7 @@ export function EmailBox() {
     if (isEditing) {
       const [prefix] = email.split('@')
       if (prefix && prefix.length > 0) {
-        const newEmail = `${prefix}@${DOMAIN}`
+        const newEmail = `${prefix}@${selectedDomain}`
         setEmail(newEmail)
         setIsEditing(false)
 
@@ -244,13 +245,18 @@ export function EmailBox() {
     newPrefix = newPrefix.toLowerCase()
     // remove any special characters
     newPrefix = newPrefix.replace(/[^a-z]/g, '')
-    setEmail(`${newPrefix}@${DOMAIN}`)
-    if (newPrefix.length === 0){
+    setEmail(`${newPrefix}@${selectedDomain}`)
+    if (newPrefix.length === 0) {
       setBlockButtons(true)
     } else {
       setBlockButtons(false)
     }
   }
+  const handleDomainChange = (newDomain: string) => {
+    setSelectedDomain(newDomain);
+    const prefix = email.split("@")[0];
+    setEmail(`${prefix}@${newDomain}`);
+  };
 
   return (
     <Card className="border-dashed">
@@ -258,11 +264,24 @@ export function EmailBox() {
       <CardContent className="space-y-4 pt-10">
         <div className="flex items-center gap-2">
           {isEditing ? (
-            <Input
-              value={email.split('@')[0]}
-              onChange={(e) => handleEmailInputChage(e.target.value)}
-              className="flex-1"
-            />
+            <div className="flex flex-1 items-center gap-2">
+              <Input
+                value={email.split("@")[0]}
+                onChange={(e) => handleEmailInputChage(e.target.value)}
+                className="flex-1"
+              />
+              <select
+                value={selectedDomain}
+                onChange={(e) => handleDomainChange(e.target.value)}
+                className="border rounded-md w-1/2 p-2"
+              >
+                {DOMAINS.map((domain) => (
+                  <option key={domain} value={domain}>
+                    {domain}
+                  </option>
+                ))}
+              </select>
+            </div>
           ) : (
             <div className="flex-1 rounded-md bg-muted p-2">
               {email || 'Loading...'}
@@ -284,11 +303,11 @@ export function EmailBox() {
                 "absolute inset-0 flex items-center justify-center transition-all",
                 copied ? "opacity-100" : "opacity-0"
               )}>
-                <Check className="h-4 w-4 transition-all"/>
+                <Check className="h-4 w-4 transition-all" />
               </span>
             </Button>
             <Button
-            className="hidden xs:flex"
+              className="hidden xs:flex"
               variant="secondary"
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
@@ -300,11 +319,11 @@ export function EmailBox() {
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={refreshInbox}>
-            <RefreshCw  className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
+            <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
             <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
           </Button>
           <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={changeEmail}>
-            {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4"/>}
+            {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
             <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
           </Button>
           <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={deleteEmail}>
