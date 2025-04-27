@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from 'lucide-react'
 import Link from "next/link"
+import { FaGithub } from "react-icons/fa"
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
@@ -23,7 +24,7 @@ export function AppHeader() {
           <span className="text-lg md:text-xl font-bold">FREE TEMPMAIL</span>
         </Link>
         <div className="flex items-center gap-4">
-          
+
           <Button variant="outline">
             <a
               href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1"
@@ -35,6 +36,11 @@ export function AppHeader() {
           <Link href="/pricing" className="text-sm text-gray-600 hover:text-blue-600">
             Pricing
           </Link>
+          <Button variant={"outline"}>
+            <a title="Build your own temp mail website like this one." href="https://github.com/DishIs/temp-mail" target="_blank" rel="noopener noreferrer">
+              <FaGithub className="h-4 w-4" />
+            </a>
+          </Button>
           <Button
             variant="ghost"
             size="icon"
