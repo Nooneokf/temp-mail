@@ -245,7 +245,7 @@ export default function PricingPage() {
               <div className="space-y-4">
                 <h3 className="text-xl font-bold">Getting Started</h3>
                 <p>
-                  The MailDrop API provides temporary email solutions for your applications. It's designed for efficient
+                  The MailDrop API provides temporary email solutions for your applications. It&apos;s designed for efficient
                   mailbox management, including retrieving messages, checking server health, and handling encrypted
                   mailbox identifiers.
                 </p>
@@ -315,7 +315,7 @@ export default function PricingPage() {
                           /mailbox/{"{name}"}/message/{"{id}"}
                         </h4>
                       </div>
-                      <p className="mt-2 text-sm">Retrieve a specific email message from the user's mailbox.</p>
+                      <p className="mt-2 text-sm">Retrieve a specific email message from the user&apos;s mailbox.</p>
                       <div className="mt-3">
                         <h5 className="text-sm font-medium">Response Example:</h5>
                         <pre className="p-3 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-x-auto text-xs">
@@ -344,7 +344,7 @@ export default function PricingPage() {
                           /mailbox/{"{name}"}/message/{"{id}"}
                         </h4>
                       </div>
-                      <p className="mt-2 text-sm">Deletes a specific email message from the user's mailbox.</p>
+                      <p className="mt-2 text-sm">Deletes a specific email message from the user&apos;s mailbox.</p>
                       <div className="mt-3">
                         <h5 className="text-sm font-medium">Response Example:</h5>
                         <pre className="p-3 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-x-auto text-xs">
@@ -421,8 +421,8 @@ export default function PricingPage() {
                       <span>3</span>
                     </div>
                     <div>
-                      <h4 className="font-medium">Reverse Digits and Prepend '1'</h4>
-                      <p className="text-sm text-gray-500">The digits are reversed and a '1' is prepended.</p>
+                      <h4 className="font-medium">Reverse Digits and Prepend &apos;1&apos;</h4>
+                      <p className="text-sm text-gray-500">The digits are reversed and a &apos;1&apos; is prepended.</p>
                     </div>
                   </div>
 
@@ -493,13 +493,13 @@ export default function PricingPage() {
                 <div className="mt-6">
                   <h4 className="font-medium mb-2">Decoder Code:</h4>
                   <pre className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-x-auto text-xs">
-                    {`import bigInt from 'big-integer';
+                    {`import bigInt from &apos;big-integer&apos;;
 
 const ALTINBOX_MOD = bigInt("20190422");
 
 export function decryptMailbox(encryptedMailbox: string): string {
   // Remove the prefix
-  const withoutPrefix = encryptedMailbox.slice(2); // Remove 'D-'
+  const withoutPrefix = encryptedMailbox.slice(2); // Remove &apos;D-&apos;
   
   // Convert from base36 to a number
   const decryptedNum = bigInt(withoutPrefix, 36);
@@ -507,11 +507,11 @@ export function decryptMailbox(encryptedMailbox: string): string {
   // Subtract the private modifier
   const adjustedNum = decryptedNum.subtract(ALTINBOX_MOD);
   
-  // Convert back to string, remove the leading '1', and reverse it
+  // Convert back to string, remove the leading &apos;1&apos;, and reverse it
   const reversedString = adjustedNum.toString().slice(1).split("").reverse().join("");
   
   // Convert back to original base 36 (only alphanumeric characters)
-  const originalMailbox = reversedString.replace(/[^0-9a-z]/gi, '');
+  const originalMailbox = reversedString.replace(/[^0-9a-z]/gi, &apos;&apos;);
   
   return originalMailbox;
 }`}
