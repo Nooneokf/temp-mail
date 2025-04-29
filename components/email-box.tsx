@@ -49,8 +49,8 @@ export function EmailBox() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ type: "email" | "message"; id?: string } | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [oldEmailUsed, setOldEmailUsed] = useState(false); // State to trigger useEffect
-  const [blockButtons, setBlockButtons] = useState(false); // Check if prefix is empty
+  const [oldEmailUsed, setOldEmailUsed] = useState(false);
+  const [blockButtons, setBlockButtons] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState(DOMAINS[0]); // Default to the first domain
 
   useEffect(() => {
@@ -66,46 +66,38 @@ export function EmailBox() {
 
       // Generate a random email after ensuring the token is set
       if (typeof window !== 'undefined') {
-         // Get existing email from history if available and use the first one
-         const storedHistory = localStorage.getItem('emailHistory')
-         if (storedHistory) {
-           const history = JSON.parse(storedHistory) as string[];
-           setEmailHistory(history);
-           if (history.length > 0) {
-              const [prefix, domainPart] = history[0].split('@');
-              // Ensure the domain is one of the allowed ones, default if not
-              const initialDomain = DOMAINS.includes(domainPart) ? domainPart : DOMAINS[0];
-              setSelectedDomain(initialDomain);
-              setEmail(history[0]);
-              setOldEmailUsed(true); // Indicate an old email was used to trigger refresh
-              return; // Stop here if history email is used
-           }
-         }
-        // If no history or history is empty, generate a new email
         setEmail(generateRandomEmail(selectedDomain));
       }
     };
 
     initializeEmailBox();
-  }, []); // Empty dependency array means this runs only once on mount
+  }, []);
 
   useEffect(() => {
-    // Save email to history whenever the email state changes, unless editing
-    if (email && !isEditing && typeof window !== 'undefined') {
-        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
-        setEmailHistory(updatedHistory);
-        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
-    }
-  }, [email, isEditing]); // Depends on email and isEditing state
-
-
-  useEffect(() => {
-    // Refresh inbox whenever email or token changes *after* initial load
-    // This handles cases where token is fetched or email is manually changed/used from history
     if (email && token) {
-      refreshInbox();
+      refreshInbox(); // Refresh inbox only when both email and token are available
     }
-  }, [email, token, oldEmailUsed]); // Trigger refresh on email, token, or oldEmailUsed change
+  }, [oldEmailUsed]); // Trigger refreshInbox only when both dependencies are updated
+
+  useEffect(() => {
+    if (email && token) {
+      refreshInbox(); // Refresh inbox only when both email and token are available
+    }
+  }, []); // Trigger refreshInbox only when both dependencies are updated
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedHistory = localStorage.getItem('emailHistory')
+      if (storedHistory) {
+        setEmailHistory(JSON.parse(storedHistory))
+      }
+      if (email && !isEditing) {
+        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
+        setEmailHistory(updatedHistory)
+        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+      }
+    }
+  }, [email])
 
   const fetchToken = async () => {
     try {
@@ -121,13 +113,11 @@ export function EmailBox() {
       const data = await response.json();
       if (data.token) {
         setToken(data.token);
-        // Use cookies-next setCookie for server-side readable cookies
         setCookie("authToken", data.token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
           maxAge: 3600, // 1 hour in seconds
-          path: '/', // Make it available on all paths
-          // httpOnly: true, // Cannot set httpOnly from client-side JS
-          secure: process.env.NODE_ENV === 'production', // Use secure in production
-          sameSite: 'strict' // Or 'lax' depending on requirements
         });
       } else {
         throw new Error("No token received from server");
@@ -140,8 +130,8 @@ export function EmailBox() {
 
 
   const refreshInbox = async () => {
-    if (!token || !email) {
-      setError('Authentication token or email not available.');
+    if (!token) {
+      setError('Not authenticated');
       return;
     }
     setIsRefreshing(true);
@@ -152,8 +142,7 @@ export function EmailBox() {
         }
       });
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to parse error response' }));
-        throw new Error(`HTTP error! status: ${response.status}. ${errorData.message || ''}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       if (data.success && Array.isArray(data.data)) {
@@ -161,10 +150,9 @@ export function EmailBox() {
       } else {
         throw new Error(data.message || 'Failed to fetch messages');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching messages:', error);
-      setError(`Error fetching messages: ${error.message || 'Please try again later.'}`);
-      setMessages([]); // Clear messages on error
+      setError('Error fetching messages. Please try again later.');
     } finally {
       setIsRefreshing(false);
     }
@@ -183,13 +171,22 @@ export function EmailBox() {
         const newEmail = `${prefix}@${selectedDomain}`
         setEmail(newEmail)
         setIsEditing(false)
-        // No need to explicitly save history here, useEffect handles it
 
       } else {
         setError('Please enter a valid email prefix')
       }
+      if (prefix && token) {
+        refreshInbox(); // Refresh inbox only when both email and token are available
+        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
+        setEmailHistory(updatedHistory)
+        if (typeof window !== 'undefined') {
+
+          localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        }
+      }
     } else {
       setIsEditing(true)
+
     }
   }
 
@@ -210,11 +207,13 @@ export function EmailBox() {
 
   const handleDeleteConfirmation = async () => {
     if (itemToDelete?.type === 'email') {
-      const newEmail = generateRandomEmail(selectedDomain); // Generate using current domain
-      setEmail(newEmail);
-      setMessages([]);
-      // oldEmailUsed toggled implicitly by setting new email state which triggers useEffect
-      // No need to call refreshInbox directly here, the useEffect on [email, token] will handle it
+      const newEmail = generateRandomEmail()
+      setEmail(newEmail)
+      setMessages([])
+      if (email && token) {
+        refreshInbox(); // Refresh inbox only when both email and token are available
+      }
+
     } else if (itemToDelete?.type === 'message' && itemToDelete.id) {
       try {
         const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}&messageId=${itemToDelete.id}`, {
@@ -224,8 +223,7 @@ export function EmailBox() {
           }
         })
         if (!response.ok) {
-           const errorData = await response.json().catch(() => ({ message: 'Failed to parse error response' }));
-          throw new Error(`HTTP error! status: ${response.status}. ${errorData.message || ''}`);
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json()
         if (data.success) {
@@ -233,9 +231,9 @@ export function EmailBox() {
         } else {
           throw new Error(data.message || 'Failed to delete message');
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error deleting message:', error);
-        setError(`Error deleting message: ${error.message || 'Please try again later.'}`);
+        setError('Error deleting message. Please try again later.');
       }
     }
     setIsDeleteModalOpen(false)
@@ -243,27 +241,21 @@ export function EmailBox() {
   }
 
   const handleEmailInputChage = (newPrefix: string) => {
-    // only small alphabets allowed, change uppercase to lowercase
-    newPrefix = newPrefix.toLowerCase();
-    // remove any characters that are not lowercase letters or numbers (allowing numbers is common for email prefixes)
-    // Let's stick to only lowercase letters as per the generate function for simplicity, but numbers might be needed later.
-    newPrefix = newPrefix.replace(/[^a-z]/g, '');
-
-    setEmail(`${newPrefix}@${selectedDomain}`);
-
-    // Block action buttons if prefix is empty
+    // only small aplhabets allowed if upper then change to lower
+    newPrefix = newPrefix.toLowerCase()
+    // remove any special characters
+    newPrefix = newPrefix.replace(/[^a-z]/g, '')
+    setEmail(`${newPrefix}@${selectedDomain}`)
     if (newPrefix.length === 0) {
-      setBlockButtons(true);
+      setBlockButtons(true)
     } else {
-      setBlockButtons(false);
+      setBlockButtons(false)
     }
   }
-
   const handleDomainChange = (newDomain: string) => {
     setSelectedDomain(newDomain);
     const prefix = email.split("@")[0];
     setEmail(`${prefix}@${newDomain}`);
-    // The useEffect on [email, token] will handle the refresh
   };
 
   return (
@@ -277,35 +269,32 @@ export function EmailBox() {
                 value={email.split("@")[0]}
                 onChange={(e) => handleEmailInputChage(e.target.value)}
                 className="flex-1"
-                placeholder="Enter email prefix"
-                aria-label="Email prefix" // Added aria-label for the input
               />
               <select
                 value={selectedDomain}
                 onChange={(e) => handleDomainChange(e.target.value)}
                 className="border rounded-md w-1/2 p-2"
-                aria-label="Select email domain" // Added aria-label for the select
               >
                 {DOMAINS.map((domain) => (
                   <option key={domain} value={domain}>
-                    @{domain} {/* Show domain with @ prefix */}
+                    {domain}
                   </option>
                 ))}
               </select>
             </div>
           ) : (
-            <div className="flex-1 rounded-md bg-muted p-2" aria-live="polite"> {/* Added aria-live */}
+            <div className="flex-1 rounded-md bg-muted p-2">
               {email || 'Loading...'}
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="group" aria-label="Email actions">
             <Button
               variant="secondary"
               size="icon"
               onClick={copyEmail}
               className="relative"
-              disabled={blockButtons || !email} // Also disable if email isn't loaded/set
-              aria-label="Copy email address" // Added aria-label
+              disabled={blockButtons}
+              aria-label="Copy email address"
             >
               <Copy className={cn(
                 "h-4 w-4 transition-all",
@@ -323,23 +312,41 @@ export function EmailBox() {
               variant="secondary"
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
-              disabled={blockButtons || !email} // Also disable if email isn't loaded/set
-              aria-label="Show QR code for email address" // Added aria-label
+              disabled={blockButtons}
+              aria-label="Show QR code"
             >
               <QrCode className="h-4 w-4" />
             </Button>
           </div>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <Button disabled={blockButtons || isRefreshing || !email} variant="outline" className="flex-1" onClick={refreshInbox} aria-label="Refresh inbox"> {/* Added aria-label */}
+        <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
+          <Button
+            disabled={blockButtons || isRefreshing}
+            variant="outline"
+            className="flex-1"
+            onClick={refreshInbox}
+            aria-label={isRefreshing ? "Refreshing inbox" : "Refresh inbox"}
+          >
             <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
             <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
           </Button>
-          <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={changeEmail} aria-label={isEditing ? 'Save email address' : 'Change email address'}> {/* Dynamic aria-label */}
+          <Button
+            disabled={blockButtons}
+            variant="outline"
+            className="flex-1"
+            onClick={changeEmail}
+            aria-label={isEditing ? "Save email changes" : "Change email"}
+          >
             {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
             <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
           </Button>
-          <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={deleteEmail} aria-label="Delete current email address"> {/* Added aria-label */}
+          <Button
+            disabled={blockButtons}
+            variant="outline"
+            className="flex-1"
+            onClick={deleteEmail}
+            aria-label="Delete email address"
+          >
             <Trash2 className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Delete</span>
           </Button>
@@ -373,16 +380,15 @@ export function EmailBox() {
                     <TableCell>{message.from}</TableCell>
                     <TableCell>{message.subject}</TableCell>
                     <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
-                    <TableCell className="flex gap-1"> {/* Use flex and gap for buttons */}
-                      <Button variant="link" size="sm" onClick={() => viewMessage(message)} aria-label={`View message from ${message.from}: ${message.subject}`}>View</Button> {/* Added specific aria-label */}
-                      <Button variant="link" size="sm" onClick={() => deleteMessage(message.id)} aria-label={`Delete message from ${message.from}: ${message.subject}`}>Delete</Button> {/* Added specific aria-label */}
+                    <TableCell>
+                      <Button variant="link" onClick={() => viewMessage(message)}>View</Button>
+                      <Button variant="link" onClick={() => deleteMessage(message.id)}>Delete</Button>
                     </TableCell>
                   </TableRow>
                 ))}
-                {/* Fill blank rows if messages count is less than 5 */}
-                {messages.length < 5 && Array.from({ length: 5 - messages.length }).map((_, index) => (
+                {Array.from({ length: 5 - messages.length }).map((_, index) => (
                   <TableRow key={`blank-${index}`} >
-                    <TableCell colSpan={4}> </TableCell>
+                    <TableCell colSpan={4}>&nbsp;</TableCell>
                   </TableRow>
                 ))}
               </>
@@ -403,9 +409,8 @@ export function EmailBox() {
                     size="sm"
                     onClick={() => {
                       setEmail(historyEmail);
-                      setOldEmailUsed(prev => !prev); // Toggle state to trigger useEffect
+                      setOldEmailUsed(!oldEmailUsed);
                     }}
-                    aria-label={`Use email address ${historyEmail}`} // Added dynamic aria-label
                   >
                     Use
                   </Button>
@@ -415,8 +420,7 @@ export function EmailBox() {
           </div>
         )}
       </CardContent>
-      {/* Moved CardHeader to the bottom as it appears last in the original code snippet structure */}
-       <CardHeader>
+      <CardHeader>
         <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
         <p className="text-sm text-muted-foreground">
           Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
