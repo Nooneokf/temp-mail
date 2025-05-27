@@ -5,7 +5,6 @@ import { EmailBox } from "@/components/email-box"
 import { PopularArticles } from "@/components/popular-articles"
 import { WhySection } from "@/components/why-section"
 import { ThemeProvider } from "@/components/theme-provider"
-import "@/styles/global.css"
 
 export default function Page() {
   return (

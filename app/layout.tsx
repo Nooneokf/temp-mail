@@ -11,6 +11,7 @@ export const metadata = {
   keywords: 'temp mail, custom mail, disposable email, temporary email, fake email, email privacy, spam-free email, temporary inbox'
 }
 import { GoogleAnalytics } from '@next/third-parties/google'
+import "@/styles/global.css"
 
 export default function RootLayout({
   children,
