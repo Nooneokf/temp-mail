@@ -71,7 +71,6 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           }
         });
         const data = await response.json();
-        console.log('Full message data:', data);
         if (data.success) {
           setFullMessage(data.data);
         } else {
@@ -105,10 +104,14 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>Date:</strong> {new Date(message.date).toLocaleString()}</p>
         </div>
         <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
-          {fullMessage?.html ? (
+          {!fullMessage ? (
+            <pre className="whitespace-pre-wrap">Loading...</pre>
+          ) : fullMessage.html && typeof fullMessage.html === "string" ? (
             <div dangerouslySetInnerHTML={{ __html: fullMessage.html }} />
+          ) : fullMessage.body && typeof fullMessage.body === "string" ? (
+            <pre className="whitespace-pre-wrap">{fullMessage.body}</pre>
           ) : (
-            <pre className="whitespace-pre-wrap">{fullMessage?.body || 'Loading...'}</pre>
+            <pre className="whitespace-pre-wrap">No content</pre>
           )}
         </div>
       </DialogContent>

@@ -81,19 +81,31 @@ export function EmailBox() {
   }, [oldEmailUsed, email, token]); // Add all dependencies
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  
+  // 1. Load history from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedHistory = localStorage.getItem('emailHistory')
+      const storedHistory = localStorage.getItem('emailHistory');
       if (storedHistory) {
-        setEmailHistory(JSON.parse(storedHistory))
-      }
-      if (email && !isEditing) {
-        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
-        setEmailHistory(updatedHistory)
-        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        setEmailHistory(JSON.parse(storedHistory));
       }
     }
-  }, [email, emailHistory, isEditing])
+  }, []);
+  
+  // 2. Update history when email changes and not editing
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      email &&
+      !isEditing
+    ) {
+      const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
+      setEmailHistory(updatedHistory);
+      localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, isEditing]);
+  
 
   const fetchToken = async () => {
     try {
