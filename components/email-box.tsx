@@ -428,12 +428,6 @@ export function EmailBox() {
           </div>
         )}
       </CardContent>
-      <CardHeader>
-        <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
-        <p className="text-sm text-muted-foreground">
-          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
-        </p>
-      </CardHeader>
       <QRCodeModal
         email={email}
         isOpen={isQRModalOpen}
