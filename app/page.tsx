@@ -5,12 +5,11 @@ import { EmailBox } from "@/components/email-box"
 import { PopularArticles } from "@/components/popular-articles"
 import { WhySection } from "@/components/why-section"
 import { ThemeProvider } from "@/components/theme-provider"
-import "@/styles/global.css"
 
 export default function Page() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen max-w-[100vw] bg-background">
         <AppHeader />
         <main className="mx-auto m-2 px-4 py-8">
           <section className="mb-12">

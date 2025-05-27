@@ -2,40 +2,61 @@
 title: "Privacy Policy"
 description: "This is our only policy"
 date: 2023-10-05
+lastmod: 2024-06-10
+author:
+    - name: "Dishant Singh"
+      bio: "Founder @ DishIs Technology | CTO @ PlayArena | Full Stack & Python Developer | ML/ DL Developer | Problem Solver | Math & Science Teacher"
+      avatar: "https://avatars.githubusercontent.com/u/121028242?v=4&size=64"
+slug: "privacy-policy"
+tags:
+    - privacy
+    - policy
+    - security
+    - public-inbox
+draft: false
+language: en
 ---
 
-FreeCustom.Email Privacy Policy
-Please note: you should have no expectation of privacy when sending messages to your FreeCustom.Email inbox.
+# FreeCustom.Email Privacy Policy
 
-Any message sent to FreeCustom.Email can be read by any user.
+> **Important:** You should have **no expectation of privacy** when using FreeCustom.Email.
 
-Every inbox on FreeCustom.Email is available to the public.
+---
 
-There are - by design - no security measures to sign into FreeCustom.Email and view email messages.
+## Public Inboxes
 
-FreeCustom.Email logo
-Do not send sensitive information to FreeCustom.Email.
-Please do not send any information to FreeCustom.Email that you would consider personal or private. This includes your home address, your phone number, or any other personal information. Even if you are constantly monitoring the FreeCustom.Email inbox you gave to the third party website/app, it is extremely likely that someone else could be watching that inbox as well.
+- **All inboxes are public.** Any message sent to FreeCustom.Email can be read by any user.
+- **No sign-in required.** There are no security measures to access inboxes or view messages.
+- **Do not send sensitive information.** Avoid sharing personal data such as your home address, phone number, or any confidential details.
 
-While it may be unlikely that someone can guess a random inbox, there is no guarantee that other people don't have access to your email messages. Please treat FreeCustom.Email as if someone else were watching over your shoulder at all times.
+---
 
-FreeCustom.Email logo
-FreeCustom.Email inbox aliases are not secure.
-While inbox aliases are meant to be a layer of obfuscation to the real email address at FreeCustom.Email.cc, you should be aware that the algorithm which converts from real addresses to inbox aliases, and vice versa, is public, and can be easily reverse engineered by a determined individual.
+## Security Notice
 
-Inbox aliases are fine for sending random website/app emails to, but again, please do not send any private, personal, confidential messages to an inbox alias; it is extremely likely that someone can and will figure out the true inbox that the message is delivered to.
+- **Inbox aliases are not secure.**
+        - Aliases only provide basic obfuscation.
+        - The algorithm for generating aliases is **public** and can be reverse engineered.
+        - **Do not use aliases for private or confidential messages.**
 
-FreeCustom.Email logo
-Connections to FreeCustom.Email are logged.
-In order to help refine the service, all email and web connections to FreeCustom.Email are logged.
+---
 
-FreeCustom.Email is not designed to be completely anonymous and is not designed to be an alternative to a re-mailer. There are plenty of anonymous re-mailers available on the Internet; FreeCustom.Email is not one of them.
+## Logging and Anonymity
 
-The debugging and connection information that we log is helpful to us, but we cannot provide end users with any information about "what happened to my email".
+- **Connections are logged.**
+        - All email and web connections to FreeCustom.Email are recorded to help improve the service.
+        - FreeCustom.Email is **not designed for anonymity** and is not a replacement for anonymous re-mailers.
+        - We cannot provide users with information about specific emails or their status.
 
-FreeCustom.Email logo
-We do not track our visitors.
-Finally, the only storage we use is to keep track of the most recent inbox that you've visited. We do not track our users, nor do we use cookies to keep personal information.
+---
 
-We do not collect any information about our end users beyond their email and web connections to FreeCustom.Email.cc and only use our analytics pixel to collect aggregate data.
+## Tracking and Data Collection
+
+- **No user tracking.**
+        - We do **not track users** or use cookies to store personal information.
+        - The only storage is for the most recent inbox you visited.
+        - We use an analytics pixel to collect **aggregate data only**.
+
+---
+
+> **Summary:** Treat FreeCustom.Email as a public service where privacy is not guaranteed. Use it only for non-sensitive, non-personal communications.
 

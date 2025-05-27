@@ -287,13 +287,14 @@ export function EmailBox() {
               {email || 'Loading...'}
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="group" aria-label="Email actions">
             <Button
               variant="secondary"
               size="icon"
               onClick={copyEmail}
               className="relative"
               disabled={blockButtons}
+              aria-label="Copy email address"
             >
               <Copy className={cn(
                 "h-4 w-4 transition-all",
@@ -312,21 +313,40 @@ export function EmailBox() {
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
               disabled={blockButtons}
+              aria-label="Show QR code"
             >
               <QrCode className="h-4 w-4" />
             </Button>
           </div>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={refreshInbox}>
+        <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
+          <Button
+            disabled={blockButtons || isRefreshing}
+            variant="outline"
+            className="flex-1"
+            onClick={refreshInbox}
+            aria-label={isRefreshing ? "Refreshing inbox" : "Refresh inbox"}
+          >
             <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
             <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
           </Button>
-          <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={changeEmail}>
+          <Button
+            disabled={blockButtons}
+            variant="outline"
+            className="flex-1"
+            onClick={changeEmail}
+            aria-label={isEditing ? "Save email changes" : "Change email"}
+          >
             {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
             <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
           </Button>
-          <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={deleteEmail}>
+          <Button
+            disabled={blockButtons}
+            variant="outline"
+            className="flex-1"
+            onClick={deleteEmail}
+            aria-label="Delete email address"
+          >
             <Trash2 className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Delete</span>
           </Button>
