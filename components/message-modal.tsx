@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getCookie, setCookie } from "cookies-next"
+import { Loader } from 'lucide-react'
 
 interface Message {
   id: string
@@ -105,7 +106,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
         </div>
         <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
           {!fullMessage ? (
-            <pre className="whitespace-pre-wrap">Loading...</pre>
+            <pre className="whitespace-pre-wrap"><Loader className='animate-spin ' /></pre>
           ) : fullMessage.html && typeof fullMessage.html === "string" ? (
             <div dangerouslySetInnerHTML={{ __html: fullMessage.html }} />
           ) : fullMessage.body && typeof fullMessage.body === "string" ? (
