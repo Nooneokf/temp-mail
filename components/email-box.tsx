@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { QRCodeModal } from "./qr-code-modal";
@@ -428,6 +428,12 @@ export function EmailBox() {
           </div>
         )}
       </CardContent>
+      <CardHeader>
+        <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
+        <p className="text-sm text-muted-foreground">
+          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
+        </p>
+      </CardHeader>
       <QRCodeModal
         email={email}
         isOpen={isQRModalOpen}
