@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import MarkdownRenderer from '@/components/md-renderer'
+import Link from 'next/link'
+import Image from 'next/image'
 
 interface BlogPostProps {
   params: Promise<{ slug: string }>
@@ -23,7 +25,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
           {data.author && (
             <div className="flex items-center gap-2">
               {data.author.avatar && (
-                <img
+                <Image
+                  width={32}
+                  height={32}
                   src={data.author.avatar}
                   alt={data.author.name}
                   className="w-8 h-8 rounded-full border-2 border-blue-400"
@@ -59,12 +63,12 @@ export default async function BlogPost({ params }: BlogPostProps) {
       </section>
       <footer className="mt-12 border-t pt-6 flex justify-between text-sm text-gray-400">
         <span>© {new Date().getFullYear()} DishIs Technologies</span>
-        <a
+        <Link
           href="/blog"
           className="text-blue-500 hover:underline transition-colors"
         >
           ← Back to Blog
-        </a>
+        </Link>
       </footer>
     </article>
   )

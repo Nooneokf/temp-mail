@@ -2,27 +2,43 @@
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Menu as MenuIconLucide } from "lucide-react" // Renamed to avoid conflict if you ever use a Menu component
 import Link from "next/link"
 import { FaGithub } from "react-icons/fa"
-import { Menu } from "lucide-react"
-import { useState } from "react"
+import { useState, useCallback } from "react" // Added useCallback
+import Image from "next/image"
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }, [theme, setTheme])
+
+  const toggleMobileMenu = useCallback(() => {
+    setMenuOpen((prev) => !prev)
+  }, [])
+
+  // Optional: Close mobile menu when a link is clicked
+  const handleMobileLinkClick = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
   return (
-    <header className="border-b max-w-[100vw]">
+    // Consider w-full instead of max-w-[100vw] if container handles max width
+    <header className="border-b w-full">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2" aria-label="Home">
-          <span className="bg-white rounded-full">
-            <img
-              src="/logo.png"
-              alt="Temp Mail"
-              className="h-8 w-8 sm:h-10 sm:w-10"
-              loading="lazy"
+        <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
+          <span className="bg-white rounded-full p-0.5"> {/* Added slight padding if logo touches edge of white bg */}
+            <Image
+              src="/logo.png" // Ensure this path is correct in your public folder
+              alt="FREE TEMPMAIL Logo" // Slightly more descriptive alt
+              width={40}
+              height={40}
+              className="h-8 w-8 sm:h-10 sm:w-10" // These sizes are fine
+              priority={false} // Correct for non-LCP images
             />
           </span>
           <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">
@@ -62,7 +78,7 @@ export function AppHeader() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme} // Use useCallback version
             className="p-2"
             aria-label="Toggle theme"
           >
@@ -72,12 +88,12 @@ export function AppHeader() {
           </Button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Toggle & Theme Toggle */}
         <div className="md:hidden flex items-center gap-2">
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme} // Use useCallback version
             className="p-2"
             aria-label="Toggle theme"
           >
@@ -88,27 +104,33 @@ export function AppHeader() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={toggleMobileMenu} // Use useCallback version
             className="p-2"
-            aria-label="Toggle mobile menu"
+            aria-label={menuOpen ? "Close mobile menu" : "Open mobile menu"} // Dynamic aria-label
+            aria-expanded={menuOpen} // Indicate expanded state
+            // aria-controls="mobile-menu-dropdown" // If dropdown had an id
           >
-            <Menu className="h-5 w-5" />
+            <MenuIconLucide className="h-5 w-5" />
           </Button>
         </div>
       </div>
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 flex flex-col gap-3 bg-white dark:bg-black border-t">
-          <Link href="/pricing" className="text-sm hover:underline" aria-label="View Pricing">
+        // id="mobile-menu-dropdown" // For aria-controls
+        <nav // Using nav for semantic navigation links
+          className="md:hidden px-4 pb-4 pt-2 flex flex-col gap-3 bg-background border-t" // Use bg-background for theme consistency
+        >
+          <Link href="/pricing" className="text-sm hover:underline py-1" aria-label="View Pricing" onClick={handleMobileLinkClick}>
             Pricing
           </Link>
           <a
             href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm hover:underline"
+            className="text-sm hover:underline py-1"
             aria-label="View API documentation"
+            onClick={handleMobileLinkClick}
           >
             API
           </a>
@@ -116,12 +138,13 @@ export function AppHeader() {
             href="https://github.com/DishIs/temp-mail"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm hover:underline flex items-center gap-1"
+            className="text-sm hover:underline flex items-center gap-1 py-1"
             aria-label="View GitHub repository"
+            onClick={handleMobileLinkClick}
           >
             <FaGithub className="h-4 w-4" /> GitHub
           </a>
-        </div>
+        </nav>
       )}
     </header>
   )

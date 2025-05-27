@@ -71,33 +71,41 @@ export function EmailBox() {
     };
 
     initializeEmailBox();
-  }, []);
+  }, [selectedDomain]);
 
   useEffect(() => {
     if (email && token) {
       refreshInbox(); // Refresh inbox only when both email and token are available
     }
-  }, [oldEmailUsed]); // Trigger refreshInbox only when both dependencies are updated
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [oldEmailUsed, email, token]); // Add all dependencies
 
-  useEffect(() => {
-    if (email && token) {
-      refreshInbox(); // Refresh inbox only when both email and token are available
-    }
-  }, []); // Trigger refreshInbox only when both dependencies are updated
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  
+  // 1. Load history from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedHistory = localStorage.getItem('emailHistory')
+      const storedHistory = localStorage.getItem('emailHistory');
       if (storedHistory) {
-        setEmailHistory(JSON.parse(storedHistory))
-      }
-      if (email && !isEditing) {
-        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
-        setEmailHistory(updatedHistory)
-        localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
+        setEmailHistory(JSON.parse(storedHistory));
       }
     }
-  }, [email])
+  }, []);
+  
+  // 2. Update history when email changes and not editing
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      email &&
+      !isEditing
+    ) {
+      const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
+      setEmailHistory(updatedHistory);
+      localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, isEditing]);
+  
 
   const fetchToken = async () => {
     try {
