@@ -15,7 +15,7 @@ export default function Page() {
           <section className="mb-12">
             <EmailBox />
             <h1
-              className="mt-6 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
+              className="mt-6 text-lg sm:text-xl md:text-2xl font-bold"
               suppressHydrationWarning
             >
               The Tech behind Disposable Temp Mail Address
