@@ -7,6 +7,7 @@ import Link from "next/link"
 import { FaGithub } from "react-icons/fa"
 import { Menu } from "lucide-react"
 import { useState } from "react"
+import Image from "next/image"
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
@@ -17,12 +18,15 @@ export function AppHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" aria-label="Home">
+          {/* Logo Image */}
           <span className="bg-white rounded-full">
-            <img
+            <Image
               src="/logo.png"
               alt="Temp Mail"
+              width={40}
+              height={40}
               className="h-8 w-8 sm:h-10 sm:w-10"
-              loading="lazy"
+              priority={false}
             />
           </span>
           <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">

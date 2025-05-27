@@ -71,20 +71,16 @@ export function EmailBox() {
     };
 
     initializeEmailBox();
-  }, []);
+  }, [selectedDomain]);
 
   useEffect(() => {
     if (email && token) {
       refreshInbox(); // Refresh inbox only when both email and token are available
     }
-  }, [oldEmailUsed]); // Trigger refreshInbox only when both dependencies are updated
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [oldEmailUsed, email, token]); // Add all dependencies
 
-  useEffect(() => {
-    if (email && token) {
-      refreshInbox(); // Refresh inbox only when both email and token are available
-    }
-  }, []); // Trigger refreshInbox only when both dependencies are updated
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedHistory = localStorage.getItem('emailHistory')
@@ -97,7 +93,7 @@ export function EmailBox() {
         localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
       }
     }
-  }, [email])
+  }, [email, emailHistory, isEditing])
 
   const fetchToken = async () => {
     try {

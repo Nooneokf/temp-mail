@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getCookie, setCookie } from "cookies-next"
 
@@ -62,31 +62,34 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     }
   };
 
+  const fetchFullMessage = useCallback(
+    async (messageId: string) => {
+      try {
+        const response = await fetch(`/api/mailbox?mailbox=${message?.to.split('@')[0]}&messageId=${messageId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        console.log('Full message data:', data);
+        if (data.success) {
+          setFullMessage(data.data);
+        } else {
+          console.error('Failed to fetch full message:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching full message:', error);
+      }
+    },
+    [message, token]
+  );
+
   useEffect(() => {
     if (message && isOpen) {
       setFullMessage(null); // Reset fullMessage when a new message is opened
       fetchFullMessage(message.id);
     }
-  }, [message, isOpen]);
-
-  const fetchFullMessage = async (messageId: string) => {
-    try {
-      const response = await fetch(`/api/mailbox?mailbox=${message?.to.split('@')[0]}&messageId=${messageId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      console.log('Full message data:', data);
-      if (data.success) {
-        setFullMessage(data.data);
-      } else {
-        console.error('Failed to fetch full message:', data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching full message:', error);
-    }
-  };
+  }, [message, isOpen, fetchFullMessage]);
 
   if (!message) return null;
 
