@@ -1,5 +1,5 @@
 ---
-title: How to Use Temp Mail: A Complete Guide to Disposable Email Addresses
+title: How to Use Temp Mail A Complete Guide to Disposable Email Addresses
 slug: how-to-use-temp-mail
 date: 2023-05-01
 author:
