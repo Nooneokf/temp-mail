@@ -43,7 +43,7 @@ We're proud of our scores, and we want to be transparent about them:
 
 *(Imagine your PageSpeed Insights screenshot for MOBILE here. Ensure it clearly shows a high score, ideally 90+.)*
 
-**[Placeholder for Mobile PageSpeed Insights Screenshot]**
+![FreeCustom.Email Mobile PageSpeed Insights Score](https://media.licdn.com/dms/image/v2/D5622AQGmNBQgGX11Xg/feedshare-shrink_1280/B56ZaC4hU9GUAo-/0/1745952577780?e=1751500800&v=beta&t=uOdK_fuwbz_RIyUYl4yip-xlCBTQUdjFg0UGzCa5Tn8)
 *Caption: FreeCustom.Email's outstanding PageSpeed Insights score for mobile devices.*
 
 As you can see, [FreeCustom.Email](https://www.freecustom.email) achieves exceptional performance on mobile. This means whether you're on your phone needing a quick temp mail, you'll get a near-instant experience without frustrating delays.
@@ -52,7 +52,7 @@ As you can see, [FreeCustom.Email](https://www.freecustom.email) achieves except
 
 *(Imagine your PageSpeed Insights screenshot for DESKTOP here. Ensure it clearly shows a high score, ideally 90+.)*
 
-**[Placeholder for Desktop PageSpeed Insights Screenshot]**
+![FreeCustom.Email Desktop PageSpeed Insights Score](https://media.licdn.com/dms/image/v2/D5622AQGJE_zbHAca2g/feedshare-shrink_1280/B56ZaC4hUzGoAk-/0/1745952577743?e=1751500800&v=beta&t=rQGLPpd__czrw1dEilXiG-bYNPaiQKG8Pz2nYvyss14)
 *Caption: FreeCustom.Email's top-tier PageSpeed Insights score for desktop devices.*
 
 Our commitment to speed extends to desktop users. The high PageSpeed score reflects a snappy, responsive interface, allowing you to generate and manage your temporary emails with maximum efficiency.
