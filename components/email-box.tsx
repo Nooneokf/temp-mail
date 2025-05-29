@@ -430,8 +430,7 @@ export function EmailBox() {
       <CardHeader>
         <h2 className="text-xl font-semibold">Your Best Temporary Email Address</h2>
         <p className="text-sm text-muted-foreground">
-          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.<br />
-          <strong>This service is completely <Link className="text-blue-400 hover:underline" href={'/blog/forever-free-and-ad-free'}>free, ad-free, forever</Link> and the <Link className="text-blue-400 hover:underline" href={'/blog/why-we-are-fastest'} >fastest</Link> in the world in loadings.</strong>
+          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
         </p>
       </CardHeader>
       <QRCodeModal
