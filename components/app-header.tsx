@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { Moon, Sun, Menu as MenuIconLucide } from "lucide-react" // Renamed to avoid conflict if you ever use a Menu component
 import Link from "next/link"
-import { FaGithub } from "react-icons/fa"
+import { FaGithub, FaPatreon } from "react-icons/fa"
 import { useState, useCallback } from "react" // Added useCallback
 import Image from "next/image"
 
@@ -66,12 +66,12 @@ export function AppHeader() {
             asChild
           >
             <a
-              href="https://github.com/DishIs/temp-mail"
+              href="https://www.patreon.com/maildrop"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View GitHub repository"
+              aria-label="View Patreon"
             >
-              <FaGithub className="h-5 w-5" />
+              <FaPatreon className="h-5 w-5" />
             </a>
           </Button>
 
@@ -119,7 +119,7 @@ export function AppHeader() {
       {menuOpen && (
         // id="mobile-menu-dropdown" // For aria-controls
         <nav // Using nav for semantic navigation links
-          className="md:hidden px-4 pb-4 pt-2 flex flex-col gap-3 bg-background border-t" // Use bg-background for theme consistency
+          className="md:hidden px-4 pb-4 pt-2 flex flex-col gap-3 bg-background border-t"
         >
           <Link href="/pricing" className="text-sm hover:underline py-1" aria-label="View Pricing" onClick={handleMobileLinkClick}>
             Pricing
@@ -144,6 +144,17 @@ export function AppHeader() {
           >
             <FaGithub className="h-4 w-4" /> GitHub
           </a>
+          <a
+            href="https://www.patreon.com/maildrop"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm hover:underline flex items-center gap-1 py-1"
+            aria-label="View Patreon"
+            onClick={handleMobileLinkClick}
+          >
+            <FaPatreon className="h-4 w-4" /> Patreon
+          </a>
+
         </nav>
       )}
     </header>
