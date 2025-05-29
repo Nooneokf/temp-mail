@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
-import Link from "next/link";
 
 const DOMAINS = ["saleis.live", "arrangewith.me"];
 

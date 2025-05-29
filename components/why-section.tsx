@@ -57,7 +57,7 @@ export function WhySection() {
           <li className="flex items-start">
             <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
             <span className="dark:text-gray-200">
-              <strong>Test Your App:</strong> If you've built an app, you can use **disposable emails** to test your app by creating dummy accounts without needing multiple real inboxes.
+              <strong>Test Your App:</strong> If you&apos;ve built an app, you can use **disposable emails** to test your app by creating dummy accounts without needing multiple real inboxes.
             </span>
           </li>
           <li className="flex items-start">
@@ -143,7 +143,7 @@ export function WhySection() {
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
         <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-gray-100">To Conclude: Your Best Choice for Temp Mail</h3>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          Setting up a **disposable temporary email** system with <strong>Freecustom.email</strong> ensures your real identity remains protected and your primary inbox stays clean. Whether you're signing up for online forums, chat rooms, file-sharing services, or just need a quick **burner email address**, your privacy stays intact. Say goodbye to spam and unwanted emails, and enjoy a safer, faster, and **ad free forever** online experience with <strong>Freecustom.email</strong>.
+          Setting up a **disposable temporary email** system with <strong>Freecustom.email</strong> ensures your real identity remains protected and your primary inbox stays clean. Whether you&apos;re signing up for online forums, chat rooms, file-sharing services, or just need a quick **burner email address**, your privacy stays intact. Say goodbye to spam and unwanted emails, and enjoy a safer, faster, and **ad free forever** online experience with <strong>Freecustom.email</strong>.
         </p>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
           Ready to get started? Visit our homepage or dive into our {' '}
