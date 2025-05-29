@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
+import Link from "next/link";
 
 const DOMAINS = ["saleis.live", "arrangewith.me"];
 
@@ -405,7 +406,6 @@ export function EmailBox() {
 
         </Table>
 
-        {emailHistory.length > 0 && (
           <div className="mt-8">
             <h3 className="text-lg font-semibold mb-2">Email History</h3>
             <ul className="space-y-2">
@@ -426,12 +426,12 @@ export function EmailBox() {
               ))}
             </ul>
           </div>
-        )}
       </CardContent>
       <CardHeader>
-        <h2 className="text-xl font-semibold">Your Temporary Email Address</h2>
+        <h2 className="text-xl font-semibold">Your Best Temporary Email Address</h2>
         <p className="text-sm text-muted-foreground">
-          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
+          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.<br />
+          <strong>This service is completely <Link className="text-blue-400 hover:underline" href={'/blog/forever-free-and-ad-free'}>free, ad-free, forever</Link> and the <Link className="text-blue-400 hover:underline" href={'/blog/why-we-are-fastest'} >fastest</Link> in the world in loadings.</strong>
         </p>
       </CardHeader>
       <QRCodeModal

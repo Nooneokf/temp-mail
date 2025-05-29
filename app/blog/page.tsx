@@ -1,64 +1,77 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import MarkdownRenderer from '@/components/md-renderer'
 import Link from 'next/link'
+import Image from 'next/image'
 
-interface BlogPost {
-  slug: string
-  title: string
-  date: string
-  excerpt?: string
+interface BlogPostProps {
+  params: Promise<{ slug: string }>
 }
 
-export default function BlogPage() {
-  const blogDir = path.join(process.cwd(), 'content/blog')
-  const files = fs.readdirSync(blogDir)
-
-  const posts: BlogPost[] = files
-    .filter(filename => filename.endsWith('.md'))
-    .map(filename => {
-      const filePath = path.join(blogDir, filename)
-      const fileContent = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContent)
-      return {
-        slug: filename.replace('.md', ''),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt || content.slice(0, 120).replace(/\n/g, '') + '...',
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export default async function BlogPost({ params }: BlogPostProps) {
+  const { slug } = await params
+  const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`)
+  const fileContent = fs.readFileSync(filePath, 'utf8')
+  const { data, content } = matter(fileContent)
 
   return (
-    <div className="max-w-2xl mx-auto px-2 sm:px-4 py-8">
-      <h1 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-        Blog Posts
-      </h1>
-      <ul className="space-y-6">
-        {posts.map(post => (
-          <li
-            key={post.slug}
-            className="bg-white/70 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-150 p-5 flex flex-col gap-2"
-          >
-            <Link href={`/blog/${post.slug}`} className="group">
-              <h2 className="text-lg sm:text-xl font-semibold group-hover:text-blue-600 transition-colors">
-                {post.title}
-              </h2>
-            </Link>
-            <p className="text-xs text-gray-400">{new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-            <p className="text-sm text-gray-700 line-clamp-2">{post.excerpt}</p>
-            <div className="mt-2">
-              <Link
-                href={`/blog/${post.slug}`}
-                className="inline-block text-xs font-medium text-blue-500 hover:text-blue-700 transition-colors underline underline-offset-2"
-                aria-label={`Read more about ${post.title}`}
-              >
-                Read more →
-              </Link>
+    <article className="max-w-full mx-auto px-4 py-12 bg-white dark:bg-zinc-900">
+      <header className="mb-10">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          {data.title}
+        </h1>
+        <div className="flex items-center gap-4 mb-2">
+          {data.author && (
+            <div className="flex items-center gap-2">
+              {data.author.avatar && (
+                <Image
+                  width={32}
+                  height={32}
+                  src={data.author.avatar}
+                  alt={data.author.name}
+                  className="w-8 h-8 rounded-full border-2 border-blue-400"
+                />
+              )}
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{data.author.name}</span>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+          )}
+          {/* Updated date text color for better contrast */}
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            {new Date(data.date).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
+        </div>
+        {data.tags && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {data.tags.map((tag: string) => (
+              <span
+                key={tag}
+                className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+      <section className="prose prose-lg dark:prose-invert"> {/* Added dark:prose-invert for better dark mode prose styling */}
+        <MarkdownRenderer content={content} />
+      </section>
+      {/* Updated footer text color for better contrast */}
+      <footer className="mt-12 border-t pt-6 flex justify-between text-sm text-gray-600 dark:text-gray-400">
+        <span>© {new Date().getFullYear()} DishIs Technologies</span>
+        {/* Updated link text color for better contrast */}
+        <Link
+          href="/blog"
+          className="text-blue-600 dark:text-blue-400 hover:underline transition-colors"
+        >
+          ← Back to Blog
+        </Link>
+      </footer>
+    </article>
   )
 }
