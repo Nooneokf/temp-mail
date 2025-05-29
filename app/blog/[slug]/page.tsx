@@ -34,10 +34,10 @@ export default async function BlogPost({ params }: BlogPostProps) {
                 />
               )}
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{data.author.name}</span>
-
             </div>
           )}
-          <span className="text-xs text-gray-400">
+          {/* Updated date text color for better contrast */}
+          <span className="text-xs text-gray-600 dark:text-gray-400">
             {new Date(data.date).toLocaleDateString(undefined, {
               year: 'numeric',
               month: 'long',
@@ -58,14 +58,16 @@ export default async function BlogPost({ params }: BlogPostProps) {
           </div>
         )}
       </header>
-      <section className="prose prose-lg ">
+      <section className="prose prose-lg dark:prose-invert"> {/* Added dark:prose-invert for better dark mode prose styling */}
         <MarkdownRenderer content={content} />
       </section>
-      <footer className="mt-12 border-t pt-6 flex justify-between text-sm text-gray-400">
+      {/* Updated footer text color for better contrast */}
+      <footer className="mt-12 border-t pt-6 flex justify-between text-sm text-gray-600 dark:text-gray-400">
         <span>© {new Date().getFullYear()} DishIs Technologies</span>
+        {/* Updated link text color for better contrast */}
         <Link
           href="/blog"
-          className="text-blue-500 hover:underline transition-colors"
+          className="text-blue-600 dark:text-blue-400 hover:underline transition-colors"
         >
           ← Back to Blog
         </Link>
