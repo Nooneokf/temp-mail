@@ -74,11 +74,41 @@ export function EmailBox() {
   }, [selectedDomain]);
 
   useEffect(() => {
-    if (email && token) {
-      refreshInbox(); // Refresh inbox only when both email and token are available
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [oldEmailUsed, email, token]); // Add all dependencies
+  if (email && token) {
+    refreshInbox(); // Initial inbox load
+
+    const mailboxName = email.split("@")[0];
+    const socket = new WebSocket(`wss://saleis.live/?mailbox=${mailboxName}`);
+
+    socket.onopen = () => {
+      console.log("WebSocket connection opened for", mailboxName);
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("New message via WebSocket:", data);
+
+      // Option 1: Automatically refresh full inbox
+      refreshInbox();
+
+      // Option 2: Append message if structure is known
+      // setMessages((prev) => [data.message, ...prev]);
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    return () => {
+      socket.close(); // Cleanup on component unmount or email change
+    };
+  }
+}, [email, token, oldEmailUsed]); // Add WebSocket dependencies
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   
