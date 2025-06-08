@@ -74,44 +74,44 @@ export function EmailBox() {
   }, [selectedDomain]);
 
   useEffect(() => {
-  if (email && token) {
-    refreshInbox(); // Initial inbox load
+    if (email && token) {
+      refreshInbox(); // Initial inbox load
 
-    const mailboxName = email.split("@")[0];
-    const socket = new WebSocket(`wss://saleis.live/?mailbox=${mailboxName}`);
+      const mailboxName = email.split("@")[0];
+      const socket = new WebSocket(`wss://saleis.live/?mailbox=${mailboxName}`);
 
-    socket.onopen = () => {
-      console.log("WebSocket connection opened for", mailboxName);
-    };
+      socket.onopen = () => {
+        console.log("WebSocket connection opened for", mailboxName);
+      };
 
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("New message via WebSocket:", data);
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log("New message via WebSocket:", data);
 
-      // Option 1: Automatically refresh full inbox
-      refreshInbox();
+        // Option 1: Automatically refresh full inbox
+        refreshInbox();
 
-      // Option 2: Append message if structure is known
-      // setMessages((prev) => [data.message, ...prev]);
-    };
+        // Option 2: Append message if structure is known
+        // setMessages((prev) => [data.message, ...prev]);
+      };
 
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+      socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
 
-    socket.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
+      socket.onclose = () => {
+        console.log("WebSocket connection closed");
+      };
 
-    return () => {
-      socket.close(); // Cleanup on component unmount or email change
-    };
-  }
-}, [email, token, oldEmailUsed]); // Add WebSocket dependencies
+      return () => {
+        socket.close(); // Cleanup on component unmount or email change
+      };
+    }
+  }, [email, token, oldEmailUsed]); // Add WebSocket dependencies
 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   // 1. Load history from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -121,7 +121,7 @@ export function EmailBox() {
       }
     }
   }, []);
-  
+
   // 2. Update history when email changes and not editing
   useEffect(() => {
     if (
@@ -135,7 +135,7 @@ export function EmailBox() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, isEditing]);
-  
+
 
   const fetchToken = async () => {
     try {
@@ -424,37 +424,39 @@ export function EmailBox() {
                     </TableCell>
                   </TableRow>
                 ))}
-                {Array.from({ length: 5 - messages.length }).map((_, index) => (
-                  <TableRow key={`blank-${index}`} >
-                    <TableCell colSpan={4}>&nbsp;</TableCell>
-                  </TableRow>
-                ))}
+                {messages.length < 5 &&
+                  Array.from({ length: 5 - messages.length }).map((_, index) => (
+                    <TableRow key={`blank-${index}`} >
+                      <TableCell colSpan={4}>&nbsp;</TableCell>
+                    </TableRow>
+                  ))
+                }
               </>
             )}
           </TableBody>
 
         </Table>
 
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-2">Email History</h3>
-            <ul className="space-y-2">
-              {emailHistory.map((historyEmail, index) => (
-                <li key={index} className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{historyEmail}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setEmail(historyEmail);
-                      setOldEmailUsed(!oldEmailUsed);
-                    }}
-                  >
-                    Use
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">Email History</h3>
+          <ul className="space-y-2">
+            {emailHistory.map((historyEmail, index) => (
+              <li key={index} className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{historyEmail}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setEmail(historyEmail);
+                    setOldEmailUsed(!oldEmailUsed);
+                  }}
+                >
+                  Use
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </CardContent>
       <CardHeader>
         <h2 className="text-xl font-semibold">Your Best Temporary Email Address</h2>

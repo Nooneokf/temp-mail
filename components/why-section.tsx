@@ -26,7 +26,7 @@ export function WhySection() {
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
           A disposable email, often called **temp mail**, is a free email service that allows you to receive emails at a temporary address that self-destructs after a specified period. Also known by names such as 10minutemail, **throwaway email**, fake email generator, **burner mail**, or trash-mail, these **disposable temporary email** services are crucial for avoiding spam and protecting your online privacy. Learn more about{' '}
           <Link href="/blog/how-to-create-temp-mail">
-            <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">how to create your own temp mail</a>
+            how to create your own temp mail
           </Link>.
         </p>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
@@ -43,7 +43,7 @@ export function WhySection() {
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
           While some might misunderstand, **temp mail** services like ours serve many legitimate purposes. Considering{' '}
           <Link href="/blog/is-temp-mail-safe">
-            <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">if temp mail is safe</a>
+            if temp mail is safe
           </Link>
           ? For these uses, absolutely:
         </p>
@@ -101,22 +101,22 @@ export function WhySection() {
           <li className="flex items-start dark:text-gray-200">
             <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
             Reliable **temp mailbox** access for the duration you need. For more on this, see{' '}
-            <Link href="/blog/how-long-does-temp-mail-lasts">
-                <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">how long temp mail typically lasts</a>
+            <Link className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline" href="/blog/how-long-does-temp-mail-lasts">
+                how long temp mail typically lasts
             </Link>.
           </li>
           <li className="flex items-start dark:text-gray-200">
             <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
             A user-friendly, straightforward, and **fast loading** design. We pride ourselves on our{' '}
-            <Link href="/blog/why-we-are-fastest">
-                <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">PageSpeed scores</a>
+            <Link className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline" href="/blog/why-we-are-fastest">
+                PageSpeed scores
             </Link>.
           </li>
            <li className="flex items-start dark:text-gray-200">
             <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
             A commitment to being **ad free forever** and charging nothing. Read about our{' '}
-            <Link href="/blog/forever-free-and-ad-free">
-                <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">ad-free promise</a>
+            <Link className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline" href="/blog/forever-free-and-ad-free">
+                ad-free promise
             </Link>.
           </li>
         </ul>
@@ -133,8 +133,8 @@ export function WhySection() {
         </p>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
           If a **disposable email account** from our service is compromised or you suspect any suspicious activity, you can simply discard it and create a new one in seconds without affecting your primary email. For a step-by-step guide, check out our post on{' '}
-          <Link href="/blog/how-to-create-temp-mail">
-            <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">creating a temp mail</a>
+          <Link className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline" href="/blog/how-to-create-temp-mail">
+            creating a temp mail
           </Link>.
         </p>
       </div>
@@ -147,8 +147,8 @@ export function WhySection() {
         </p>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
           Ready to get started? Visit our homepage or dive into our {' '}
-          <Link href="/blog/best-practices-for-using-temp-mail">
-            <a className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">best practices for using temporary email</a>
+          <Link className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline" href="/blog/best-practices-for-using-temp-mail">
+            best practices for using temporary email
           </Link> to make the most of our service.
         </p>
       </div>
