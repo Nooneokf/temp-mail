@@ -23,7 +23,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
         </h1>
         <div className="flex items-center gap-4 mb-2">
           {Array.isArray(data.author) ? (
-            data.author.map((author: any) => (
+            data.author.map((author: { name: string; avatar?: string }) => (
               <div key={author.name} className="flex items-center gap-2">
                 {author.avatar && (
                   <Image
