@@ -77,8 +77,13 @@ export function EmailBox() {
     if (email && token) {
       refreshInbox(); // Initial inbox load
 
+<<<<<<< HEAD
       const mailboxName = email.split("@")[0];
       const socket = new WebSocket(`wss://saleis.live/?mailbox=${mailboxName}`);
+=======
+    const mailboxName = email.split("@")[0];
+    const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
+>>>>>>> 6875024eb999167385b05feda4d784edd84818d8
 
       socket.onopen = () => {
         console.log("WebSocket connection opened for", mailboxName);
