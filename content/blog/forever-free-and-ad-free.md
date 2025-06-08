@@ -6,7 +6,7 @@ updated: 2024-06-15
 author:
     - name: "Dishant Singh"
       bio: "Founder @ DishIs Technology | CTO @ PlayArena | Full Stack & Python Developer | ML/ DL Developer | Problem Solver | Math & Science Teacher"
-      avatar: "https://avatars.githubusercontent.com/u/121028242?v=4&size=64"
+      avatar: "https://github.com/DishantSinghDev.png"
 tags:
     - free temp mail
     - ad-free email
