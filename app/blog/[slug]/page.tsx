@@ -22,7 +22,22 @@ export default async function BlogPost({ params }: BlogPostProps) {
           {data.title}
         </h1>
         <div className="flex items-center gap-4 mb-2">
-          {data.author && (
+          {Array.isArray(data.author) ? (
+            data.author.map((author: any) => (
+              <div key={author.name} className="flex items-center gap-2">
+                {author.avatar && (
+                  <Image
+                    width={32}
+                    height={32}
+                    src={author.avatar}
+                    alt={author.name}
+                    className="w-8 h-8 rounded-full border-2 border-blue-400"
+                  />
+                )}
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{author.name}</span>
+              </div>
+            ))
+          ) : data.author ? (
             <div className="flex items-center gap-2">
               {data.author.avatar && (
                 <Image
@@ -35,7 +50,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
               )}
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{data.author.name}</span>
             </div>
-          )}
+          ) : null}
           {/* Updated date text color for better contrast */}
           <span className="text-xs text-gray-600 dark:text-gray-400">
             {new Date(data.date).toLocaleDateString(undefined, {
