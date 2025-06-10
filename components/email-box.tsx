@@ -58,7 +58,6 @@ export function EmailBox() {
       // Check for stored token or fetch a new one
       const storedToken = getCookie("authToken") as string | undefined;
       if (storedToken) {
-        console.log("Using stored token:", storedToken);
         setToken(storedToken);
       } else {
         await fetchToken(); // Fetches and sets token in state
@@ -81,26 +80,16 @@ export function EmailBox() {
     const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
 
       socket.onopen = () => {
-        console.log("WebSocket connection opened for", mailboxName);
       };
 
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log("New message via WebSocket:", data);
 
         // Option 1: Automatically refresh full inbox
         refreshInbox();
 
         // Option 2: Append message if structure is known
         // setMessages((prev) => [data.message, ...prev]);
-      };
-
-      socket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-
-      socket.onclose = () => {
-        console.log("WebSocket connection closed");
       };
 
       return () => {
@@ -161,7 +150,6 @@ export function EmailBox() {
         throw new Error("No token received from server");
       }
     } catch (error) {
-      console.error("Failed to fetch token:", error);
       setError("Failed to authenticate. Please try again later.");
     }
   };
@@ -189,7 +177,6 @@ export function EmailBox() {
         throw new Error(data.message || 'Failed to fetch messages');
       }
     } catch (error) {
-      console.error('Error fetching messages:', error);
       setError('Error fetching messages. Please try again later.');
     } finally {
       setIsRefreshing(false);
@@ -270,7 +257,6 @@ export function EmailBox() {
           throw new Error(data.message || 'Failed to delete message');
         }
       } catch (error) {
-        console.error('Error deleting message:', error);
         setError('Error deleting message. Please try again later.');
       }
     }
