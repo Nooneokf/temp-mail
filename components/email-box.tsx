@@ -80,16 +80,14 @@ export function EmailBox() {
     const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
 
       socket.onopen = () => {
+        console.log("WebSocket connection established");
       };
 
-      socket.onmessage = (event) => {
+      socket.onmessage = () => {
         // const data = JSON.parse(event.data);
 
         // Option 1: Automatically refresh full inbox
-        if (event.data) {
-
           refreshInbox();
-        }
 
         // Option 2: Append message if structure is known
         // setMessages((prev) => [data.message, ...prev]);
