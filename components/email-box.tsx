@@ -83,7 +83,7 @@ export function EmailBox() {
       };
 
       socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        // const data = JSON.parse(event.data);
 
         // Option 1: Automatically refresh full inbox
         refreshInbox();
@@ -150,7 +150,7 @@ export function EmailBox() {
         throw new Error("No token received from server");
       }
     } catch (error) {
-      setError("Failed to authenticate. Please try again later.");
+      setError(`Error fetching token: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -177,7 +177,7 @@ export function EmailBox() {
         throw new Error(data.message || 'Failed to fetch messages');
       }
     } catch (error) {
-      setError('Error fetching messages. Please try again later.');
+      setError(`Error fetching inbox: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsRefreshing(false);
     }
@@ -257,7 +257,7 @@ export function EmailBox() {
           throw new Error(data.message || 'Failed to delete message');
         }
       } catch (error) {
-        setError('Error deleting message. Please try again later.');
+        setError(`Error deleting message: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     }
     setIsDeleteModalOpen(false)
