@@ -1,7 +1,7 @@
 ---
 title: How to Use Temp Mail A Complete Guide to Disposable Email Addresses
 slug: how-to-use-temp-mail
-date: 2023-05-01
+date: 2025-05-01
 author:
     - name: "Dishant Singh"
       bio: "Founder @ DishIs Technology | CTO @ PlayArena | Full Stack & Python Developer | ML/ DL Developer | Problem Solver | Math & Science Teacher"

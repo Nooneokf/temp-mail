@@ -1,7 +1,7 @@
 ---
 title: "Privacy Policy"
 description: "This is our only policy"
-date: 2023-10-05
+date: 2025-06-05
 lastmod: 2024-06-10
 author:
     - name: "Dishant Singh"

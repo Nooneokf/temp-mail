@@ -1,7 +1,7 @@
 ---
 title: "Using FreeCustom.Email Responsibly: Our Community Guidelines & Terms Overview"
 description: "Understand the responsible use of FreeCustom.Email. Learn about our guidelines for using our temporary email service fairly, legally, and respectfully. This is an overview of our commitment to a safe platform."
-date: 2023-08-15
+date: 2025-05-15
 updated: 2024-06-15
 author:
     - name: "Dishant Singh"

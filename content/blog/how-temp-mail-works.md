@@ -1,7 +1,7 @@
 ---
 title: How Does Temp Mail Actually Work?  
 description: A deep dive into the technology, use cases, and security behind temporary email services.  
-date: 2023-06-01  
+date: 2025-05-01  
 author:
     - name: "Dishant Singh"
       bio: "Founder @ DishIs Technology | CTO @ PlayArena | Full Stack & Python Developer | ML/ DL Developer | Problem Solver | Math & Science Teacher"
