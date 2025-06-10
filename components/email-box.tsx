@@ -86,7 +86,10 @@ export function EmailBox() {
         // const data = JSON.parse(event.data);
 
         // Option 1: Automatically refresh full inbox
-        refreshInbox();
+        if (event.data) {
+
+          refreshInbox();
+        }
 
         // Option 2: Append message if structure is known
         // setMessages((prev) => [data.message, ...prev]);
