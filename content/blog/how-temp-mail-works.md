@@ -91,8 +91,8 @@ Temp mail services offer a convenient and effective way to protect your privacy,
 ---
 
 **Further Reading:**
-- [Why You Should Use Temp Mail](../why-use-temp-mail)
-- [Best Practices for Online Privacy](../online-privacy-tips)
+- [Why You Should Use Temp Mail](/blog/why-use-temp-mail)
+- [Best Practices for Online Privacy](/blog/online-privacy-tips)
 
 ---
 

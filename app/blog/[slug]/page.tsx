@@ -4,6 +4,8 @@ import matter from 'gray-matter'
 import MarkdownRenderer from '@/components/md-renderer'
 import Link from 'next/link'
 import Image from 'next/image'
+import { ThemeProvider } from '@/components/theme-provider'
+import { AppHeader } from '@/components/app-header'
 
 interface BlogPostProps {
   params: Promise<{ slug: string }>
@@ -16,6 +18,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
   const { data, content } = matter(fileContent)
 
   return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="min-h-screen max-w-[100vw] bg-background">
+            <AppHeader />
     <article className="max-w-full mx-auto px-4 py-12 bg-white dark:bg-zinc-900">
       <header className="mb-10">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
@@ -88,5 +93,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
         </Link>
       </footer>
     </article>
+          </div>
+    </ThemeProvider>
   )
 }

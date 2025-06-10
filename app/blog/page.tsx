@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import Link from 'next/link'
+import { ThemeProvider } from '@/components/theme-provider'
+import { AppHeader } from '@/components/app-header'
 
 interface BlogPost {
   slug: string
@@ -30,6 +32,9 @@ export default function BlogPage() {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="min-h-screen max-w-[100vw] bg-background">
+            <AppHeader />
     <div className="max-w-2xl mx-auto px-2 sm:px-4 py-8">
       <h1 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
         Blog Posts
@@ -60,5 +65,7 @@ export default function BlogPage() {
         ))}
       </ul>
     </div>
+          </div>
+    </ThemeProvider>
     )
 }
