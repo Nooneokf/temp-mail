@@ -4,12 +4,13 @@ import rehypeSlug from 'rehype-slug';
 import rehypeRaw from 'rehype-raw'; // Make sure you trust your HTML source if using this
 import remarkGfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
+import type { Root, Parent, Heading } from 'mdast';
 
 // Remove the first h1 node from the markdown AST
 function remarkRemoveFirstH1() {
-    return (tree: any) => {
+    return (tree: Root) => {
         let removed = false;
-        visit(tree, 'heading', (node, index, parent) => {
+        visit(tree, 'heading', (node: Heading, index: number | undefined, parent: Parent | undefined) => {
             if (!removed && node.depth === 1 && parent && typeof index === 'number') {
                 parent.children.splice(index, 1);
                 removed = true;
