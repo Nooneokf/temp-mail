@@ -46,3 +46,5 @@ cloudflare-env.d.ts
 .env.vars
 
 .wrangler
+
+wrangler.jsonc

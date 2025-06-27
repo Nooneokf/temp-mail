@@ -46,7 +46,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = await response.json() as { token?: string };
       if (data.token) {
         setToken(data.token);
         setCookie("authToken", data.token, {
@@ -71,7 +71,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             'Authorization': `Bearer ${token}`
           }
         });
-        const data = await response.json();
+        const data = await response.json() as { success: boolean; data: Message; message?: string };
         if (data.success) {
           setFullMessage(data.data);
         } else {

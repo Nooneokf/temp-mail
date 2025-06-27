@@ -76,8 +76,8 @@ export function EmailBox() {
     if (email && token) {
       refreshInbox(); // Initial inbox load
 
-    const mailboxName = email.split("@")[0];
-    const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
+      const mailboxName = email.split("@")[0];
+      const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
 
       socket.onopen = () => {
         console.log("WebSocket connection established");
@@ -87,7 +87,7 @@ export function EmailBox() {
         // const data = JSON.parse(event.data);
 
         // Option 1: Automatically refresh full inbox
-          refreshInbox();
+        refreshInbox();
 
         // Option 2: Append message if structure is known
         // setMessages((prev) => [data.message, ...prev]);
@@ -138,7 +138,7 @@ export function EmailBox() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = await response.json() as { token?: string };
       if (data.token) {
         setToken(data.token);
         setCookie("authToken", data.token, {
@@ -172,10 +172,11 @@ export function EmailBox() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      if (data.success && Array.isArray(data.data)) {
-        setMessages(data.data);
+      const typedData = data as { success: boolean; data: Message[]; message?: string };
+      if (typedData.success && Array.isArray(typedData.data)) {
+        setMessages(typedData.data);
       } else {
-        throw new Error(data.message || 'Failed to fetch messages');
+        throw new Error(typedData.message || 'Failed to fetch messages');
       }
     } catch (error) {
       setError(`Error fetching inbox: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -252,10 +253,11 @@ export function EmailBox() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json()
-        if (data.success) {
+        const typedData = data as { success: boolean; message?: string };
+        if (typedData.success) {
           setMessages(messages.filter(m => m.id !== itemToDelete.id))
         } else {
-          throw new Error(data.message || 'Failed to delete message');
+          throw new Error(typedData.message || 'Failed to delete message');
         }
       } catch (error) {
         setError(`Error deleting message: ${error instanceof Error ? error.message : 'Unknown error'}`);

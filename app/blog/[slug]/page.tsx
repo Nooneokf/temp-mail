@@ -1,21 +1,15 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import MarkdownRenderer from '@/components/md-renderer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AppHeader } from '@/components/app-header'
+import { getPostBySlug } from '@/lib/posts'
 
-interface BlogPostProps {
-  params: Promise<{ slug: string }>
-}
 
-export default async function BlogPost({ params }: BlogPostProps) {
-  const { slug } = await params
-  const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`)
-  const fileContent = fs.readFileSync(filePath, 'utf8')
-  const { data, content } = matter(fileContent)
+export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+
+  const resolvedParams = await params;
+  const { data, content } = await getPostBySlug(resolvedParams.slug);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

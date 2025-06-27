@@ -13,7 +13,7 @@ interface BlogPost {
 }
 
 export default function BlogPage() {
-  const blogDir = path.join(process.cwd(), 'content/blog')
+  const blogDir = path.join(process.cwd(), 'public/blog')
   const files = fs.readdirSync(blogDir)
 
   const posts: BlogPost[] = files
