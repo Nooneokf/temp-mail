@@ -6,6 +6,7 @@ import { PopularArticles } from "@/components/popular-articles"
 import { WhySection } from "@/components/why-section"
 import { ThemeProvider } from "@/components/theme-provider"
 import Link from "next/link"
+import { DITMailPopup } from "@/components/DITMailPopup"
 
 export default function Page() {
   return (
@@ -30,6 +31,7 @@ export default function Page() {
           <PopularArticles />
         </main>
         <AppFooter />
+        <DITMailPopup />
       </div>
     </ThemeProvider>
   )
