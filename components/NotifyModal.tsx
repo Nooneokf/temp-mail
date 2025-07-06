@@ -1,25 +1,22 @@
-// components/NotifyModal.tsx
-
 'use client';
 
 import { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface NotifyModalProps {
-  onClose: () => void; // Function to close the modal
+  onClose: () => void;
 }
 
 export function NotifyModal({ onClose }: NotifyModalProps) {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     setMessage('');
-    
-    // Simple console log for transparency, as requested
+
     console.log(`
       --- DITMail Notification ---
       Thank you for your interest!
@@ -33,29 +30,28 @@ export function NotifyModal({ onClose }: NotifyModalProps) {
     try {
       const response = await fetch('/api/notify', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json() as any;
+      const data: { error?: string } = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Something went wrong.');
       }
-      
-      // Handle success and "already on list" cases with the same positive message
-      setMessage('Thank you! We will notify you at launch.');
-      setEmail(''); // Clear the input on success
 
-      // Optional: close the modal after a short delay on success
+      setMessage('Thank you! We will notify you at launch.');
+      setEmail('');
+
       setTimeout(() => {
         onClose();
       }, 2500);
-
-    } catch (error: any) {
-      setMessage(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setMessage(error.message);
+      } else {
+        setMessage('Unexpected error occurred.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -87,7 +83,7 @@ export function NotifyModal({ onClose }: NotifyModalProps) {
             placeholder="your-email@example.com"
             required
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={isLoading || !!message} // Disable if loading or success message is shown
+            disabled={isLoading || !!message}
           />
 
           <button
@@ -100,7 +96,13 @@ export function NotifyModal({ onClose }: NotifyModalProps) {
         </form>
 
         {message && (
-          <p className={`mt-4 text-center text-sm font-medium ${message.includes('Thank you') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+          <p
+            className={`mt-4 text-center text-sm font-medium ${
+              message.includes('Thank you')
+                ? 'text-green-600 dark:text-green-400'
+                : 'text-red-600 dark:text-red-400'
+            }`}
+          >
             {message}
           </p>
         )}
@@ -108,8 +110,3 @@ export function NotifyModal({ onClose }: NotifyModalProps) {
     </div>
   );
 }
-
-// In your globals.css (or similar) for the fade-in effect:
-/*
-
-*/
