@@ -31,16 +31,14 @@ export function AppHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
-          <span className="bg-white rounded-full p-0.5"> {/* Added slight padding if logo touches edge of white bg */}
             <Image
-              src="/logo.png" // Ensure this path is correct in your public folder
+              src="/logo.webp" // Ensure this path is correct in your public folder
               alt="FREE TEMPMAIL Logo" // Slightly more descriptive alt
               width={40}
               height={40}
               className="h-8 w-8 sm:h-10 sm:w-10" // These sizes are fine
               priority={false} // Correct for non-LCP images
             />
-          </span>
           <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">
             FREE TEMPMAIL
           </span>
