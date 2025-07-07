@@ -61,7 +61,7 @@ While setting up your own mail server from scratch for this is complex, an incre
 
 2.  **Find a Temp Mail Service Supporting Custom Domains:**
     *   This is key. Not all temp mail providers offer this. Look for services that specifically advertise "custom domain temp mail" or "private domain disposable email."
-    *   **[FreeCustom.Email](https://www.freecustom.email) is excited to announce that we are planning to introduce custom domain support as part of our upcoming [optional premium plans](/blog/freecustomemail-premium-announcement)!** This will allow our users to connect their own domains seamlessly.
+    *   **[FreeCustom.Email](https://www.freecustom.email) is excited to announce that we are planning to introduce custom domain support as part of our upcoming [optional premium plans](/blog/introducing-ditmail)!** This will allow our users to connect their own domains seamlessly.
 
 3.  **Configure DNS Records (MX Records):**
     *   The temp mail service will provide you with specific MX (Mail Exchange) records.
@@ -91,7 +91,7 @@ While setting up your own mail server from scratch for this is complex, an incre
 *   **Reliability:** Ensure the service has good uptime for receiving emails.
 *   **Control & Features:** Can you create unlimited aliases? Is there an API? What are the retention policies for emails on your custom domain?
 *   **Security:** How is your account and domain integration secured? (e.g., 2FA for account access).
-*   **Pricing:** Custom domain support is usually a premium feature, so evaluate the cost against the benefits. [FreeCustom.Email](https://www.freecustom.email) aims to offer this with [unbeatable value in our premium tiers](/blog/freecustomemail-premium-announcement).
+*   **Pricing:** Custom domain support is usually a premium feature, so evaluate the cost against the benefits. [FreeCustom.Email](https://www.freecustom.email) aims to offer this with [unbeatable value in our premium tiers](/blog/introducing-ditmail).
 *   **Support:** Good customer support if you run into DNS issues.
 
 ---

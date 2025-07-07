@@ -1,7 +1,7 @@
 ---
 title: "Introducing DITMail: Professional Email on Your Domain, Redefined & Radically Affordable"
 description: "Meet DITMail (pro.freecustom.email), the professional evolution of freecustom.email. Get secure, full-featured email hosting on your own domain with SMTP, IMAP, and a modern UI. Starts with a forever-free plan!"
-date: 2025-06-10
+date: 2025-07-07
 updated: 2025-07-07
 author:
     - name: "Dishant Singh"
