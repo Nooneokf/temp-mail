@@ -9,7 +9,7 @@ export default function NotFound() {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="bg-background text-foreground flex flex-col items-center justify-center px-4">
         <AppHeader />
-        <div className="max-w-md flex items-center justify-center text-center mt-10">
+        <div className="max-w-md flex flex-col h-[80vh] items-center justify-center text-center mt-10">
           <h1 className="text-5xl font-bold mb-4">404</h1>
           <p className="text-lg mb-6 text-gray-600 dark:text-gray-400">
             Sorry, the page you&apos;re looking for doesn&apos;t exist.

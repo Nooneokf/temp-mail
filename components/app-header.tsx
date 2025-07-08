@@ -119,8 +119,8 @@ export function AppHeader() {
         <nav // Using nav for semantic navigation links
           className="md:hidden px-4 pb-4 pt-2 flex flex-col gap-3 bg-background border-t"
         >
-          <Link href="/pricing" className="text-sm hover:underline py-1" aria-label="View Pricing" onClick={handleMobileLinkClick}>
-            Pricing
+          <Link href="/docs" className="text-sm hover:underline py-1" aria-label="View Pricing" onClick={handleMobileLinkClick}>
+            API - Docs
           </Link>
           <a
             href="https://rapidapi.com/dishis-technologies-maildrop/api/temp-mail-maildrop1"

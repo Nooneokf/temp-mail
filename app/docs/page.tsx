@@ -11,7 +11,7 @@ export default function PricingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Pricing Section */}
-      <section id="pricing" className="w-full py-7 md:py-14 bg-white dark:bg-gray-950">
+      <section id="pricing" className="flex justify-center w-screen py-7 md:py-14 bg-white dark:bg-gray-950">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -222,7 +222,7 @@ export default function PricingPage() {
       </section>
 
       {/* Documentation Section */}
-      <section id="documentation" className="w-full py-12 md:py-24 bg-gray-50 dark:bg-gray-900">
+      <section id="documentation" className="flex justify-center w-screen py-12 md:py-24 bg-gray-50 dark:bg-gray-900">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
             <div className="space-y-2">
@@ -325,7 +325,7 @@ export default function PricingPage() {
   "data": {
     "id": "7122AUPOL",
     "from": "dishant@saleis.live",
-    "to": "rishika.singh",
+    "to": "dishant.singh",
     "subject": "Testing SMTP connectivity!",
     "date": "2024-09-25T06:10:24.271Z",
     "body": "...",
@@ -595,7 +595,7 @@ export function decryptMailbox(encryptedMailbox: string): string {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full py-12 md:py-24 bg-gray-900 text-white">
+      <section className="flex justify-center w-screen py-12 md:py-24 bg-gray-900 text-white">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -604,13 +604,13 @@ export function decryptMailbox(encryptedMailbox: string): string {
                 Sign up for MailDrop API today and start building with temporary email solutions.
               </p>
             </div>
-            <div className="space-x-4">
+            <div className="space-x-4 flex ">
               <Button asChild className="bg-white text-gray-900 hover:bg-gray-200">
                 <a href={rapidApiUrl} target="_blank" rel="noopener noreferrer">
                   Try Now <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-              <Button asChild variant="outline" className="border-white text-white hover:bg-gray-800">
+              <Button asChild variant="outline" className="border-white text-white hover:bg-gray-800 bg-gray-600">
                 <Link href="#documentation">View Documentation</Link>
               </Button>
             </div>

@@ -270,13 +270,13 @@ export function EmailBox() {
   const handleEmailInputChage = (newPrefix: string) => {
     // only small aplhabets allowed if upper then change to lower
     newPrefix = newPrefix.toLowerCase()
-    // remove any special characters
-    newPrefix = newPrefix.replace(/[^a-z]/g, '')
-    setEmail(`${newPrefix}@${selectedDomain}`)
+    // Allow characters valid in email prefixes (alphanumeric, dots, underscores, and hyphens)
+    newPrefix = newPrefix.replace(/[^a-z0-9._-]/g, '');
+    setEmail(`${newPrefix}@${selectedDomain}`);
     if (newPrefix.length === 0) {
-      setBlockButtons(true)
+      setBlockButtons(true);
     } else {
-      setBlockButtons(false)
+      setBlockButtons(false);
     }
   }
   const handleDomainChange = (newDomain: string) => {
@@ -396,7 +396,7 @@ export function EmailBox() {
                       <Mail className="h-12 w-12 text-muted-foreground" />
                     </div>
                     <div className="text-lg font-medium">Your inbox is empty</div>
-                    <div className="text-sm text-muted-foreground">Waiting for incoming emails</div>
+                    <div className="text-sm text-muted-foreground">Waiting for incoming emails. No need to refresh.</div>
                   </div>
                 </TableCell>
               </TableRow>
