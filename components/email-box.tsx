@@ -323,6 +323,7 @@ export function EmailBox() {
               className="relative"
               disabled={blockButtons}
               aria-label="Copy email address"
+              title="Copy email address"
             >
               <Copy className={cn(
                 "h-4 w-4 transition-all",
@@ -341,6 +342,7 @@ export function EmailBox() {
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
               disabled={blockButtons}
+              title="Show QR code"
               aria-label="Show QR code"
             >
               <QrCode className="h-4 w-4" />
@@ -349,20 +351,21 @@ export function EmailBox() {
               variant="secondary"
               size="icon"
               asChild
+              title="Trustpilot review"
               aria-label="Trustpilot review"
             >
-                <Link
-                href="https://www.trustpilot.com/review/freecustom.email"
-                target="_blank"
-                rel="noopener"
-                >
-                <img
-                  src="/trustpilot.svg"
-                  alt="Trustpilot"
-                  width={16}
-                  height={16}
-                />
-                </Link>
+              <Link
+              href="https://www.trustpilot.com/review/freecustom.email"
+              target="_blank"
+              rel="noopener"
+              >
+              <img
+                src="/trustpilot.svg"
+                alt="Trustpilot"
+                width={20}
+                height={20}
+              />
+              </Link>
             </Button>
           </div>
         </div>
