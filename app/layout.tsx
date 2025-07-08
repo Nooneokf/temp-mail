@@ -23,6 +23,7 @@ export default function RootLayout({
       <head>
       <GoogleAnalytics gaId="G-RXTEEVC8C4" />
         <link rel="icon" href="/favicon.ico" />
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
       </head>
       <body>{children}</body>
     </html>

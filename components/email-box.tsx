@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
+import Link from "next/link";
 
 const DOMAINS = ["saleis.live", "arrangewith.me"];
 
@@ -343,6 +344,25 @@ export function EmailBox() {
               aria-label="Show QR code"
             >
               <QrCode className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              asChild
+              aria-label="Trustpilot review"
+            >
+                <Link
+                href="https://www.trustpilot.com/review/freecustom.email"
+                target="_blank"
+                rel="noopener"
+                >
+                <img
+                  src="/trustpilot.svg"
+                  alt="Trustpilot"
+                  width={16}
+                  height={16}
+                />
+                </Link>
             </Button>
           </div>
         </div>
