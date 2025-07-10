@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
-import Link from "next/link";
+import { ShareDropdown } from "./ShareDropdown";
 
 const DOMAINS = ["saleis.live", "arrangewith.me"];
 
@@ -347,26 +347,7 @@ export function EmailBox() {
             >
               <QrCode className="h-4 w-4" />
             </Button>
-            <Button
-              variant="secondary"
-              size="icon"
-              asChild
-              title="Trustpilot review"
-              aria-label="Trustpilot review"
-            >
-              <Link
-              href="https://www.trustpilot.com/review/freecustom.email"
-              target="_blank"
-              rel="noopener"
-              >
-              <img
-                src="/trustpilot.svg"
-                alt="Trustpilot"
-                width={20}
-                height={20}
-              />
-              </Link>
-            </Button>
+            <ShareDropdown />
           </div>
         </div>
         <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">

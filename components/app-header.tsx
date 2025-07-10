@@ -33,14 +33,14 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
             <Image
               src="/logo.webp" // Ensure this path is correct in your public folder
-              alt="FREE TEMPMAIL Logo" // Slightly more descriptive alt
+              alt="FreeCustom.Email Logo" // Slightly more descriptive alt
               width={40}
               height={40}
               className="h-8 w-8 sm:h-10 sm:w-10" // These sizes are fine
               priority={false} // Correct for non-LCP images
             />
           <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">
-            FREE TEMPMAIL
+            FreeCustom.Email
           </span>
         </Link>
 
