@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getCookie, setCookie } from "cookies-next";
-import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck } from "lucide-react";
+import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -13,8 +13,23 @@ import { MessageModal } from "./message-modal";
 import { ErrorPopup } from "./error-popup";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import { ShareDropdown } from "./ShareDropdown";
+import { AnimatePresence, motion } from "framer-motion";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 
-const DOMAINS = ["saleis.live", "arrangewith.me"];
+const DOMAINS = [
+  "saleis.live",
+  "arrangewith.me",
+  "areueally.info",
+  "ditapi.info",
+  "ditcloud.info",
+  "ditdrive.info",
+  "ditgame.info",
+  "ditlearn.info",
+  "ditpay.info",
+  "ditplay.info",
+  "ditube.info",
+  "junkstopper.info",
+  "whatsyour.info"];
 
 function generateRandomEmail(domain: string = DOMAINS[0]): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
@@ -53,6 +68,10 @@ export function EmailBox() {
   const [oldEmailUsed, setOldEmailUsed] = useState(false);
   const [blockButtons, setBlockButtons] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState(DOMAINS[0]); // Default to the first domain
+  const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
+  const [discoveredUpdates, setDiscoveredUpdates] = useState({
+    newDomains: false
+  });
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -66,19 +85,36 @@ export function EmailBox() {
 
       // Generate a random email after ensuring the token is set
       if (typeof window !== 'undefined') {
-        setEmail(generateRandomEmail(selectedDomain));
+        // randomize domain selection too
+        let domain = localStorage.getItem('primaryDomain') as string
+        setPrimaryDomain(domain || null);
+
+        if (!domain && !(DOMAINS.includes(domain))) {
+          domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
+        }
+        const newEmail = generateRandomEmail(domain);
+        setEmail(newEmail);
+        setSelectedDomain(domain); // Set the selected domain to the random one
+
+        // Load updates from localStorage
+        const updates = localStorage.getItem('discoveredUpdates');
+        if (updates) {
+          setDiscoveredUpdates(JSON.parse(updates));
+        } else {
+          localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: false }));
+        }
       }
     };
 
     initializeEmailBox();
-  }, [selectedDomain]);
+  }, []);
 
   useEffect(() => {
     if (email && token) {
       refreshInbox(); // Initial inbox load
 
       const mailboxName = email.split("@")[0];
-      const socket = new WebSocket(`wss://api.saleis.live/?mailbox=${mailboxName}`);
+      const socket = new WebSocket(`wss://ws.junkstopper.info/?mailbox=${mailboxName}`);
 
       socket.onopen = () => {
         console.log("WebSocket connection established");
@@ -235,8 +271,13 @@ export function EmailBox() {
 
   const handleDeleteConfirmation = async () => {
     if (itemToDelete?.type === 'email') {
-      const newEmail = generateRandomEmail()
-      setEmail(newEmail)
+      let domain = localStorage.getItem('primaryDomain') as string
+      if (!domain && !(DOMAINS.includes(domain))) {
+        domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
+      }
+      const newEmail = generateRandomEmail(domain);
+      setEmail(newEmail);
+      setSelectedDomain(domain); // Set the selected domain to the random one
       setMessages([])
       if (email && token) {
         refreshInbox(); // Refresh inbox only when both email and token are available
@@ -286,6 +327,26 @@ export function EmailBox() {
     setEmail(`${prefix}@${newDomain}`);
   };
 
+  const handleNewDomainUpdates = () => {
+    setDiscoveredUpdates({ newDomains: true });
+    localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
+  }
+
+  const handlePrimaryDomainChange = (domain: string) => {
+    const current = localStorage.getItem('primaryDomain');
+
+    if (current === domain) {
+      // Remove from localStorage and clear state
+      localStorage.removeItem('primaryDomain');
+      setPrimaryDomain('');
+    } else {
+      // Set new primary domain
+      localStorage.setItem('primaryDomain', domain);
+      setPrimaryDomain(domain);
+    }
+  };
+
+
   return (
     <Card className="border-dashed">
 
@@ -294,21 +355,54 @@ export function EmailBox() {
           {isEditing ? (
             <div className="flex flex-1 items-center gap-2">
               <Input
-                value={email.split("@")[0]}
+                value={email.split('@')[0]}
                 onChange={(e) => handleEmailInputChage(e.target.value)}
-                className="flex-1"
+                className="flex-1 r"
+                placeholder="username"
               />
-              <select
-                value={selectedDomain}
-                onChange={(e) => handleDomainChange(e.target.value)}
-                className="border rounded-md w-1/2 p-2"
-              >
-                {DOMAINS.map((domain) => (
-                  <option key={domain} value={domain}>
-                    {domain}
-                  </option>
-                ))}
-              </select>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild >
+                  <Button variant="outline" className="w-1/2 truncate">
+                    {selectedDomain || 'Select Domain'}
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar"
+                >
+                  {DOMAINS.map((domain, i) => (
+                    <DropdownMenuItem
+                      key={i}
+                      onSelect={() => handleDomainChange(domain)}
+                      className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
+                    >
+                      <span className={primaryDomain === domain ? 'font-semibold text-yellow-600 dark:text-yellow-400' : ''}>
+                        {domain}
+                      </span>
+                      <Button
+                        title={primaryDomain === domain ? 'Unset primary' : 'Set as primary'}
+
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePrimaryDomainChange(domain);
+                        }}
+                        aria-label={`Set ${domain} as primary`}
+                        className="hover:bg-transparent"
+                      >
+                        <Star
+                          className={`h-4 w-4 ${primaryDomain === domain
+                            ? 'fill-yellow-500 text-yellow-500 dark:fill-yellow-400 dark:text-yellow-400'
+                            : 'text-muted-foreground'
+                            }`}
+                        />
+                      </Button>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ) : (
             <div className="flex-1 rounded-md bg-muted p-2">
@@ -365,11 +459,27 @@ export function EmailBox() {
             disabled={blockButtons}
             variant="outline"
             className="flex-1"
-            onClick={changeEmail}
+            onClick={() => {
+              changeEmail();
+              handleNewDomainUpdates(); // Call this to update the discovered updates state
+            }}
             aria-label={isEditing ? "Save email changes" : "Change email"}
           >
             {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
             <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
+            <AnimatePresence>
+              {!discoveredUpdates.newDomains && (
+                <motion.span
+                  key="new-badge"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-[10px] bg-black text-white rounded-full px-1.5"
+                >
+                  new
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Button>
           <Button
             disabled={blockButtons}

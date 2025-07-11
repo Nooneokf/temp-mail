@@ -79,7 +79,7 @@ const reviewPlatforms = [
     logo: "/g2.svg",
   },
   {
-    name: "AlterntiveTo",
+    name: "AlternativeTo",
     href: "https://alternativeto.net/software/freecustom-email/about", // Replace with your actual SaaSHub page
     logo: "/alternative-to.svg",
   },
@@ -146,6 +146,7 @@ export function ShareDropdown() {
                   alt={platform.name}
                   width={24} // Slightly larger for better visibility
                   height={24}
+                  className={platform.name === "AlternativeTo" ? "light:fill-black" : ""}
                 />
               </Link>
             </Button>

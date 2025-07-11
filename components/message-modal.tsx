@@ -104,7 +104,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>To:</strong> {message.to}</p>
           <p><strong>Date:</strong> {new Date(message.date).toLocaleString()}</p>
         </div>
-        <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
+        <div className="mt-4 bg-gray-100 p-4 rounded-md">
           {!fullMessage ? (
             <pre className="whitespace-pre-wrap"><Loader className='animate-spin ' /></pre>
           ) : fullMessage.html && typeof fullMessage.html === "string" ? (

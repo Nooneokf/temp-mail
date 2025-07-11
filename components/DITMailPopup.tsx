@@ -40,7 +40,7 @@ export function DITMailPopup() {
     <>
       {/* The original floating popup */}
       {isPopupVisible && (
-        <div className="fixed bottom-5 right-5 z-40 p-5 max-w-sm w-full bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 transform transition-all duration-300 ease-out animate-slide-in-up">
+        <div className="fixed bottom-5 right-5 z-40 p-5 max-w-xs sm:max-w-sm w-full bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 transform transition-all duration-300 ease-out animate-slide-in-up">
           <button
             onClick={handleDismissPopup}
             className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
