@@ -13,7 +13,17 @@ export function WhySection() {
         <ul className="list-disc pl-5 mt-4 text-gray-700 dark:text-gray-200">
           <li>saleis.live</li>
           <li>arrangewith.me</li>
-          {/* Add more domains as you have them */}
+          <li>areureally.info</li>
+          <li>ditapi.info</li>
+          <li>ditcloud.info</li>
+          <li>ditdrive.info</li>
+          <li>ditgame.info</li>
+          <li>ditlearn.info</li>
+          <li>ditpay.info</li>
+          <li>ditplay.info</li>
+          <li>ditube.info</li>
+          <li>junkstopper.info</li>
+          <li>whatsyour.info</li>
         </ul>
         <p className="mt-4 text-gray-600 dark:text-gray-300">
           Having multiple domain choices means if one service blocks a common **temp mail** domain, you have alternatives ready.
