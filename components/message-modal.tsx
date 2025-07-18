@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getCookie, setCookie } from "cookies-next"
 import { Loader, Paperclip, Info, ShieldCheck } from 'lucide-react'
+import Link from 'next/link'
 
 // --- INTERFACE MODIFICATIONS START ---
 interface Attachment {
@@ -113,12 +114,12 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
-
+  
   if (!message) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-w-screen max-h-screen flex flex-col">
+      <DialogContent className="sm:max-w-[800px] max-w-screen h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{fullMessage?.subject || message.subject}</DialogTitle>
         </DialogHeader>
@@ -128,33 +129,38 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>Date:</strong> {new Date(fullMessage?.date || message.date).toLocaleString()}</p>
         </div>
         
-        {/* Main content area */}
-        <div className="mt-4 bg-white text-black p-4 rounded-md border flex-grow overflow-y-auto">
+        {/* MODIFICATION START: Main content area */}
+        <div className="mt-4 border rounded-md flex-grow overflow-hidden relative">
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
               <Loader className='animate-spin' />
             </div>
           ) : fullMessage?.html ? (
-            <div dangerouslySetInnerHTML={{ __html: fullMessage.html }} />
+            <iframe
+              srcDoc={fullMessage.html}
+              className="w-full h-full border-none"
+              title={fullMessage.subject}
+              sandbox="allow-same-origin" // For security, prevents scripts unless you need them
+            />
           ) : (
-            <pre className="whitespace-pre-wrap">{fullMessage?.body || "No content"}</pre>
+            <pre className="whitespace-pre-wrap p-4 overflow-y-auto">{fullMessage?.body || "No content"}</pre>
           )}
         </div>
+        {/* MODIFICATION END */}
         
         {/* ATTACHMENT HANDLING START */}
         {fullMessage?.attachments && fullMessage.attachments.length > 0 && (
-          <div className="mt-4">
+           <div className="mt-4 flex-shrink-0"> {/* Add flex-shrink-0 to prevent this from shrinking */}
             <h3 className="font-semibold mb-2">Attachments ({fullMessage.attachments.length})</h3>
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-32 overflow-y-auto"> {/* Add scroll for many attachments */}
               {fullMessage.attachments.map((att, index) => {
-                // Create a Data URL for downloading
                 const downloadUrl = `data:${att.contentType};base64,${att.content}`;
                 return (
                   <a
                     key={index}
                     href={downloadUrl}
-                    download={att.filename} // This attribute triggers the download
-                    className="flex items-center p-2 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                    download={att.filename}
+                    className="flex items-center p-2 bg-gray-100 rounded-md hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-700 transition-colors"
                   >
                     <Paperclip className="h-5 w-5 mr-3 text-gray-600" />
                     <div className="flex-grow">
@@ -174,10 +180,10 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             <div className="flex items-center justify-center text-xs text-gray-400">
                 <ShieldCheck className="h-4 w-4 mr-2" />
                 <span>Scanned by DITMail</span>
-                <a href="/about-security" target="_blank" rel="noopener noreferrer" className="ml-1 flex items-center hover:underline">
+                <Link href="/blog/about-mail-security" target="_blank" rel="noopener noreferrer" className="ml-1 flex items-center hover:underline">
                    <Info className="h-3 w-3 mr-1" />
                    Learn more
-                </a>
+                </Link>
             </div>
         </div>
       </DialogContent>

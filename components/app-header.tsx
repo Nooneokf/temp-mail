@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { Moon, Sun, Menu as MenuIconLucide } from "lucide-react" // Renamed to avoid conflict if you ever use a Menu component
 import Link from "next/link"
-import { FaGithub, FaPatreon } from "react-icons/fa"
+import { FaDiscord, FaGithub, FaPatreon } from "react-icons/fa"
 import { useState, useCallback } from "react" // Added useCallback
 import Image from "next/image"
 
@@ -64,12 +64,12 @@ export function AppHeader() {
             asChild
           >
             <a
-              href="https://www.patreon.com/maildrop"
+              href="https://discord.gg/EDmxUbym"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View Patreon"
+              aria-label="Jion our Discord community"
             >
-              <FaPatreon className="h-5 w-5" />
+              <FaDiscord className="h-5 w-5" />
             </a>
           </Button>
 
@@ -151,6 +151,16 @@ export function AppHeader() {
             onClick={handleMobileLinkClick}
           >
             <FaPatreon className="h-4 w-4" /> Patreon
+          </a>
+          <a
+            href="https://discord.gg/EDmxUbym"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm hover:underline flex items-center gap-1 py-1"
+            aria-label="Join our Discord community"
+            onClick={handleMobileLinkClick}
+          >
+            <FaDiscord className="h-4 w-4" /> Discord
           </a>
 
         </nav>

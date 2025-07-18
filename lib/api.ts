@@ -1,7 +1,6 @@
 
 import { verify } from '@/lib/jwt'
 
-const API_KEY = process.env.RAPIDAPI_KEY || ''
 const API_HOST = process.env.API_URL || ''
 
 export async function fetchFromAPI(path: string, method: string = 'GET') {
