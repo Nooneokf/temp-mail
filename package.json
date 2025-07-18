@@ -28,6 +28,7 @@
     "gray-matter": "^4.0.3",
     "jose": "^5.9.6",
     "lucide-react": "^0.462.0",
+    "miniflare": "^4.20250712.0",
     "next": "15.0.3",
     "next-themes": "^0.4.3",
     "qrcode.react": "^4.1.0",
