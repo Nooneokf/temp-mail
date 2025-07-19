@@ -75,7 +75,7 @@ const reviewPlatforms = [
   },
   {
     name: "G2",
-    href: "https://www.g2.com/products/freecustom-email-temp-mail/reviews", // Replace with your actual G2 page
+    href: "https://www.g2.com/wizard/workflow-wiz-apr28-amzn10/products/freecustom-email/reviews/start?g2_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&last_completed_step=4&product_id=freecustom-email&return_to=https%3A%2F%2Fwww.g2.com%2Fwizard%2Fworkflow-wiz-apr28-amzn10%2Fproducts%2Ffreecustom-email%2Ftake_survey%3Futm_source%3DIterable%26utm_medium%3Demail%26utm_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_%26g2_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_medium=email&utm_source=Iterable", // Replace with your actual G2 page
     logo: "/g2.svg",
   },
   {
