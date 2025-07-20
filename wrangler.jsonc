@@ -22,5 +22,9 @@
       "binding": "NEXT_INC_CACHE_R2_BUCKET", // Required!
       "bucket_name": "freecustomemail"
     }
-  ]
+  ],
+  "vars": {
+    "API_URL": "ws.junkstopper.info",
+    "JWT_SECRET": "D+WKZ5Q7uBjt62Aq4WVSMmrjoAD+6WaqLmpkJu42teR2+5uqdO3MQJaHlGI="
+  }
 }

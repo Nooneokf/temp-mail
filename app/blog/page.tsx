@@ -1,3 +1,4 @@
+// app/blog/page.tsx
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -11,6 +12,7 @@ interface BlogPost {
   date: string
   excerpt?: string
 }
+
 
 export default function BlogPage() {
   const blogDir = path.join(process.cwd(), 'public/blog')

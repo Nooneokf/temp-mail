@@ -1,3 +1,4 @@
+// app/blog/[slug]/page.tsx
 import MarkdownRenderer from '@/components/md-renderer'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -58,7 +59,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         "name": "FreeCustom.Email",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://www.freecustom.email/logo.png"
+          "url": "https://www.freecustom.email/logo.webp"
         }
       },
       "description": data.description,
@@ -72,6 +73,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     return (
       <>
         <Script
+          id="json-ld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
