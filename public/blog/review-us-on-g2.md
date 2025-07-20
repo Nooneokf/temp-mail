@@ -1,7 +1,7 @@
 ---
 title: "We’re Giving Away $10 Gift Cards to Say Thank You! Your Review Matters."
 description: "We're live on G2! To celebrate and thank our amazing community, we're giving a $10 gift card to everyone who leaves an honest review of FreeCustom.Email. Help others discover a better temp mail experience."
-date: 2025-06-10
+date: 2025-07-19
 updated: 2025-06-10
 author:
     - name: "Dishant Singh"
