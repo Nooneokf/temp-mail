@@ -78,7 +78,7 @@ export default function Status() {
 
   // WebSocket connection
   useEffect(() => {
-    const ws = new WebSocket(`wss://ws.junkstopper.info/?mailbox=stats`);
+    const ws = new WebSocket(`wss://api.freecustom.email/?mailbox=stats`);
     wsRef.current = ws;
 
     ws.onopen = () => {

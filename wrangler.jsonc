@@ -24,7 +24,7 @@
     }
   ],
   "vars": {
-    "API_URL": "ws.junkstopper.info",
+    "API_URL": "api.freecustom.email",
     "JWT_SECRET": "D+WKZ5Q7uBjt62Aq4WVSMmrjoAD+6WaqLmpkJu42teR2+5uqdO3MQJaHlGI="
   }
 }

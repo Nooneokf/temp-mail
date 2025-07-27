@@ -114,7 +114,7 @@ export function EmailBox() {
       refreshInbox(); // Initial inbox load
 
       const mailboxName = email.split("@")[0];
-      const socket = new WebSocket(`wss://ws.junkstopper.info/?mailbox=${mailboxName}`);
+      const socket = new WebSocket(`wss://api.freecustom.email/?mailbox=${mailboxName}`);
 
       socket.onopen = () => {
         console.log("WebSocket connection established");
