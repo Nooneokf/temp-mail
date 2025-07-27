@@ -9,32 +9,39 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import Script from 'next/script'
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  let resolvedParams: { slug: string }
 
+function truncate(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).replace(/\s+\S*$/, '') + '...';
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
   try {
-    resolvedParams = await params
-    const { data } = await getPostBySlug(resolvedParams.slug)
+    const resolvedParams = await params;
+    const { data } = await getPostBySlug(resolvedParams.slug);
+
     if (!data) {
       return {
         title: 'Post Not Found',
         description: 'The requested blog post could not be found.',
-      }
+      };
     }
+
     return {
-      title: data.title,
-      description: data.description,
+      title: truncate(data.title, 60),
+      description: truncate(data.description, 150),
       alternates: {
         canonical: `https://www.freecustom.email/blog/${resolvedParams.slug}`,
       },
-    }
+    };
   } catch {
     return {
       title: 'Post Not Found',
       description: 'The requested blog post could not be found.',
-    }
+    };
   }
-
 }
 
 
