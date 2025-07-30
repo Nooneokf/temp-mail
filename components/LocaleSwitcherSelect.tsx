@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import { Locale } from 'next-intl';
 import { ChangeEvent, ReactNode, useTransition } from 'react';
 import { usePathname, useRouter } from '@/i18n/navigation';
-import { ChevronDown } from 'lucide-react';
 
 type Props = {
   children: ReactNode;

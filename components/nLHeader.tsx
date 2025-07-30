@@ -28,7 +28,7 @@ export function AppHeader() {
   return (
     // Consider w-full instead of max-w-[100vw] if container handles max width
     <header className="border-b w-full">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
             <Image

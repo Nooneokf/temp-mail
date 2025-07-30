@@ -75,7 +75,7 @@ export function AppHeader() {
           </Button>
           <Button variant="outline" size="icon" className="p-2" asChild>
             <a
-              href="https://discord.gg/EDmxUbym"
+              href="https://discord.gg/Ztp7kT2QBz"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t('aria_discord')}
@@ -156,6 +156,9 @@ export function AppHeader() {
               <Link href="/docs" className="text-sm hover:underline py-1" aria-label={t('aria_api_docs')} onClick={handleMobileLinkClick}>
                 {t('api_docs')}
               </Link>
+              <Link href="/blog" className="text-sm hover:underline py-1"  onClick={handleMobileLinkClick}>
+                Blog
+              </Link>
               <a
                 href="https://github.com/DishIs/temp-mail"
                 target="_blank"
@@ -177,7 +180,7 @@ export function AppHeader() {
                 <FaPatreon className="h-4 w-4" /> {t('patreon')}
               </a>
               <a
-                href="https://discord.gg/EDmxUbym"
+                href="https://discord.gg/Ztp7kT2QBz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm hover:underline flex items-center gap-1 py-1"
