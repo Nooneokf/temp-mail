@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 
+# Host
+Host: https://www.freecustom.email/en
 
 # Sitemaps
-Sitemap: https://www.freecustom.email/sitemap.xml
+Sitemap: https://www.freecustom.email/en/sitemap.xml

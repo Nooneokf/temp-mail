@@ -1,6 +1,13 @@
-import type { NextConfig } from "next";
+import {NextConfig} from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig: NextConfig = {
+const withNextIntl = createNextIntlPlugin({
+  experimental: {
+    createMessagesDeclaration: './i18n/locales/en.json'
+  }
+});
+
+const config: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -15,7 +22,8 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withNextIntl(config);
+
 
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 initOpenNextCloudflareForDev();

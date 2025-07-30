@@ -1,0 +1,101 @@
+{
+  "Metadata": {
+    "title": "自定义临时邮件 – 最快的无广告一次性电子邮箱",
+    "description": "即时生成自定义临时邮件地址 – 可从多个域名中选择，无需注册，无广告，永久免费。",
+    "keywords": "临时邮件, 一次性电子邮箱, 自定义邮件, 虚假邮箱, 临时收件箱, 无广告邮箱, 10分钟邮箱, 邮件隐私, 免费临时邮件",
+    "openGraph": {
+      "title": "自定义临时邮件 – 最快的无广告一次性电子邮箱",
+      "description": "即时生成自定义临时邮件地址 – 可从多个域名中选择，无需注册，无广告，永久免费。",
+      "alt": "FreeCustom.Email 徽标"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email 是一个注重隐私的一次性电子邮箱平台，适用于测试、开发者和快速注册。无需注册。"
+  },
+  "PageContent": {
+    "h1": "我们的快速自定义一次性临时邮件技术如何运作",
+    "p1": "在当今世界，从免费试用到社区聊天等在线服务都需要电子邮件地址，这使您面临垃圾邮件、机器人和不必要的跟踪。<strong>通过 FreeCustom.Email，您可以立即获得一个跨多个域名的无广告自定义临时邮件地址</strong>——无需注册，始终安全。",
+    "p2_part1": "<strong>此服务永久免费，完全无广告，并使用轻量级代码、边缘缓存和全球域名进行了速度优化。</strong>了解更多关于我们的",
+    "p2_link1": "免费和无广告承诺",
+    "p2_part2": "和我们的",
+    "p2_link2": "PageSpeed 驱动的架构",
+    "p2_part3": "。"
+  },
+  "Navigation": {
+    "home": "主页",
+    "pathnames": "路径名"
+  },
+  "LocaleSwitcher": {
+    "label": "更改语言",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {未知}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - 文档",
+    "aria_api_docs": "查看 API 文档",
+    "aria_discord": "加入我们的 Discord 社区",
+    "aria_toggle_theme": "切换主题",
+    "aria_open_menu": "打开移动菜单",
+    "aria_close_menu": "关闭移动菜单",
+    "github": "GitHub",
+    "aria_github": "查看 GitHub 存储库",
+    "patreon": "Patreon",
+    "aria_patreon": "查看 Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "加载中...",
+    "placeholder_username": "用户名",
+    "select_domain": "选择域名",
+    "error_valid_prefix": "请输入有效的电子邮件前缀",
+    "copy_email": "复制电子邮件地址",
+    "show_qr": "显示二维码",
+    "refresh": "刷新",
+    "refreshing": "刷新中...",
+    "change": "更改",
+    "save": "保存",
+    "new": "新",
+    "delete": "删除",
+    "table_sender": "发件人",
+    "table_subject": "主题",
+    "table_date": "日期",
+    "table_actions": "操作",
+    "inbox_empty_title": "您的收件箱是空的",
+    "inbox_empty_subtitle": "正在等待收到的电子邮件。无需刷新。",
+    "view": "查看",
+    "history_title": "电子邮件历史记录",
+    "history_use": "使用",
+    "card_header_title": "立即生成您最佳的自定义临时邮件地址",
+    "card_header_p": "使用安全、无广告的自定义临时邮件，避免垃圾邮件、网络钓鱼和自动机器人。保持您的真实收件箱清洁和隐私完整——即时生成，无需注册，永久免费。",
+    "unset_primary": "取消主要",
+    "set_primary": "设为主要"
+  },
+  "WhySection": {
+    "snippet_title": "什么是“自定义临时邮件”？",
+    "snippet_p": "<strong>自定义临时邮件</strong>指的是您可以即时生成的一次性电子邮件地址——无需注册，无广告，并可从多个域名中选择。通过<strong>FreeCustom.Email</strong>，您可以获得一个安全的临时电子邮件，用于保护隐私、防止垃圾邮件以及快速匿名注册。",
+    "domain_list_title": "用于自定义临时邮件的 FreeCustom.Email 域名",
+    "domain_list_p": "从多个域名中选择，以确保您的临时邮件始终可用——即使其中一个被阻止。",
+    "definition_title": "什么是一次性临时电子邮件（临时邮件）？",
+    "definition_p": "一次性或<strong>临时电子邮件</strong>（或<em>临时邮件</em>）是一种自动生成的、一次性使用的地址，在短时间内过期——非常适合避免垃圾邮件和保护您的真实收件箱。也称为<strong>“刻录机邮件”</strong>或<strong>“一次性邮件”</strong>，这些地址可以保护您的身份隐私。了解如何<link>创建临时邮件</link>。",
+    "use_case_title": "为什么要使用自定义临时邮件？",
+    "use_case_item1": "使用一次性电子邮件注册商店会员卡，而不会收到垃圾邮件。",
+    "use_case_item2": "通过轻松生成虚拟帐户来测试您的应用程序。",
+    "use_case_item3": "使用独特的临时邮件域名注册多个网络服务或试用版。",
+    "use_case_item4": "保持您的主要收件箱清洁，并免受不必要的邮件骚扰。",
+    "checklist_title": "如何选择最佳的临时邮件服务",
+    "checklist_item1": "即时创建自定义临时电子邮件地址",
+    "checklist_item2": "无需注册或个人信息",
+    "checklist_item3": "无痕迹的匿名临时邮件",
+    "checklist_item4": "能够创建多个帐户",
+    "checklist_item5": "可靠的访问和快速的性能（查看我们的 PageSpeed 分数）",
+    "checklist_item6": "承诺无广告和永久免费使用",
+    "checklist_p": "<strong>Freecustom.email</strong>提供所有这些功能以及更多——因此您可以立即启动一个临时电子邮件，远离垃圾邮件，并保护您的真实收件箱安全。",
+    "usage_title": "如何使用 FreeCustom.Email 临时邮件",
+    "usage_p1": "访问<strong>FreeCustom.Email</strong>，输入任何电子邮件名称，选择一个域名，您的临时邮箱就会立即激活——无广告，无需注册。您可以在界面下方重新访问最近使用的名称。有关分步详细信息，请参阅我们关于<link>创建临时邮件地址</link>的帖子。",
+    "usage_p2": "如果临时邮件会话过期或被盗用，只需将其删除并在几秒钟内生成另一个——对您的真实电子邮件没有影响。",
+    "conclusion_title": "结论：自定义临时邮件的最佳选择",
+    "conclusion_p1": "通过 FreeCustom.Email，您可以获得快速、匿名、无广告且永久免费的自定义临时邮件。无论是注册论坛、试用还是测试应用程序，您的真实身份都将受到保护。选择一个临时邮件域名，点击生成，即可完成——没有麻烦，只有隐私。",
+    "conclusion_p2": "准备好开始了吗？查看我们的<link>最佳实践指南</link>以最大程度地利用临时邮件。"
+  }
+}

@@ -4,7 +4,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import Link from 'next/link'
 import { ThemeProvider } from '@/components/theme-provider'
-import { AppHeader } from '@/components/app-header'
+import { AppHeader } from '@/components/nLHeader'
 
 interface BlogPost {
   slug: string

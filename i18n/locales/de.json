@@ -1,0 +1,101 @@
+{
+  "Metadata": {
+    "title": "Benutzerdefinierte Temp-Mail – Schnellste werbefreie Einweg-E-Mail",
+    "description": "Erstellen Sie sofort eine benutzerdefinierte temporäre E-Mail-Adresse – wählen Sie aus mehreren Domains, keine Registrierung, keine Werbung, für immer kostenlos.",
+    "keywords": "Temp-Mail, Einweg-E-Mail, benutzerdefinierte E-Mail, gefälschte E-Mail, temporärer Posteingang, werbefreie E-Mail, 10minmail, E-Mail-Datenschutz, kostenlose Temp-Mail",
+    "openGraph": {
+      "title": "Benutzerdefinierte Temp-Mail – Schnellste werbefreie Einweg-E-Mail",
+      "description": "Erstellen Sie sofort eine benutzerdefinierte temporäre E-Mail-Adresse – wählen Sie aus mehreren Domains, keine Registrierung, keine Werbung, für immer kostenlos.",
+      "alt": "FreeCustom.Email Logo"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email ist eine datenschutzorientierte Einweg-E-Mail-Plattform für Tests, Entwickler und schnelle Anmeldungen. Keine Anmeldung erforderlich."
+  },
+  "PageContent": {
+    "h1": "Wie unsere schnelle & benutzerdefinierte Einweg-Temp-Mail-Technologie funktioniert",
+    "p1": "In der heutigen Welt verlangen Online-Dienste – von kostenlosen Testversionen bis hin zu Community-Chats – E-Mail-Adressen und setzen Sie Spam, Bots und unerwünschtem Tracking aus. <strong>Mit FreeCustom.Email erhalten Sie sofort eine werbefreie, benutzerdefinierte temporäre E-Mail-Adresse</strong> über mehrere Domains – keine Anmeldung erforderlich und immer sicher.",
+    "p2_part1": "<strong>Dieser Dienst ist für immer kostenlos, vollständig werbefrei und für Geschwindigkeit optimiert durch schlanken Code, Edge-Caching und globale Domains.</strong> Erfahren Sie mehr über unser ",
+    "p2_link1": "Versprechen für kostenlose und werbefreie Nutzung",
+    "p2_part2": " und unsere ",
+    "p2_link2": "PageSpeed-basierte Architektur",
+    "p2_part3": "."
+  },
+  "Navigation": {
+    "home": "Startseite",
+    "pathnames": "Pfadnamen"
+  },
+  "LocaleSwitcher": {
+    "label": "Sprache ändern",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {Unbekannt}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - Dokumentation",
+    "aria_api_docs": "API-Dokumentation anzeigen",
+    "aria_discord": "Tritt unserer Discord-Community bei",
+    "aria_toggle_theme": "Theme umschalten",
+    "aria_open_menu": "Mobiles Menü öffnen",
+    "aria_close_menu": "Mobiles Menü schließen",
+    "github": "GitHub",
+    "aria_github": "GitHub-Repository anzeigen",
+    "patreon": "Patreon",
+    "aria_patreon": "Patreon anzeigen",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "Wird geladen...",
+    "placeholder_username": "benutzername",
+    "select_domain": "Domain auswählen",
+    "error_valid_prefix": "Bitte geben Sie ein gültiges E-Mail-Präfix ein",
+    "copy_email": "E-Mail-Adresse kopieren",
+    "show_qr": "QR-Code anzeigen",
+    "refresh": "Aktualisieren",
+    "refreshing": "Wird aktualisiert...",
+    "change": "Ändern",
+    "save": "Speichern",
+    "new": "neu",
+    "delete": "Löschen",
+    "table_sender": "ABENDER",
+    "table_subject": "BETREFF",
+    "table_date": "DATUM",
+    "table_actions": "AKTIONEN",
+    "inbox_empty_title": "Ihr Posteingang ist leer",
+    "inbox_empty_subtitle": "Warten auf eingehende E-Mails. Keine Aktualisierung erforderlich.",
+    "view": "Ansehen",
+    "history_title": "E-Mail-Verlauf",
+    "history_use": "Verwenden",
+    "card_header_title": "Erstellen Sie sofort Ihre beste benutzerdefinierte temporäre E-Mail-Adresse",
+    "card_header_p": "Vermeiden Sie Spam, Phishing und automatisierte Bots mit einer sicheren, werbefreien, benutzerdefinierten temporären E-Mail. Halten Sie Ihren echten Posteingang sauber und Ihre Privatsphäre intakt – mit sofortiger Erstellung, ohne Anmeldung, für immer kostenlos.",
+    "unset_primary": "Primär abwählen",
+    "set_primary": "Als primär festlegen"
+  },
+  "WhySection": {
+    "snippet_title": "Was ist „benutzerdefinierte Temp-Mail“?",
+    "snippet_p": "<strong>Benutzerdefinierte Temp-Mail</strong> bezeichnet eine Einweg-E-Mail-Adresse, die Sie sofort erstellen können – keine Registrierung, keine Werbung und eine Auswahl aus mehreren Domains. Mit <strong>FreeCustom.Email</strong> erhalten Sie eine sichere temporäre E-Mail für Datenschutz, Spamschutz und schnelle, anonyme Anmeldungen.",
+    "domain_list_title": "FreeCustom.Email-Domains für benutzerdefinierte Temp-Mail",
+    "domain_list_p": "Wählen Sie aus mehreren Domains, um sicherzustellen, dass Ihre temporäre E-Mail immer verfügbar ist – auch wenn eine blockiert wird.",
+    "definition_title": "Was ist eine temporäre Einweg-E-Mail (Temp-Mail)?",
+    "definition_p": "Eine <strong>temporäre Einweg-E-Mail</strong> (oder <em>Temp-Mail</em>) ist eine automatisch generierte, einmalig verwendbare Adresse, die nach kurzer Zeit abläuft – ideal, um Spam zu vermeiden und Ihren echten Posteingang zu schützen. Auch bekannt als <strong>Wegwerf-Mail</strong> oder <strong>Throwaway-E-Mail</strong>, halten diese Adressen Ihre Identität privat. Erfahren Sie, wie Sie <link>eine Temp-Mail erstellen</link>.",
+    "use_case_title": "Warum benutzerdefinierte Temp-Mail verwenden?",
+    "use_case_item1": "Melden Sie sich für Kundenkarten ohne Spam mit einer Einweg-E-Mail an.",
+    "use_case_item2": "Testen Sie Ihre App, indem Sie einfach Dummy-Konten erstellen.",
+    "use_case_item3": "Melden Sie sich für mehrere Webdienste oder Testversionen mit einzigartigen temporären E-Mail-Domains an.",
+    "use_case_item4": "Halten Sie Ihren primären Posteingang sauber und vor unerwünschten Mails geschützt.",
+    "checklist_title": "So wählen Sie den besten Temp-Mail-Dienst aus",
+    "checklist_item1": "Sofortige Erstellung von benutzerdefinierten temporären E-Mail-Adressen",
+    "checklist_item2": "Keine Anmeldung oder persönliche Daten erforderlich",
+    "checklist_item3": "Anonyme temporäre E-Mail ohne Spuren",
+    "checklist_item4": "Möglichkeit, mehrere Konten zu erstellen",
+    "checklist_item5": "Zuverlässiger Zugriff und schnelle Leistung (prüfen Sie unsere PageSpeed-Werte)",
+    "checklist_item6": "Verpflichtung zur werbefreien und für immer kostenlosen Nutzung",
+    "checklist_p": "<strong>Freecustom.email</strong> bietet all diese Funktionen und mehr – damit Sie sofort eine temporäre E-Mail erstellen, spamfrei bleiben und Ihren echten Posteingang sicher halten können.",
+    "usage_title": "Wie man FreeCustom.Email Temp-Mail verwendet",
+    "usage_p1": "Besuchen Sie <strong>FreeCustom.Email</strong>, geben Sie einen beliebigen E-Mail-Namen ein, wählen Sie eine Domain aus und Ihr temporärer Posteingang ist sofort aktiv – keine Werbung, keine Registrierung. Sie können kürzlich verwendete Namen direkt unter der Benutzeroberfläche erneut aufrufen. Schritt-für-Schritt-Anleitungen finden Sie in unserem Beitrag zum <link>Erstellen einer temporären E-Mail-Adresse</link>.",
+    "usage_p2": "Wenn eine temporäre E-Mail-Sitzung abläuft oder kompromittiert wird, löschen Sie sie einfach und erstellen Sie in Sekundenschnelle eine neue – ohne Auswirkungen auf Ihre echte E-Mail.",
+    "conclusion_title": "Fazit: Beste Wahl für benutzerdefinierte Temp-Mail",
+    "conclusion_p1": "Mit FreeCustom.Email erhalten Sie schnelle, anonyme, werbefreie und für immer kostenlose benutzerdefinierte temporäre E-Mails. Ob Sie sich für Foren, Testversionen oder zum Testen von Apps anmelden, Ihre wahre Identität bleibt geschützt. Wählen Sie eine temporäre E-Mail-Domain, klicken Sie auf „Erstellen“ und Sie sind fertig – kein Aufwand, nur Privatsphäre.",
+    "conclusion_p2": "Bereit anzufangen? Sehen Sie sich unseren <link>Leitfaden zu bewährten Vorgehensweisen</link> an, um die Nutzung von temporären E-Mails zu maximieren."
+  }
+}

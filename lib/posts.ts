@@ -19,3 +19,29 @@ export async function getPostBySlug(slug: string) {
     return { data, content }
   }
   
+  export interface BlogPost {
+  slug: string
+  title: string
+  date: string
+  excerpt?: string
+}
+
+export function getBlogPosts(): BlogPost[] {
+  const blogDir = path.join(process.cwd(), 'public/blog')
+  const files = fs.readdirSync(blogDir)
+
+  return files
+    .filter(filename => filename.endsWith('.md'))
+    .map(filename => {
+      const filePath = path.join(blogDir, filename)
+      const fileContent = fs.readFileSync(filePath, 'utf8')
+      const { data, content } = matter(fileContent)
+      return {
+        slug: filename.replace('.md', ''),
+        title: data.title,
+        date: data.date,
+        excerpt: data.excerpt || content.slice(0, 120).replace(/\n/g, '') + '...',
+      }
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+}

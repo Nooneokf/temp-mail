@@ -15,6 +15,7 @@ import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import { ShareDropdown } from "./ShareDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useTranslations } from "next-intl";
 
 const DOMAINS = [
   "saleis.live",
@@ -28,8 +29,7 @@ const DOMAINS = [
   "ditpay.info",
   "ditplay.info",
   "ditube.info",
-  "junkstopper.info",
-  "whatsyour.info"];
+  "junkstopper.info"];
 
 function generateRandomEmail(domain: string = DOMAINS[0]): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
@@ -52,6 +52,8 @@ interface Message {
 }
 
 export function EmailBox() {
+
+  const t = useTranslations('EmailBox');
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -349,7 +351,6 @@ export function EmailBox() {
 
   return (
     <Card className="border-dashed">
-
       <CardContent className="space-y-4 pt-10">
         <div className="flex items-center gap-2">
           {isEditing ? (
@@ -358,18 +359,15 @@ export function EmailBox() {
                 value={email.split('@')[0]}
                 onChange={(e) => handleEmailInputChage(e.target.value)}
                 className="flex-1 r"
-                placeholder="username"
+                placeholder={t('placeholder_username')}
               />
-
               <DropdownMenu>
-                <DropdownMenuTrigger asChild >
+                <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-1/2 truncate">
-                    {selectedDomain || 'Select Domain'}
+                    {selectedDomain || t('select_domain')}
                   </Button>
                 </DropdownMenuTrigger>
-
-                <DropdownMenuContent
-                  className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar"
+                <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar"
                 >
                   {DOMAINS.map((domain, i) => (
                     <DropdownMenuItem
@@ -377,18 +375,12 @@ export function EmailBox() {
                       onSelect={() => handleDomainChange(domain)}
                       className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
                     >
-                      <span className={primaryDomain === domain ? 'font-semibold text-yellow-600 dark:text-yellow-400' : ''}>
-                        {domain}
-                      </span>
+                      <span>{domain}</span>
                       <Button
-                        title={primaryDomain === domain ? 'Unset primary' : 'Set as primary'}
-
+                        title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
                         variant="ghost"
                         size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handlePrimaryDomainChange(domain);
-                        }}
+                        onClick={(e) => { e.stopPropagation(); handlePrimaryDomainChange(domain); }}
                         aria-label={`Set ${domain} as primary`}
                         className="hover:bg-transparent"
                       >
@@ -406,7 +398,7 @@ export function EmailBox() {
             </div>
           ) : (
             <div className="flex-1 rounded-md bg-muted p-2">
-              {email || 'Loading...'}
+              {email || t('loading')}
             </div>
           )}
           <div className="flex gap-2" role="group" aria-label="Email actions">
@@ -436,8 +428,8 @@ export function EmailBox() {
               size="icon"
               onClick={() => setIsQRModalOpen(true)}
               disabled={blockButtons}
-              title="Show QR code"
-              aria-label="Show QR code"
+              title={t('show_qr')}
+              aria-label={t('show_qr')}
             >
               <QrCode className="h-4 w-4" />
             </Button>
@@ -450,23 +442,20 @@ export function EmailBox() {
             variant="outline"
             className="flex-1"
             onClick={refreshInbox}
-            aria-label={isRefreshing ? "Refreshing inbox" : "Refresh inbox"}
+            aria-label={isRefreshing ? t('refreshing') : t('refresh')}
           >
             <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
-            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing' : 'Refresh'}</span>
+            <span className="hidden sm:inline">{isRefreshing ? t('refreshing') : t('refresh')}</span>
           </Button>
           <Button
             disabled={blockButtons}
             variant="outline"
             className="flex-1"
-            onClick={() => {
-              changeEmail();
-              handleNewDomainUpdates(); // Call this to update the discovered updates state
-            }}
-            aria-label={isEditing ? "Save email changes" : "Change email"}
+            onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
+            aria-label={isEditing ? t('save') : t('change')}
           >
             {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
-            <span className="hidden sm:inline">{isEditing ? 'Save' : 'Change'}</span>
+            <span className="hidden sm:inline">{isEditing ? t('save') : t('change')}</span>
             <AnimatePresence>
               {!discoveredUpdates.newDomains && (
                 <motion.span
@@ -476,7 +465,7 @@ export function EmailBox() {
                   transition={{ duration: 0.5 }}
                   className="text-[10px] bg-black text-white rounded-full px-1.5"
                 >
-                  new
+                  {t('new')}
                 </motion.span>
               )}
             </AnimatePresence>
@@ -486,75 +475,55 @@ export function EmailBox() {
             variant="outline"
             className="flex-1"
             onClick={deleteEmail}
-            aria-label="Delete email address"
+            aria-label={t('delete')}
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Delete</span>
+            <span className="hidden sm:inline">{t('delete')}</span>
           </Button>
         </div>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>SENDER</TableHead>
-              <TableHead>SUBJECT</TableHead>
-              <TableHead>DATE</TableHead>
-              <TableHead>ACTIONS</TableHead>
+              <TableHead>{t('table_sender')}</TableHead>
+              <TableHead>{t('table_subject')}</TableHead>
+              <TableHead>{t('table_date')}</TableHead>
+              <TableHead>{t('table_actions')}</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody >
+          <TableBody>
             {messages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center">
                   <div className="py-12">
-                    <div className="mb-4 flex justify-center">
-                      <Mail className="h-12 w-12 text-muted-foreground" />
-                    </div>
-                    <div className="text-lg font-medium">Your inbox is empty</div>
-                    <div className="text-sm text-muted-foreground">Waiting for incoming emails. No need to refresh.</div>
+                    <div className="mb-4 flex justify-center"><Mail className="h-12 w-12 text-muted-foreground" /></div>
+                    <div className="text-lg font-medium">{t('inbox_empty_title')}</div>
+                    <div className="text-sm text-muted-foreground">{t('inbox_empty_subtitle')}</div>
                   </div>
                 </TableCell>
               </TableRow>
             ) : (
-              <>
-                {messages.map((message, index) => (
-                  <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
-                    <TableCell>{message.from}</TableCell>
-                    <TableCell>{message.subject}</TableCell>
-                    <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Button variant="link" onClick={() => viewMessage(message)}>View</Button>
-                      <Button variant="link" onClick={() => deleteMessage(message.id)}>Delete</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {messages.length < 5 &&
-                  Array.from({ length: 5 - messages.length }).map((_, index) => (
-                    <TableRow key={`blank-${index}`} >
-                      <TableCell colSpan={4}>&nbsp;</TableCell>
-                    </TableRow>
-                  ))
-                }
-              </>
+              messages.map((message, index) => (
+                <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
+                  <TableCell>{message.from}</TableCell>
+                  <TableCell>{message.subject}</TableCell>
+                  <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
+                  <TableCell>
+                    <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
+                    <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
+                  </TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
-
         </Table>
-
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">Email History</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('history_title')}</h3>
           <ul className="space-y-2">
             {emailHistory.map((historyEmail, index) => (
               <li key={index} className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">{historyEmail}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setEmail(historyEmail);
-                    setOldEmailUsed(!oldEmailUsed);
-                  }}
-                >
-                  Use
+                <Button variant="ghost" size="sm" onClick={() => { setEmail(historyEmail); setOldEmailUsed(!oldEmailUsed); }}>
+                  {t('history_use')}
                 </Button>
               </li>
             ))}
@@ -562,11 +531,10 @@ export function EmailBox() {
         </div>
       </CardContent>
       <CardHeader>
-        <h2 className="text-xl font-semibold">Your Best Temporary Email Address</h2>
-        <p className="text-sm text-muted-foreground">
-          Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure.
-        </p>
+        <h2 className="text-xl font-semibold">{t('card_header_title')}</h2>
+        <p className="text-sm text-muted-foreground">{t('card_header_p')}</p>
       </CardHeader>
+
       <QRCodeModal
         email={email}
         isOpen={isQRModalOpen}

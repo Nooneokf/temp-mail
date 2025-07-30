@@ -1,0 +1,101 @@
+{
+  "Metadata": {
+    "title": "Mail Temp Personnalisé – Le Courriel Jetable Sans Publicité Le Plus Rapide",
+    "description": "Générez instantanément une adresse e-mail temporaire personnalisée — choisissez parmi plusieurs domaines, sans inscription, sans publicité, gratuit pour toujours.",
+    "keywords": "mail temp, courriel jetable, mail personnalisé, faux mail, boîte de réception temporaire, mail sans publicité, 10minmail, confidentialité des e-mails, mail temp gratuit",
+    "openGraph": {
+      "title": "Mail Temp Personnalisé – Le Courriel Jetable Sans Publicité Le Plus Rapide",
+      "description": "Générez instantanément une adresse e-mail temporaire personnalisée — choisissez parmi plusieurs domaines, sans inscription, sans publicité, gratuit pour toujours.",
+      "alt": "Logo de FreeCustom.Email"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email est une plateforme de messagerie électronique jetable axée sur la confidentialité pour les tests, les développeurs et les inscriptions rapides. Aucune inscription n'est requise."
+  },
+  "PageContent": {
+    "h1": "Comment fonctionne notre technologie de messagerie temporaire jetable rapide et personnalisée",
+    "p1": "Dans le monde d'aujourd'hui, les services en ligne, des essais gratuits aux discussions communautaires, exigent des adresses e-mail, vous exposant au spam, aux robots et au suivi non sollicité. <strong>Avec FreeCustom.Email, vous obtenez instantanément une adresse e-mail temporaire personnalisée sans publicité</strong> sur plusieurs domaines, sans inscription requise et toujours sécurisée.",
+    "p2_part1": "<strong>Ce service est gratuit pour toujours, entièrement sans publicité et optimisé pour la vitesse en utilisant un code léger, une mise en cache en périphérie et des domaines mondiaux.</strong> En savoir plus sur notre ",
+    "p2_link1": "promesse de gratuité et d'absence de publicité",
+    "p2_part2": " et notre ",
+    "p2_link2": "architecture axée sur PageSpeed",
+    "p2_part3": "."
+  },
+  "Navigation": {
+    "home": "Accueil",
+    "pathnames": "Noms de chemin"
+  },
+  "LocaleSwitcher": {
+    "label": "Changer de langue",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {Inconnu}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - Docs",
+    "aria_api_docs": "Afficher la documentation de l'API",
+    "aria_discord": "Rejoignez notre communauté Discord",
+    "aria_toggle_theme": "Changer de thème",
+    "aria_open_menu": "Ouvrir le menu mobile",
+    "aria_close_menu": "Fermer le menu mobile",
+    "github": "GitHub",
+    "aria_github": "Voir le dépôt GitHub",
+    "patreon": "Patreon",
+    "aria_patreon": "Voir le Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "Chargement...",
+    "placeholder_username": "nomdutilisateur",
+    "select_domain": "Sélectionner un domaine",
+    "error_valid_prefix": "Veuillez entrer un préfixe d'e-mail valide",
+    "copy_email": "Copier l'adresse e-mail",
+    "show_qr": "Afficher le code QR",
+    "refresh": "Actualiser",
+    "refreshing": "Actualisation...",
+    "change": "Changer",
+    "save": "Enregistrer",
+    "new": "nouveau",
+    "delete": "Supprimer",
+    "table_sender": "EXPÉDITEUR",
+    "table_subject": "SUJET",
+    "table_date": "DATE",
+    "table_actions": "ACTIONS",
+    "inbox_empty_title": "Votre boîte de réception est vide",
+    "inbox_empty_subtitle": "En attente de courriels entrants. Pas besoin d'actualiser.",
+    "view": "Voir",
+    "history_title": "Historique des e-mails",
+    "history_use": "Utiliser",
+    "card_header_title": "Générez instantanément votre meilleure adresse e-mail temporaire personnalisée",
+    "card_header_p": "Évitez le spam, le phishing et les robots automatisés avec un e-mail temporaire personnalisé, sécurisé et sans publicité. Gardez votre vraie boîte de réception propre et votre vie privée intacte, avec une génération instantanée, sans inscription, gratuit pour toujours.",
+    "unset_primary": "Désélectionner comme principal",
+    "set_primary": "Définir comme principal"
+  },
+  "WhySection": {
+    "snippet_title": "Qu'est-ce que le « mail temp personnalisé » ?",
+    "snippet_p": "Le <strong>mail temp personnalisé</strong> fait référence à une adresse e-mail jetable que vous pouvez générer instantanément, sans inscription, sans publicité et choisir parmi plusieurs domaines. Avec <strong>FreeCustom.Email</strong>, obtenez un e-mail temporaire sécurisé pour la confidentialité, la protection contre le spam et les inscriptions rapides et anonymes.",
+    "domain_list_title": "Domaines FreeCustom.Email for Custom Temp Mail",
+    "domain_list_p": "Choisissez parmi plusieurs domaines pour vous assurer que votre messagerie temporaire est toujours disponible, même si l'un d'entre eux est bloqué.",
+    "definition_title": "Qu'est-ce qu'un e-mail temporaire jetable (mail temp) ?",
+    "definition_p": "Un <strong>e-mail temporaire jetable</strong> (ou <em>mail temp</em>) est une adresse à usage unique générée automatiquement qui expire après une courte période, idéale pour éviter le spam et protéger votre véritable boîte de réception. Également connus sous le nom de <strong>mail brûleur</strong> ou <strong>mail jetable</strong>, ces adresses préservent votre identité. Apprenez à <link>créer un mail temp</link>.",
+    "use_case_title": "Pourquoi utiliser un mail temp personnalisé ?",
+    "use_case_item1": "Inscrivez-vous aux cartes de fidélité des magasins sans spam en utilisant un e-mail jetable.",
+    "use_case_item2": "Testez votre application en générant facilement des comptes factices.",
+    "use_case_item3": "Inscrivez-vous à plusieurs services Web ou essais avec des domaines de messagerie temporaire uniques.",
+    "use_case_item4": "Gardez votre boîte de réception principale propre et protégée des courriers indésirables.",
+    "checklist_title": "Comment choisir le meilleur service de messagerie temporaire",
+    "checklist_item1": "Création instantanée d'adresses e-mail temporaires personnalisées",
+    "checklist_item2": "Aucune inscription ni information personnelle requise",
+    "checklist_item3": "Mail temporaire anonyme sans traces",
+    "checklist_item4": "Possibilité de créer plusieurs comptes",
+    "checklist_item5": "Accès fiable et performances rapides (consultez nos scores PageSpeed)",
+    "checklist_item6": "Engagement pour une utilisation sans publicité et gratuite pour toujours",
+    "checklist_p": "<strong>Freecustom.email</strong> offre toutes ces fonctionnalités et plus encore, pour que vous puissiez créer un e-mail temporaire instantanément, rester à l'abri du spam et protéger votre véritable boîte de réception.",
+    "usage_title": "Comment utiliser le mail temp de FreeCustom.Email",
+    "usage_p1": "Visitez <strong>FreeCustom.Email</strong>, tapez n'importe quel nom d'e-mail, sélectionnez un domaine et votre boîte aux lettres temporaire est active instantanément, sans publicité, sans inscription. Vous pouvez revoir les noms récemment utilisés juste en dessous de l'interface. Pour des détails étape par étape, consultez notre article sur <link>la création d'une adresse e-mail temporaire</link>.",
+    "usage_p2": "Si une session de messagerie temporaire expire ou est compromise, supprimez-la simplement et générez-en une autre en quelques secondes, sans impact sur votre véritable e-mail.",
+    "conclusion_title": "Conclusion : le meilleur choix pour un mail temp personnalisé",
+    "conclusion_p1": "Avec FreeCustom.Email, vous obtenez un mail temp personnalisé rapide, anonyme, sans publicité et gratuit pour toujours. Que ce soit pour vous inscrire à des forums, des essais ou des applications de test, votre véritable identité reste protégée. Choisissez un domaine de messagerie temporaire, cliquez sur Générer et vous êtes prêt, sans tracas, juste de la confidentialité.",
+    "conclusion_p2": "Prêt à commencer ? Consultez notre <link>guide des meilleures pratiques</link> pour maximiser l'utilisation de la messagerie temporaire."
+  }
+}

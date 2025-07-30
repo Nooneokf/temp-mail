@@ -1,0 +1,101 @@
+{
+  "Metadata": {
+    "title": "Correo Temporal Personalizado – El Correo Desechable Sin Anuncios Más Rápido",
+    "description": "Genere una dirección de correo electrónico temporal personalizada al instante: elija entre múltiples dominios, sin registro, sin anuncios, gratis para siempre.",
+    "keywords": "correo temporal, correo desechable, correo personalizado, correo falso, bandeja de entrada temporal, correo sin anuncios, 10minmail, privacidad de correo electrónico, correo temporal gratis",
+    "openGraph": {
+      "title": "Correo Temporal Personalizado – El Correo Desechable Sin Anuncios Más Rápido",
+      "description": "Genere una dirección de correo electrónico temporal personalizada al instante: elija entre múltiples dominios, sin registro, sin anuncios, gratis para siempre.",
+      "alt": "Logotipo de FreeCustom.Email"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email es una plataforma de correo electrónico desechable centrada en la privacidad para pruebas, desarrolladores y registros rápidos. No es necesario registrarse."
+  },
+  "PageContent": {
+    "h1": "Cómo funciona nuestra tecnología de correo temporal desechable rápida y personalizada",
+    "p1": "En el mundo actual, los servicios en línea, desde pruebas gratuitas hasta chats comunitarios, exigen direcciones de correo electrónico, exponiéndolo a spam, bots y seguimiento no solicitado. <strong>Con FreeCustom.Email, obtiene una dirección de correo electrónico temporal personalizada instantánea y sin anuncios</strong> en múltiples dominios, sin necesidad de registrarse y siempre segura.",
+    "p2_part1": "<strong>Este servicio es gratuito para siempre, completamente libre de anuncios y optimizado para la velocidad utilizando código ligero, almacenamiento en caché perimetral y dominios globales.</strong> Obtenga más información sobre nuestra ",
+    "p2_link1": "promesa de ser gratuito y sin anuncios",
+    "p2_part2": " y nuestra ",
+    "p2_link2": "arquitectura impulsada por PageSpeed",
+    "p2_part3": "."
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "pathnames": "Nombres de ruta"
+  },
+  "LocaleSwitcher": {
+    "label": "Cambiar idioma",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {Desconocido}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - Documentación",
+    "aria_api_docs": "Ver documentación de la API",
+    "aria_discord": "Únete a nuestra comunidad de Discord",
+    "aria_toggle_theme": "Cambiar tema",
+    "aria_open_menu": "Abrir menú móvil",
+    "aria_close_menu": "Cerrar menú móvil",
+    "github": "GitHub",
+    "aria_github": "Ver repositorio de GitHub",
+    "patreon": "Patreon",
+    "aria_patreon": "Ver Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "Cargando...",
+    "placeholder_username": "nombredeusuario",
+    "select_domain": "Seleccionar dominio",
+    "error_valid_prefix": "Por favor, ingrese un prefijo de correo electrónico válido",
+    "copy_email": "Copiar dirección de correo electrónico",
+    "show_qr": "Mostrar código QR",
+    "refresh": "Actualizar",
+    "refreshing": "Actualizando...",
+    "change": "Cambiar",
+    "save": "Guardar",
+    "new": "nuevo",
+    "delete": "Eliminar",
+    "table_sender": "REMITENTE",
+    "table_subject": "ASUNTO",
+    "table_date": "FECHA",
+    "table_actions": "ACCIONES",
+    "inbox_empty_title": "Tu bandeja de entrada está vacía",
+    "inbox_empty_subtitle": "Esperando correos electrónicos entrantes. No es necesario actualizar.",
+    "view": "Ver",
+    "history_title": "Historial de correo electrónico",
+    "history_use": "Usar",
+    "card_header_title": "Genere su mejor dirección de correo electrónico temporal personalizada al instante",
+    "card_header_p": "Evite el spam, el phishing y los bots automatizados con un correo electrónico temporal personalizado, seguro y sin anuncios. Mantenga su bandeja de entrada real limpia y su privacidad intacta, con generación instantánea, sin registro, gratis para siempre.",
+    "unset_primary": "Desmarcar como principal",
+    "set_primary": "Establecer como principal"
+  },
+  "WhySection": {
+    "snippet_title": "¿Qué es el “correo temporal personalizado”?",
+    "snippet_p": "El <strong>correo temporal personalizado</strong> se refiere a una dirección de correo electrónico desechable que puede generar instantáneamente, sin registro, sin anuncios y elegir entre múltiples dominios. Con <strong>FreeCustom.Email</strong>, obtenga un correo electrónico temporal seguro para la privacidad, protección contra spam y registros rápidos y anónimos.",
+    "domain_list_title": "Dominios de FreeCustom.Email para correo temporal personalizado",
+    "domain_list_p": "Elija entre múltiples dominios para asegurarse de que su correo temporal esté siempre disponible, incluso si uno se bloquea.",
+    "definition_title": "¿Qué es el correo electrónico temporal desechable (correo temporal)?",
+    "definition_p": "Un <strong>correo electrónico temporal desechable</strong> (o <em>correo temporal</em>) es una dirección de un solo uso generada automáticamente que caduca después de un corto tiempo, ideal para evitar el spam y proteger su bandeja de entrada real. También conocido como <strong>correo de usar y tirar</strong> o <strong>correo desechable</strong>, estas direcciones mantienen su identidad privada. Aprenda a <link>crear un correo temporal</link>.",
+    "use_case_title": "¿Por qué usar correo temporal personalizado?",
+    "use_case_item1": "Regístrese en tarjetas de fidelidad de tiendas sin spam usando un correo electrónico desechable.",
+    "use_case_item2": "Pruebe su aplicación generando cuentas de prueba fácilmente.",
+    "use_case_item3": "Regístrese en múltiples servicios web o pruebas con dominios de correo temporal únicos.",
+    "use_case_item4": "Mantenga su bandeja de entrada principal limpia y protegida de correos no deseados.",
+    "checklist_title": "Cómo elegir el mejor servicio de correo temporal",
+    "checklist_item1": "Creación instantánea de direcciones de correo electrónico temporales personalizadas",
+    "checklist_item2": "No se requiere registro ni información personal",
+    "checklist_item3": "Correo temporal anónimo sin rastros",
+    "checklist_item4": "Capacidad para crear múltiples cuentas",
+    "checklist_item5": "Acceso confiable y rendimiento rápido (consulte nuestros puntajes de PageSpeed)",
+    "checklist_item6": "Compromiso de uso sin anuncios y gratuito para siempre",
+    "checklist_p": "<strong>Freecustom.email</strong> ofrece todas estas características y más, para que pueda crear un correo electrónico temporal al instante, mantenerse libre de spam y mantener segura su bandeja de entrada real.",
+    "usage_title": "Cómo usar el correo temporal de FreeCustom.Email",
+    "usage_p1": "Visite <strong>FreeCustom.Email</strong>, escriba cualquier nombre de correo electrónico, seleccione un dominio y su buzón de correo temporal estará activo al instante, sin anuncios, sin registro. Puede volver a visitar los nombres utilizados recientemente justo debajo de la interfaz. Para obtener detalles paso a paso, consulte nuestra publicación sobre <link>cómo crear una dirección de correo temporal</link>.",
+    "usage_p2": "Si una sesión de correo temporal caduca o se ve comprometida, simplemente elimínela y genere otra en segundos, sin impacto en su correo electrónico real.",
+    "conclusion_title": "Conclusión: la mejor opción para el correo temporal personalizado",
+    "conclusion_p1": "Con FreeCustom.Email, obtiene un correo temporal personalizado rápido, anónimo, sin anuncios y gratuito para siempre. Ya sea que se registre en foros, pruebas o aplicaciones de prueba, su identidad real permanece protegida. Elija un dominio de correo temporal, haga clic en generar y listo, sin complicaciones, solo privacidad.",
+    "conclusion_p2": "¿Listo para comenzar? Vea nuestra <link>guía de mejores prácticas</link> para maximizar el uso del correo temporal."
+  }
+}

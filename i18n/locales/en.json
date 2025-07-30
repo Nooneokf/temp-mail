@@ -1,0 +1,101 @@
+{
+  "Metadata": {
+    "title": "Custom Temp Mail – Fastest Ad‑Free Disposable Email",
+    "description": "Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.",
+    "keywords": "temp mail, disposable email, custom mail, fake email, temporary inbox, no ads email, 10minmail, email privacy, free temp mail",
+    "openGraph": {
+      "title": "Custom Temp Mail – Fastest Ad‑Free Disposable Email",
+      "description": "Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.",
+      "alt": "FreeCustom.Email Logo"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email is a privacy-first disposable email platform for testing, devs, and fast signups. No signup needed."
+  },
+  "PageContent": {
+    "h1": "How Our Fast & Custom Disposable Temp Mail Technology Works",
+    "p1": "In today's world, online services—from free trials to community chats—demand email addresses, exposing you to spam, bots, and unsolicited tracking. <strong>With FreeCustom.Email, you get an instant, ad‑free custom temp mail address</strong> across multiple domains—no sign‑up required and always secure.",
+    "p2_part1": "<strong>This service is forever free, fully ad‑free, and optimized for speed using lightweight code, edge caching, and global domains.</strong> Learn more about our ",
+    "p2_link1": "free & ad‑free promise",
+    "p2_part2": " and our ",
+    "p2_link2": "PageSpeed‑driven architecture",
+    "p2_part3": "."
+  },
+  "Navigation": {
+    "home": "Home",
+    "pathnames": "Pathnames"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {Unknown}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - Docs",
+    "aria_api_docs": "View API documentation",
+    "aria_discord": "Join our Discord community",
+    "aria_toggle_theme": "Toggle theme",
+    "aria_open_menu": "Open mobile menu",
+    "aria_close_menu": "Close mobile menu",
+    "github": "GitHub",
+    "aria_github": "View GitHub repository",
+    "patreon": "Patreon",
+    "aria_patreon": "View Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "Loading...",
+    "placeholder_username": "username",
+    "select_domain": "Select Domain",
+    "error_valid_prefix": "Please enter a valid email prefix",
+    "copy_email": "Copy email address",
+    "show_qr": "Show QR code",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing",
+    "change": "Change",
+    "save": "Save",
+    "new": "new",
+    "delete": "Delete",
+    "table_sender": "SENDER",
+    "table_subject": "SUBJECT",
+    "table_date": "DATE",
+    "table_actions": "ACTIONS",
+    "inbox_empty_title": "Your inbox is empty",
+    "inbox_empty_subtitle": "Waiting for incoming emails. No need to refresh.",
+    "view": "View",
+    "history_title": "Email History",
+    "history_use": "Use",
+    "card_header_title": "Generate Your Best Custom Temp Mail Address Instantly",
+    "card_header_p": "Avoid spam, phishing, and automated bots with a secure, ad‑free custom temp mail. Keep your real inbox clean and privacy intact—with instant generation, no sign‑up, forever free.",
+    "unset_primary": "Unset primary",
+    "set_primary": "Set as primary"
+  },
+  "WhySection": {
+    "snippet_title": "What Is “Custom Temp Mail”?",
+    "snippet_p": "<strong>Custom temp mail</strong> refers to a disposable email address you can instantly generate—no registration, no ads, and choose from multiple domains. With <strong>FreeCustom.Email</strong>, get a secure temporary email for privacy, spam protection, and fast, anonymous sign‑ups.",
+    "domain_list_title": "FreeCustom.Email Domains for Custom Temp Mail",
+    "domain_list_p": "Choose from multiple domains to ensure your temp mail is always available—even if one gets blocked.",
+    "definition_title": "What Is Disposable Temporary Email (Temp Mail)?",
+    "definition_p": "A disposable or <strong>temporary email</strong> (or <em>temp mail</em>) is an automatically generated, one-time-use address that expires after a short time—ideal for avoiding spam and protecting your real inbox. Also known as <strong>burner mail</strong> or <strong>throwaway email</strong>, these addresses keep your identity private. Learn how to <link>create temp mail</link>.",
+    "use_case_title": "Why Use Custom Temp Mail?",
+    "use_case_item1": "Sign up for store loyalty cards without spam using a disposable email.",
+    "use_case_item2": "Test your app by generating dummy accounts easily.",
+    "use_case_item3": "Signup for multiple web services or trials with unique temp mail domains.",
+    "use_case_item4": "Keep your primary inbox clean and protected from unwanted mail.",
+    "checklist_title": "How to Choose the Best Temp Mail Service",
+    "checklist_item1": "Instant creation of custom temporary email addresses",
+    "checklist_item2": "No sign-up or personal info required",
+    "checklist_item3": "Anonymous temp mail with no traces",
+    "checklist_item4": "Ability to create multiple accounts",
+    "checklist_item5": "Reliable access and fast performance (check our PageSpeed scores)",
+    "checklist_item6": "Commitment to ad‑free and forever free usage",
+    "checklist_p": "<strong>Freecustom.email</strong> delivers all these features and more—so you can spin up a temp email instantly, stay spam-free, and keep your real inbox safe.",
+    "usage_title": "How to Use FreeCustom.Email Temp Mail",
+    "usage_p1": "Visit <strong>FreeCustom.Email</strong>, type any email name, select a domain, and your temp mailbox is active instantly—no ads, no registration. You can revisit recently used names right below the interface. For step‑by‑step details, see our post on <link>creating a temp mail address</link>.",
+    "usage_p2": "If a temp mail session expires or gets compromised, simply delete it and generate another in seconds—no impact on your real email.",
+    "conclusion_title": "Conclusion: Best Choice for Custom Temp Mail",
+    "conclusion_p1": "With FreeCustom.Email, you get fast, anonymous, ad‑free, and forever‑free custom temp mail. Whether signing up for forums, trials, or testing apps, your real identity remains protected. Choose a temp mail domain, click generate, and you're set—no hassles, just privacy.",
+    "conclusion_p2": "Ready to start? View our <link>best practices guide</link> to maximize temp mail usage."
+  }
+}
