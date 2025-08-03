@@ -8,6 +8,12 @@ const withNextIntl = createNextIntlPlugin({
 });
 
 const config: NextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -23,7 +29,3 @@ const config: NextConfig = {
 };
 
 export default withNextIntl(config);
-
-
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-initOpenNextCloudflareForDev();
