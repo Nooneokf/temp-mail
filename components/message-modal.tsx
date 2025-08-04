@@ -1,3 +1,5 @@
+// components/message-modal.tsx
+
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'

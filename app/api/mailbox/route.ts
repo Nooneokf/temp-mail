@@ -1,5 +1,6 @@
+// app/api/mailbox/route.ts
 import { NextResponse } from 'next/server'
-import { authenticateRequest, fetchFromAPI } from '@/lib/api'
+import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api'
 
 export async function GET(request: Request) {
   if (!await authenticateRequest(request)) {
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url)
-  const mailbox = searchParams.get('mailbox')
+  const mailbox = searchParams.get('fullMailboxId')
   const messageId = searchParams.get('messageId')
 
   if (!mailbox) {
@@ -16,10 +17,10 @@ export async function GET(request: Request) {
 
   try {
     if (messageId) {
-      const data = await fetchFromAPI(`/mailbox/${mailbox}/message/${messageId}`)
+      const data = await fetchFromServiceAPI(`/mailbox/${mailbox}/message/${messageId}`)
       return NextResponse.json(data)
     } else {
-      const data = await fetchFromAPI(`/mailbox/${mailbox}`)
+      const data = await fetchFromServiceAPI(`/mailbox/${mailbox}`)
       return NextResponse.json(data)
     }
   } catch (error) {
@@ -34,7 +35,7 @@ export async function DELETE(request: Request) {
   }
 
   const { searchParams } = new URL(request.url)
-  const mailbox = searchParams.get('mailbox')
+  const mailbox = searchParams.get('fullMailboxId')
   const messageId = searchParams.get('messageId')
 
   if (!mailbox || !messageId) {
@@ -42,7 +43,9 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const data = await fetchFromAPI(`/mailbox/${mailbox}/message/${messageId}`, 'DELETE')
+    const data = await fetchFromServiceAPI(`/mailbox/${mailbox}/message/${messageId}`, {
+      method: "DELETE"
+    })
     return NextResponse.json(data)
   } catch (error) {
     console.error('API request failed:', error)

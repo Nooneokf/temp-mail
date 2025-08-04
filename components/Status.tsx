@@ -16,57 +16,57 @@ export default function Status() {
   const hasFetchedInitial = useRef(false);
 
   const fetchStatus = async (token: string | undefined) => {
-        if (!token) return;
-        try {
-            const response = await fetch('/api/stats', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json() as {
-                data: {
-                    queued?: number, denied?: number
-                },
-                success: boolean
-            };
-            if (data.success) {
-                setStatus(prevStatus => ({
-                    queued: data.data.queued || prevStatus.queued,
-                    denied: data.data.denied || prevStatus.denied
-                }));
-            }
-        } catch (error) {
-            console.error('Failed to fetch status:', error);
-            // Optionally set an error state to display in the UI
+    if (!token) return;
+    try {
+      const response = await fetch('/api/stats', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`
         }
-    };
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json() as {
+        data: {
+          queued?: number, denied?: number
+        },
+        success: boolean
+      };
+      if (data.success) {
+        setStatus(prevStatus => ({
+          queued: data.data.queued || prevStatus.queued,
+          denied: data.data.denied || prevStatus.denied
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to fetch status:', error);
+      // Optionally set an error state to display in the UI
+    }
+  };
 
-    const fetchToken = async () => {
-        try {
-            const response = await fetch("/api/auth", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json() as { token?: string };
-            if (data.token) {
-                fetchStatus(data.token);
-            } else {
-                throw new Error("No token received from server");
-            }
-        } catch (error) {
-            setError(`Error fetching token: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
-    };
+  const fetchToken = async () => {
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json() as { token?: string };
+      if (data.token) {
+        fetchStatus(data.token);
+      } else {
+        throw new Error("No token received from server");
+      }
+    } catch (error) {
+      setError(`Error fetching token: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
 
 
   // Initial stats fetch (runs only once)

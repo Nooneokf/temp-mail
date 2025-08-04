@@ -1,3 +1,4 @@
+// app/[locale]/page.tsx
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { AppFooter } from '@/components/app-footer';
 import { AppHeader } from '@/components/app-header';

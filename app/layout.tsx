@@ -17,6 +17,8 @@ export const metadata = {
 
 import { GoogleAnalytics } from '@next/third-parties/google'
 import "@/styles/global.css"
+import { Toaster } from 'react-hot-toast';
+import { AuthContextWrapper } from '@/components/AuthContextWrapper';
 
 export default function RootLayout({
   children,
@@ -26,11 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <GoogleAnalytics gaId="G-RXTEEVC8C4" />
+        <GoogleAnalytics gaId="G-RXTEEVC8C4" />
         <link rel="icon" href="/favicon.ico" />
-<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
       </head>
-      <body>{children}</body>
+      <body>
+        <AuthContextWrapper> {/* Wrap everything here */}
+          <Toaster position="top-center" reverseOrder={false} /> {/* <-- Add Toaster component */}{children}
+        </AuthContextWrapper>
+      </body>
     </html>
   )
 }

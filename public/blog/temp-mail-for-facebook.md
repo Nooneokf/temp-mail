@@ -112,7 +112,7 @@ Tips from DICloak’s guide:
 
 ---
 
-## 📘 Related Articles (Keep Users Engaged)
+## 📘 Related Articles
 
 - [Is Temp Mail Safe?](https://www.freecustom.email/blog/is-temp-mail-safe)  
 - [Best Practices for Using Temp Mail](https://www.freecustom.email/blog/best-practices-for-using-temp-mail)  

@@ -1,5 +1,6 @@
+// app/api/stats/route.ts
 import { NextResponse } from 'next/server'
-import { authenticateRequest, fetchFromAPI } from '@/lib/api'
+import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api'
 
 export async function GET(request: Request) {
     if (!await authenticateRequest(request)) {
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
     }
 
     try {
-        const data = await fetchFromAPI(`/health`)
+        const data = await fetchFromServiceAPI(`/health`)
         return NextResponse.json(data)
     } catch (error) {
         console.error('API request failed:', error)

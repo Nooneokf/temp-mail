@@ -1,6 +1,7 @@
+// components/email-box.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,22 +17,19 @@ import { ShareDropdown } from "./ShareDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useTranslations } from "next-intl";
+import { useAuth } from '@/contexts/AuthContext'; // <-- Import Auth
+import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'; // <-- Import new hook
+import { Crown } from "lucide-react"; // <-- Import Crown icon
 
-const DOMAINS = [
-  "saleis.live",
-  "arrangewith.me",
-  "areueally.info",
-  "ditapi.info",
-  "ditcloud.info",
-  "ditdrive.info",
-  "ditgame.info",
-  "ditlearn.info",
-  "ditpay.info",
-  "ditplay.info",
-  "ditube.info",
-  "junkstopper.info"];
+const FREE_DOMAINS = [ // <-- Rename for clarity
+  "saleis.live", "arrangewith.me", "areueally.info", "ditapi.info",
+  "ditcloud.info", "ditdrive.info", "ditgame.info", "ditlearn.info",
+  "ditpay.info", "ditplay.info", "ditube.info", "junkstopper.info"
+];
 
-function generateRandomEmail(domain: string = DOMAINS[0]): string {
+
+
+function generateRandomEmail(domain: string = FREE_DOMAINS[0]): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
   const length = 6; // Define the desired length of the email prefix
   let prefix = "";
@@ -54,6 +52,7 @@ interface Message {
 export function EmailBox() {
 
   const t = useTranslations('EmailBox');
+  const { isAuthenticated, plan, openLoginPopup, user } = useAuth(); // <-- Use Auth state
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -69,11 +68,36 @@ export function EmailBox() {
   const [token, setToken] = useState<string | null>(null);
   const [oldEmailUsed, setOldEmailUsed] = useState(false);
   const [blockButtons, setBlockButtons] = useState(false);
-  const [selectedDomain, setSelectedDomain] = useState(DOMAINS[0]); // Default to the first domain
+  const [selectedDomain, setSelectedDomain] = useState(''); // Default to the first domain
   const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
   const [discoveredUpdates, setDiscoveredUpdates] = useState({
     newDomains: false
   });
+  const [showAttachmentNotice, setShowAttachmentNotice] = useState(false);
+
+  // --- DYNAMIC DOMAIN LIST LOGIC ---
+  const availableDomains = useMemo(() => {
+    if (plan === 'pro' && user?.customDomains) {
+      // Filter for verified domains only
+      const verifiedCustomDomains = user.customDomains
+        .filter(d => d.verified)
+        .map(d => d.domain);
+
+      // Prepend user's domains to the list of free domains
+      return [...verifiedCustomDomains, ...FREE_DOMAINS];
+    }
+    // For free or anonymous users, just return the free domains
+    return FREE_DOMAINS;
+  }, [plan, user]);
+
+  // --- FEATURE: Keyboard Shortcuts ---
+  const shortcuts = {
+    'r': () => refreshInbox(),
+    'c': () => copyEmail(),
+    'd': () => deleteEmail(),
+    'n': () => isAuthenticated && changeEmail(), // Only allow edit mode if logged in
+  };
+  useKeyboardShortcuts(shortcuts, plan); // Pass plan to enable/disable shortcuts
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -91,8 +115,8 @@ export function EmailBox() {
         let domain = localStorage.getItem('primaryDomain') as string
         setPrimaryDomain(domain || null);
 
-        if (!domain && !(DOMAINS.includes(domain))) {
-          domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
+        if (!domain && !(availableDomains.includes(domain))) {
+          domain = availableDomains[Math.floor(Math.random() * availableDomains.length)];
         }
         const newEmail = generateRandomEmail(domain);
         setEmail(newEmail);
@@ -106,17 +130,29 @@ export function EmailBox() {
           localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: false }));
         }
       }
+      // --- MODIFIED: Smartly select initial domain ---
+      if (typeof window !== 'undefined') {
+        // Default to the first available domain. If the user is Pro with a verified
+        // custom domain, that will be selected automatically.
+        const initialDomain = availableDomains[0] || FREE_DOMAINS[0];
+
+        const newEmail = generateRandomEmail(initialDomain);
+        setEmail(newEmail);
+        setSelectedDomain(initialDomain);
+      }
     };
 
-    initializeEmailBox();
-  }, []);
+    if (availableDomains.length > 0) {
+      initializeEmailBox();
+    }
+    // Re-run initialization if the list of available domains changes (e.g., after login)
+  }, [availableDomains]);
 
   useEffect(() => {
     if (email && token) {
       refreshInbox(); // Initial inbox load
 
-      const mailboxName = email.split("@")[0];
-      const socket = new WebSocket(`wss://api.freecustom.email/?mailbox=${mailboxName}`);
+      const socket = new WebSocket(`wss://api.freecustom.email/?mailbox=${email}`);
 
       socket.onopen = () => {
         console.log("WebSocket connection established");
@@ -202,7 +238,7 @@ export function EmailBox() {
     }
     setIsRefreshing(true);
     try {
-      const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}`, {
+      const response = await fetch(`/api/mailbox?fullMailboxId=${email}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -211,6 +247,12 @@ export function EmailBox() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+      // Check for attachment notice from backend
+      if (data.wasAttachmentStripped) {
+        setShowAttachmentNotice(true);
+      } else {
+        setShowAttachmentNotice(false);
+      }
       const typedData = data as { success: boolean; data: Message[]; message?: string };
       if (typedData.success && Array.isArray(typedData.data)) {
         setMessages(typedData.data);
@@ -231,6 +273,16 @@ export function EmailBox() {
   }
 
   const changeEmail = () => {
+    // --- FEATURE: Tiered Edit Logic ---
+    if (!isAuthenticated) {
+      // For anonymous, get a new random email from the free domains list
+      const domain = FREE_DOMAINS[Math.floor(Math.random() * FREE_DOMAINS.length)];
+      const newEmail = generateRandomEmail(selectedDomain);
+      setEmail(newEmail);
+      setSelectedDomain(domain);
+      setIsEditing(false);
+      return;
+    }
     if (isEditing) {
       const [prefix] = email.split('@')
       if (prefix && prefix.length > 0) {
@@ -256,6 +308,18 @@ export function EmailBox() {
     }
   }
 
+  // --- FEATURE: Save to Local Storage ---
+  const saveToLocalStorage = async (message: Message) => {
+    if (plan !== 'free') return; // Only for free tier users
+    // Fetch full message first
+    const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, { /*...*/ });
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem(`saved-msg-${message.id}`, JSON.stringify(data.data));
+      alert("Message saved to your browser's local storage!");
+    }
+  }
+
   const deleteEmail = () => {
     setItemToDelete({ type: 'email' })
     setIsDeleteModalOpen(true)
@@ -274,20 +338,21 @@ export function EmailBox() {
   const handleDeleteConfirmation = async () => {
     if (itemToDelete?.type === 'email') {
       let domain = localStorage.getItem('primaryDomain') as string
-      if (!domain && !(DOMAINS.includes(domain))) {
-        domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
+      if (!domain && !(availableDomains.includes(domain))) {
+        domain = availableDomains[Math.floor(Math.random() * availableDomains.length)];
       }
       const newEmail = generateRandomEmail(domain);
       setEmail(newEmail);
-      setSelectedDomain(domain); // Set the selected domain to the random one
-      setMessages([])
+      setSelectedDomain(domain);
+      setMessages([]);
+
       if (email && token) {
         refreshInbox(); // Refresh inbox only when both email and token are available
       }
 
     } else if (itemToDelete?.type === 'message' && itemToDelete.id) {
       try {
-        const response = await fetch(`/api/mailbox?mailbox=${email.split('@')[0]}&messageId=${itemToDelete.id}`, {
+        const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${itemToDelete.id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -369,13 +434,19 @@ export function EmailBox() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar"
                 >
-                  {DOMAINS.map((domain, i) => (
-                    <DropdownMenuItem
-                      key={i}
-                      onSelect={() => handleDomainChange(domain)}
-                      className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
-                    >
-                      <span>{domain}</span>
+                  {availableDomains.map((domain) => {
+                    const isCustom = !FREE_DOMAINS.includes(domain);
+                    return (
+                        <DropdownMenuItem
+                            key={domain}
+                            onSelect={() => handleDomainChange(domain)}
+                            className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
+                        >
+                            <div className="flex items-center gap-2">
+                                {isCustom && <Crown className="h-4 w-4 text-amber-500" />}
+                                <span>{domain}</span>
+                            </div>
+
                       <Button
                         title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
                         variant="ghost"
@@ -392,7 +463,8 @@ export function EmailBox() {
                         />
                       </Button>
                     </DropdownMenuItem>
-                  ))}
+                    );
+                  })}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -454,8 +526,8 @@ export function EmailBox() {
             onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
             aria-label={isEditing ? t('save') : t('change')}
           >
-            {!isEditing ? <Edit className="mr-2 h-4 w-4" /> : <CheckCheck className="mr-2 h-4 w-4" />}
-            <span className="hidden sm:inline">{isEditing ? t('save') : t('change')}</span>
+            {!isAuthenticated ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
+            <span className="hidden sm:inline">{!isAuthenticated ? t('change') : isEditing ? t('save') : t('change')}</span>
             <AnimatePresence>
               {!discoveredUpdates.newDomains && (
                 <motion.span
@@ -510,6 +582,11 @@ export function EmailBox() {
                   <TableCell>
                     <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
                     <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
+                    {plan === 'free' && (
+                      <Button variant="ghost" size="icon" title="Save to Browser" onClick={() => saveToLocalStorage(message)}>
+                        <Star className="h-4 w-4" />
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))
@@ -530,6 +607,13 @@ export function EmailBox() {
           </ul>
         </div>
       </CardContent>
+      {/* --- FEATURE: Attachment Notice --- */}
+      {showAttachmentNotice && (
+        <div className="p-3 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 text-center">
+          An email arrived with an attachment that exceeds your plan's limit.
+          <button onClick={openLoginPopup} className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
+        </div>
+      )}
       <CardHeader>
         <h2 className="text-xl font-semibold">{t('card_header_title')}</h2>
         <p className="text-sm text-muted-foreground">{t('card_header_p')}</p>
