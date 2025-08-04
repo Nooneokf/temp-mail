@@ -21,10 +21,10 @@ website: https://www.freecustom.email
 
 ## Is Temp Mail Safe?
 
-Yes, temp mail is safe when used for the right purposes.
-It helps protect your real email from spam, trackers, and data leaks by giving you a short-lived, anonymous address.
+Yes, **temp mail is safe** when used for the right purposes.
+It helps protect your real email from **spam, trackers, and data leaks** by giving you a short-lived, anonymous address.
 
-But: don’t use it for anything sensitive—like banking, personal logins, or password resets.
+But: **don’t use it for anything sensitive**—like banking, personal logins, or password resets.
 
 ---
 
