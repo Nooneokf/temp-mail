@@ -93,7 +93,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 </h1>
                 <div className="flex items-center gap-4 mb-2">
                   {Array.isArray(data.author) ? (
-                    data.author.map((author: { name: string; avatar?: string }) => (
+                    data.author.map((author: { name: string; avatar?: string; bio: string }) => (
                       <div key={author.name} className="flex items-center gap-2">
                         {author.avatar && (
                           <Image
@@ -103,7 +103,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             alt={author.name}
                             className="w-8 h-8 rounded-full border-2 border-blue-400" />
                         )}
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{author.name}</span>
+                        <div className='gap-1'>
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{author.name}</span>
+                          <p className='text-xs text-gray-600 dark:text-gray-400'>{author.bio}</p>
+                        </div>
                       </div>
                     ))
                   ) : data.author ? (
