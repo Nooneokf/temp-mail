@@ -111,7 +111,7 @@ Use a **trusted provider like FreeCustom.Email**, follow usage best practices, a
 
 ---
 
-## 🤖 FAQ (for Snippet + Schema)
+## 🤖 FAQ
 
 ### ❓ Is Temp Mail Safe?
 Yes, temp mail is safe when used correctly for low-risk signups or anonymous email use. Avoid it for sensitive or long-term accounts.
