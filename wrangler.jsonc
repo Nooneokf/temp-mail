@@ -24,7 +24,12 @@
     }
   ],
   "vars": {
-    "API_URL": "api.freecustom.email",
-    "JWT_SECRET": "D+WKZ5Q7uBjt62Aq4WVSMmrjoAD+6WaqLmpkJu42teR2+5uqdO3MQJaHlGI="
+    "SERVICE_API_URL": "https://api.freecustom.email",
+    "JWT_SECRET": "D+WKZ5Q7uBjt62Aq4WVSMmrjoAD+6WaqLmpkJu42teR2+5uqdO3MQJaHlGI=",
+    "NEXTAUTH_SECRET": "https://www.freecustom.email",
+    "NEXTAUTH_URL": "https://www.freecustom.email",
+    "INTERNAL_API_KEY": "your_internal_api_key_here",
+    "WYI_CLIENT_ID": "your_wyi_client_id_here",
+    "WYI_CLIENT_SECRET": "your_wyi_client_secret_here",
   }
 }
