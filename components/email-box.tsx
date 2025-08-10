@@ -30,14 +30,14 @@ const FREE_DOMAINS = [ // <-- Rename for clarity
 
 // A simple fetcher function for useSWR
 const fetcher = (url: string) => fetch(url).then(res => {
-    if (!res.ok) {
-        const error = new Error('An error occurred while fetching the data.');
-        // Attach extra info to the error object.
-        error.info = res.json();
-        error.status = res.status;
-        throw error;
-    }
-    return res.json();
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the data.');
+    // Attach extra info to the error object.
+    error.info = res.json();
+    error.status = res.status;
+    throw error;
+  }
+  return res.json();
 });
 
 function generateRandomEmail(domain: string = FREE_DOMAINS[0]): string {
@@ -62,8 +62,8 @@ interface Message {
 
 export function EmailBox() {
 
+  const { data: session, status } = useSession();
   const t = useTranslations('EmailBox');
-  const {data: session, status} = useSession();
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -95,6 +95,8 @@ export function EmailBox() {
     fetcher
   );
 
+  console.log("Custom Domains:", customDomains, session.user.plan);
+
 
   // --- DYNAMIC DOMAIN LIST LOGIC ---
   const availableDomains = useMemo(() => {
@@ -109,7 +111,7 @@ export function EmailBox() {
     }
     // For free or anonymous users, just return the free domains
     return FREE_DOMAINS;
-  }, [session?.user.plan, session?.user]);
+  }, [session?.user.plan, customDomains]); // <-- CORRECTED DEPENDENCY ARRAY
 
   // --- FEATURE: Keyboard Shortcuts ---
   const shortcuts = {
@@ -442,32 +444,32 @@ export function EmailBox() {
                   {availableDomains.map((domain) => {
                     const isCustom = !FREE_DOMAINS.includes(domain);
                     return (
-                        <DropdownMenuItem
-                            key={domain}
-                            onSelect={() => handleDomainChange(domain)}
-                            className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
-                        >
-                            <div className="flex items-center gap-2">
-                                {isCustom && <Crown className="h-4 w-4 text-amber-500" />}
-                                <span>{domain}</span>
-                            </div>
-
-                      <Button
-                        title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => { e.stopPropagation(); handlePrimaryDomainChange(domain); }}
-                        aria-label={`Set ${domain} as primary`}
-                        className="hover:bg-transparent"
+                      <DropdownMenuItem
+                        key={domain}
+                        onSelect={() => handleDomainChange(domain)}
+                        className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-muted dark:hover:bg-zinc-800"
                       >
-                        <Star
-                          className={`h-4 w-4 ${primaryDomain === domain
-                            ? 'fill-yellow-500 text-yellow-500 dark:fill-yellow-400 dark:text-yellow-400'
-                            : 'text-muted-foreground'
-                            }`}
-                        />
-                      </Button>
-                    </DropdownMenuItem>
+                        <div className="flex items-center gap-2">
+                          {isCustom && <Crown className="h-4 w-4 text-amber-500" />}
+                          <span>{domain}</span>
+                        </div>
+
+                        <Button
+                          title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => { e.stopPropagation(); handlePrimaryDomainChange(domain); }}
+                          aria-label={`Set ${domain} as primary`}
+                          className="hover:bg-transparent"
+                        >
+                          <Star
+                            className={`h-4 w-4 ${primaryDomain === domain
+                              ? 'fill-yellow-500 text-yellow-500 dark:fill-yellow-400 dark:text-yellow-400'
+                              : 'text-muted-foreground'
+                              }`}
+                          />
+                        </Button>
+                      </DropdownMenuItem>
                     );
                   })}
                 </DropdownMenuContent>

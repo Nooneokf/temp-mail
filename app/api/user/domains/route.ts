@@ -15,6 +15,7 @@ export async function GET() {
     try {
         // Fetch domains from your Express backend
         const serviceResponse = await fetchFromServiceAPI(`/user/${session.user.id}/domains`);
+        console.log("Fetched domains:", serviceResponse.domains.map((d: any) => d.domain));
         return NextResponse.json(serviceResponse.domains); // Return the domains array directly
     } catch (error: any) {
         return NextResponse.json({ message: error.message || 'Server Error' }, { status: 500 });

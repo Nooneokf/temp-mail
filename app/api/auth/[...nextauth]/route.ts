@@ -1,7 +1,7 @@
 // app/api/auth/[...nextauth]/route.ts
 
 import NextAuth from 'next-auth';
-import type { NextAuthOptions, User, Account } from 'next-auth';
+import type { NextAuthOptions, User } from 'next-auth';
 import { fetchFromServiceAPI } from '@/lib/api';
 
 interface WYIProfile {
@@ -44,8 +44,42 @@ export const authOptions: NextAuthOptions = {
             id: 'wyi',
             name: 'WhatsYourInfo',
             type: 'oauth',
-            authorization: "https://whatsyour.info/oauth/authorize?scope=profile:read+email:read",
-            token: "https://whatsyour.info/api/v1/oauth/token",
+            // It's better practice to use the object format for authorization
+            authorization: {
+                url: "https://whatsyour.info/oauth/authorize",
+                params: { scope: "profile:read email:read" },
+            },
+
+            // --- START OF THE FIX ---
+            // Explicitly define how to request the token, matching your working example.
+            token: {
+                url: "https://whatsyour.info/api/v1/oauth/token",
+                async request(context) {
+                    const response = await fetch("https://whatsyour.info/api/v1/oauth/token", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                          grant_type: "authorization_code",
+                          code: context.params.code,
+                          redirect_uri: context.provider.callbackUrl,
+                          client_id: context.provider.clientId,
+                          client_secret: context.provider.clientSecret,
+                        }),
+                    });
+        
+                    const tokens = await response.json();
+                    if (!response.ok) {
+                        console.error("Token request failed:", tokens);
+                        throw new Error(tokens.error_description || "Token request failed");
+                    }
+                    // The request function needs to return an object with a `tokens` property
+                    return { tokens };
+                },
+            },
+            // --- END OF THE FIX ---
+
             userinfo: "https://whatsyour.info/api/v1/me",
             clientId: process.env.WYI_CLIENT_ID,
             clientSecret: process.env.WYI_CLIENT_SECRET,
@@ -55,6 +89,7 @@ export const authOptions: NextAuthOptions = {
                     id: profile._id,
                     name: `${profile.firstName} ${profile.lastName}`.trim(),
                     email: profile.email,
+                    // Add any other user properties you need here
                     plan: profile.isProUser ? 'pro' : 'free',
                 };
             },
@@ -62,6 +97,7 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
+            // This callback runs AFTER the token exchange is successful.
             if (account?.provider === 'wyi' && profile) {
                 try {
                     // On every sign-in, ensure the user exists and is up-to-date in your database
@@ -75,7 +111,7 @@ export const authOptions: NextAuthOptions = {
             return false;
         },
 
-        async jwt({ token, user }) {
+        async jwt({ token, user, account }) {
             // After sign-in, add custom properties from the User object to the JWT
             if (user) {
                 token.id = user.id;

@@ -10,6 +10,7 @@ import Script from 'next/script';
 import Link from 'next/link';
 import { Locale } from 'next-intl';
 import { ThemeProvider } from '@/components/theme-provider';
+import { DITMailPopup } from '@/components/DITMailPopup';
 
 type Props = {
     params: Promise<{ locale: Locale }>;
@@ -82,6 +83,7 @@ export default async function Page({ params }: Props) {
                     </main>
                     <AppFooter />
                 </div>
+                <DITMailPopup />
             </ThemeProvider>
         </>
     );
