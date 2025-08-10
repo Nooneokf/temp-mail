@@ -1,47 +1,48 @@
-// lib/posts.ts
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import matter from 'gray-matter';
+// Import the manifest generated at build time
+import posts from './blog-manifest.json';
 
-const blogDirectory = path.join(process.cwd(), 'public/blog')
-
-export function getAllPostSlugs() {
-  return fs.readdirSync(blogDirectory)
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => file.replace('.md', ''))
+export interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt?: string;
 }
 
+/**
+ * Returns a sorted list of all blog post metadata.
+ * Reads from the pre-built manifest and does NOT use the file system.
+ */
+export function getBlogPosts(): BlogPost[] {
+  // The posts are already sorted by the build script.
+  return posts;
+}
+
+/**
+ * Returns an array of slugs for use in generateStaticParams.
+ * Reads from the pre-built manifest.
+ */
+export function getAllPostSlugs(): string[] {
+  return posts.map((post) => post.slug);
+}
+
+/**
+ * Fetches the content of a single blog post by its slug.
+ * This function is serverless-friendly because the markdown files are in the `public`
+ * directory and accessible via a URL.
+ */
 export async function getPostBySlug(slug: string) {
-    const res = await fetch(`https://www.freecustom.email/blog/${slug}.md`) // if in public/blog/
-    const fileContent = await res.text()
-  
-    const { data, content } = matter(fileContent)
-    return { data, content }
+  // This part of your code was already correct!
+  // We fetch the raw markdown file from its public URL.
+  const res = await fetch(`https://www.freecustom.email/blog/${slug}.md`);
+
+  if (!res.ok) {
+    // Handle the case where the post is not found
+    return null;
   }
   
-  export interface BlogPost {
-  slug: string
-  title: string
-  date: string
-  excerpt?: string
-}
+  const fileContent = await res.text();
+  const { data, content } = matter(fileContent);
 
-export function getBlogPosts(): BlogPost[] {
-  const blogDir = path.join(process.cwd(), 'public/blog')
-  const files = fs.readdirSync(blogDir)
-
-  return files
-    .filter(filename => filename.endsWith('.md'))
-    .map(filename => {
-      const filePath = path.join(blogDir, filename)
-      const fileContent = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContent)
-      return {
-        slug: filename.replace('.md', ''),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt || content.slice(0, 120).replace(/\n/g, '') + '...',
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  return { data, content };
 }

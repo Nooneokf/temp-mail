@@ -1,10 +1,8 @@
 // app/blog/page.tsx
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import Link from 'next/link'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AppHeader } from '@/components/nLHeader'
+import { getBlogPosts } from '@/lib/posts'
 
 interface BlogPost {
   slug: string
@@ -15,23 +13,7 @@ interface BlogPost {
 
 
 export default function BlogPage() {
-  const blogDir = path.join(process.cwd(), 'public/blog')
-  const files = fs.readdirSync(blogDir)
-
-  const posts: BlogPost[] = files
-    .filter(filename => filename.endsWith('.md'))
-    .map(filename => {
-      const filePath = path.join(blogDir, filename)
-      const fileContent = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContent)
-      return {
-        slug: filename.replace('.md', ''),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt || content.slice(0, 120).replace(/\n/g, '') + '...',
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  const posts = getBlogPosts()
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

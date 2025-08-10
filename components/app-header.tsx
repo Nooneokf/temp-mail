@@ -15,7 +15,7 @@ import { AuthPopup } from './AuthPopup';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from './ui/dropdown-menu';
 import { LATEST_CHANGELOG_VERSION } from "@/lib/changelog"; // <-- Import latest version
 import { WhatsNewModal } from "./WhatsNewModal"; // <-- Import the modal
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 export function AppHeader() {
   const t = useTranslations('AppHeader');
@@ -80,7 +80,7 @@ export function AppHeader() {
     if (status === 'loading') {
       return <div className="h-9 w-24 bg-muted rounded animate-pulse"></div>;
     }
-    if (status === 'authenticated') {
+    if (status === 'authenticated' && session?.user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -93,7 +93,7 @@ export function AppHeader() {
         </DropdownMenu>
       );
     }
-    return <Button onClick={() => setIsPopupOpen(true)}>Login</Button>;
+    return <Button onClick={() => setIsPopupOpen(true)} className='md:p-4 p-2'>Login</Button>;
   };
 
   return (
@@ -107,8 +107,11 @@ export function AppHeader() {
               width={40}
               height={40}
               className="h-8 w-8 sm:h-10 sm:w-10" />
-            <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">
+            <span className="text-base hidden xs:block sm:text-lg md:text-xl font-bold whitespace-nowrap">
               FreeCustom.Email
+            </span>
+            <span className="text-base block xs:hidden font-bold whitespace-nowrap">
+              FC.E
             </span>
           </Link>
 
@@ -151,6 +154,10 @@ export function AppHeader() {
           </div>
 
           <div className="md:hidden flex items-center gap-2">
+            {/* --- AUTH BUTTON LOGIC --- */}
+            <div className="">
+              {renderAuthButton()}
+            </div>
             <Button
               variant="ghost"
               size="icon"
@@ -239,10 +246,7 @@ export function AppHeader() {
                 >
                   <FaDiscord className="h-4 w-4" /> {t('discord')}
                 </a>
-                {/* --- AUTH BUTTON LOGIC --- */}
-                <div className="mt-auto pt-4 border-t">
-                  {renderAuthButton()}
-                </div>
+
                 {/* --- END AUTH BUTTON LOGIC --- */}
                 {/* --- "WHAT'S NEW" BUTTON --- */}
                 <Button

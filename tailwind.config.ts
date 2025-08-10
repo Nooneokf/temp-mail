@@ -57,7 +57,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			screens: {
-				xs: '330px', // Define the breakpoint for `xs`
+				xs: '370px', // Define the breakpoint for `xs`
 			},
 		}
 	},

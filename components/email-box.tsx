@@ -21,6 +21,10 @@ import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'; // <-- Im
 import { Crown } from "lucide-react"; // <-- Import Crown icon
 import { useSession } from "next-auth/react";
 import useSWR from 'swr'; // <-- Recommended for data fetching
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
+
+
 
 const FREE_DOMAINS = [ // <-- Rename for clarity
   "saleis.live", "arrangewith.me", "areueally.info", "ditapi.info",
@@ -91,11 +95,9 @@ export function EmailBox() {
   // --- DATA FETCHING WITH SWR ---
   // Fetch custom domains if the user is a pro
   const { data: customDomains, error: customDomainsError } = useSWR<any[]>(
-    isAuthenticated && session.user.plan === 'pro' ? '/api/user/domains' : null,
+    isAuthenticated && session?.user?.plan === 'pro' ? '/api/user/domains' : null,
     fetcher
   );
-
-  console.log("Custom Domains:", customDomains, session.user.plan);
 
 
   // --- DYNAMIC DOMAIN LIST LOGIC ---
@@ -111,7 +113,7 @@ export function EmailBox() {
     }
     // For free or anonymous users, just return the free domains
     return FREE_DOMAINS;
-  }, [session?.user.plan, customDomains]); // <-- CORRECTED DEPENDENCY ARRAY
+  }, [session, customDomains]); // <-- CORRECTED DEPENDENCY ARRAY
 
   // --- FEATURE: Keyboard Shortcuts ---
   const shortcuts = {
@@ -120,7 +122,8 @@ export function EmailBox() {
     'd': () => deleteEmail(),
     'n': () => session?.user && changeEmail(), // Only allow edit mode if logged in
   };
-  useKeyboardShortcuts(shortcuts, session?.user.plan); // Pass plan to enable/disable shortcuts
+  useKeyboardShortcuts(shortcuts, session?.user?.plan);
+  // Pass plan to enable/disable shortcuts
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -175,7 +178,7 @@ export function EmailBox() {
     if (email && token) {
       refreshInbox(); // Initial inbox load
 
-      const socket = new WebSocket(`wss://api.freecustom.email/?mailbox=${email}`);
+      const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
 
       socket.onopen = () => {
         console.log("WebSocket connection established");
@@ -317,15 +320,20 @@ export function EmailBox() {
 
   // --- FEATURE: Save to Local Storage ---
   const saveToLocalStorage = async (message: Message) => {
-    if (session?.user.plan !== 'free') return; // Only for free tier users
-    // Fetch full message first
-    const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, { /*...*/ });
+    // NEW: Safely access session.user.plan
+    if (session?.user?.plan !== 'free') return;
+    const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     const data = await response.json();
     if (data.success) {
       localStorage.setItem(`saved-msg-${message.id}`, JSON.stringify(data.data));
       alert("Message saved to your browser's local storage!");
     }
-  }
+  };
+
 
   const deleteEmail = () => {
     setItemToDelete({ type: 'email' })
@@ -480,7 +488,10 @@ export function EmailBox() {
               {email || t('loading')}
             </div>
           )}
+        <TooltipProvider delayDuration={200}>
           <div className="flex gap-2" role="group" aria-label="Email actions">
+            <Tooltip>
+              <TooltipTrigger asChild>
             <Button
               variant="secondary"
               size="icon"
@@ -500,7 +511,13 @@ export function EmailBox() {
               )}>
                 <Check className="h-4 w-4 transition-all" />
               </span>
+              <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
             </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
+              </TooltipContent>
+            </Tooltip>
             <Button
               className="hidden xs:flex"
               variant="secondary"
@@ -514,52 +531,89 @@ export function EmailBox() {
             </Button>
             <ShareDropdown />
           </div>
+          </TooltipProvider>
         </div>
-        <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
-          <Button
-            disabled={blockButtons || isRefreshing}
-            variant="outline"
-            className="flex-1"
-            onClick={refreshInbox}
-            aria-label={isRefreshing ? t('refreshing') : t('refresh')}
-          >
-            <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
-            <span className="hidden sm:inline">{isRefreshing ? t('refreshing') : t('refresh')}</span>
-          </Button>
-          <Button
-            disabled={blockButtons}
-            variant="outline"
-            className="flex-1"
-            onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
-            aria-label={isEditing ? t('save') : t('change')}
-          >
-            {!session?.user ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
-            <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
-            <AnimatePresence>
-              {!discoveredUpdates.newDomains && (
-                <motion.span
-                  key="new-badge"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-[10px] bg-black text-white rounded-full px-1.5"
+        {/* Action Buttons with Tooltips */}
+        {/* NEW: Wrap buttons in TooltipProvider */}
+        <TooltipProvider delayDuration={200}>
+          <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
+            {/* Refresh Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  disabled={blockButtons || isRefreshing}
+                  variant="outline"
+                  className="flex-1"
+                  onClick={refreshInbox}
+                  aria-label={isRefreshing ? t('refreshing') : t('refresh')}
                 >
-                  {t('new')}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </Button>
-          <Button
-            disabled={blockButtons}
-            variant="outline"
-            className="flex-1"
-            onClick={deleteEmail}
-            aria-label={t('delete')}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">{t('delete')}</span>
-          </Button>
-        </div>
+                  <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
+                  <span className="hidden sm:inline">{isRefreshing ? t('refreshing') : t('refresh')}</span>
+                  {/* NEW: Shortcut Badge */}
+                  <Badge variant="outline" className="ml-auto hidden sm:block">R</Badge>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isAuthenticated ? 'Press R to refresh' : 'Login to use shortcuts'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            {/* Change/Save Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  disabled={blockButtons}
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
+                  aria-label={isEditing ? t('save') : t('change')}
+                >
+                  {!session?.user ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
+                  <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
+                  {/* NEW: Shortcut Badge */}
+                  {isAuthenticated && <Badge variant="outline" className="ml-auto hidden sm:block">N</Badge>}
+                  <AnimatePresence>
+                    {!discoveredUpdates.newDomains && (
+                      <motion.span
+                        key="new-badge"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-[10px] bg-black text-white rounded-full px-1.5"
+                      >
+                        {t('new')}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isAuthenticated ? 'Press N to edit' : 'Login to edit and use its shortcut'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            {/* Delete Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  disabled={blockButtons}
+                  variant="outline"
+                  className="flex-1"
+                  onClick={deleteEmail}
+                  aria-label={t('delete')}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">{t('delete')}</span>
+                  {/* NEW: Shortcut Badge */}
+                  <Badge variant="outline" className="ml-auto hidden sm:block">D</Badge>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isAuthenticated ? 'Press D to delete' : 'Login to use shortcuts'}</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
         <Table>
           <TableHeader>
             <TableRow>
@@ -589,7 +643,7 @@ export function EmailBox() {
                   <TableCell>
                     <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
                     <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
-                    {session?.user.plan === 'free' && (
+                    {session?.user?.plan === 'free' && (
                       <Button variant="ghost" size="icon" title="Save to Browser" onClick={() => saveToLocalStorage(message)}>
                         <Star className="h-4 w-4" />
                       </Button>
