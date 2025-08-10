@@ -1,11 +1,33 @@
 // app/api/user/domains/route.ts
 import { NextResponse } from 'next/server';
-import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api';
+import { fetchFromServiceAPI } from '@/lib/api';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/[...nextauth]/route';
+
+
+// --- NEW GET METHOD ---
+export async function GET() {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    try {
+        // Fetch domains from your Express backend
+        const serviceResponse = await fetchFromServiceAPI(`/user/${session.user.id}/domains`);
+        return NextResponse.json(serviceResponse.domains); // Return the domains array directly
+    } catch (error: any) {
+        return NextResponse.json({ message: error.message || 'Server Error' }, { status: 500 });
+    }
+}
+
 
 export async function POST(request: Request) {
-    const decodedToken = await authenticateRequest(request);
-    if (!decodedToken || decodedToken.plan !== 'pro') {
-        return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+    // Get the session using the server-side utility
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const { domain } = await request.json();
@@ -19,7 +41,7 @@ export async function POST(request: Request) {
             method: 'POST',
             body: JSON.stringify({
                 domain: domain,
-                wyiUserId: decodedToken.wyiUserId // Pass the authenticated user ID
+                wyiUserId: session.user.id // Pass the authenticated user ID
             }),
         });
 
@@ -31,16 +53,18 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const decodedToken = await authenticateRequest(request);
-    if (!decodedToken || decodedToken.plan !== 'pro') {
-        return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+    // Get the session using the server-side utility
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
     const { domain } = await request.json();
 
     try {
         const serviceResponse = await fetchFromServiceAPI(`/user/domains`, {
             method: 'DELETE',
-            body: JSON.stringify({ domain, wyiUserId: decodedToken.wyiUserId }),
+            body: JSON.stringify({ domain, wyiUserId: session.user.id }) // Pass the authenticated user ID,
         });
         return NextResponse.json(serviceResponse);
 

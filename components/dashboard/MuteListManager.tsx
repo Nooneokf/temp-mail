@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 
 interface MuteListManagerProps {
@@ -14,7 +14,8 @@ interface MuteListManagerProps {
 }
 
 export function MuteListManager({ initialSenders }: MuteListManagerProps) {
-    const { user } = useAuth();
+    const {data: session, status: isAuthLoading} = useSession();
+    const user = session?.user;
     const [mutedSenders, setMutedSenders] = useState<string[]>(initialSenders);
     const [newSender, setNewSender] = useState("");
     const [isLoading, setIsLoading] = useState(false);

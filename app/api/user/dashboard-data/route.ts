@@ -1,16 +1,19 @@
 // app/api/user/dashboard-data/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api';
+import { fetchFromServiceAPI } from '@/lib/api';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/[...nextauth]/route';
 
 export async function GET(request: NextRequest) {
-    const decodedToken = await authenticateRequest(request);
+    // Get the session using the server-side utility
+    const session = await getServerSession(authOptions);
 
-    if (!decodedToken || !decodedToken.wyiUserId) {
+    if (!session || !session.user) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     try {
-        const serviceResponse = await fetchFromServiceAPI(`/user/${decodedToken.wyiUserId}/dashboard-data`);
+        const serviceResponse = await fetchFromServiceAPI(`/user/${session.user.id}/dashboard-data`);
         
         // The serviceResponse already contains the data we need.
         return NextResponse.json(serviceResponse);

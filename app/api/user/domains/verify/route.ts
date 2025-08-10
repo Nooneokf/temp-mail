@@ -1,11 +1,15 @@
 // app/api/user/domains/verify/route.ts
 import { NextResponse } from 'next/server';
-import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api';
+import { fetchFromServiceAPI } from '@/lib/api';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function POST(request: Request) {
-    const decodedToken = await authenticateRequest(request);
-    if (!decodedToken || decodedToken.plan !== 'pro') {
-        return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+    // Get the session using the server-side utility
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
     
     const { domain } = await request.json();
@@ -19,7 +23,7 @@ export async function POST(request: Request) {
             method: 'POST',
             body: JSON.stringify({
                 domain: domain,
-                wyiUserId: decodedToken.wyiUserId
+                wyiUserId: session.user.id // Pass the authenticated user ID
             }),
         });
         

@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 interface AuthPopupProps {
   isOpen: boolean;
@@ -17,11 +18,6 @@ const Feature = ({ children }: { children: React.ReactNode }) => (
 );
 
 export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
-    const handleLogin = () => {
-        // This is where you redirect to your WYI OAuth provider
-        const wyiOAuthUrl = `https://whatsyour.info/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/wyi&response_type=code&scope=profile:read%20email:read`;
-        window.location.href = wyiOAuthUrl;
-    };
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -45,7 +41,7 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                             <Feature>Save to Browser Storage</Feature>
                             <Feature>Basic Keyboard Shortcuts</Feature>
                         </ul>
-                        <Button variant="outline" onClick={handleLogin}><img src='/wyi.png' className="w-5 h-5" /> Login with WYI </Button>
+                        <Button variant="outline" onClick={() => signIn('wyi')}><img src='/wyi.png' className="w-5 h-5" /> Login with WYI </Button>
                     </div>
 
                     {/* Pro Plan */}
@@ -65,7 +61,7 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                            <Feature>Mute Senders & Full Shortcuts</Feature>
                            <Feature>Private Mailbox</Feature>
                         </ul>
-                        <Button onClick={handleLogin}><img src='/wyi.png' className="w-5 h-5" />Upgrade with WYI</Button>
+                        <Button onClick={() => signIn('wyi')}><img src='/wyi.png' className="w-5 h-5" />Upgrade with WYI</Button>
                     </div>
                 </div>
             </DialogContent>

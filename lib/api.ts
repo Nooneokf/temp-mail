@@ -57,17 +57,6 @@ export async function fetchFromServiceAPI(path: string, options: RequestInit = {
 export async function authenticateRequest(request: Request): Promise<any | null> {
     let token = request.headers.get('Authorization')?.split('Bearer ')[1];
 
-    // Fallback: Check for token in cookies
-    if (!token) {
-        const cookieHeader = request.headers.get('cookie');
-        const cookies = Object.fromEntries(
-            (cookieHeader || '')
-                .split(';')
-                .map(cookie => cookie.trim().split('=').map(decodeURIComponent))
-        );
-        token = cookies['app_jwt'];
-    }
-
     if (!token) {
         return null;
     }

@@ -1,11 +1,11 @@
 "use client";
 
-import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CustomDomainManager } from '@/components/dashboard/CustomDomainManager';
 import { MuteListManager } from '@/components/dashboard/MuteListManager';
 import { Loader2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 interface DashboardData {
     customDomains: any[];
@@ -13,19 +13,20 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
-    const { isAuthenticated, plan, isLoading: isAuthLoading, openLoginPopup } = useAuth();
+    const {data: session, status} = useSession();
+    const isAuthLoading = status === 'loading';
     const router = useRouter();
     const [data, setData] = useState<DashboardData | null>(null);
     const [isDataLoading, setIsDataLoading] = useState(true);
 
     useEffect(() => {
         // Auth guard
-        if (!isAuthLoading && (!isAuthenticated || plan !== 'pro')) {
+        if (!isAuthLoading && (!session?.user || session?.user.plan !== 'pro')) {
             router.push('/');
         }
 
         // Fetch dashboard data if authenticated as pro
-        if (!isAuthLoading && isAuthenticated && plan === 'pro') {
+        if (!isAuthLoading && session?.user && session?.user.plan === 'pro') {
             const fetchData = async () => {
                 try {
                     const response = await fetch('/api/user/dashboard-data');
@@ -33,7 +34,6 @@ export default function DashboardPage() {
                     const dashboardData = await response.json();
                     setData(dashboardData);
                 } catch (error) {
-                    openLoginPopup()
                     console.error(error);
                 } finally {
                     setIsDataLoading(false);
@@ -41,7 +41,7 @@ export default function DashboardPage() {
             };
             fetchData();
         }
-    }, [isAuthenticated, plan, isAuthLoading, router]);
+    }, [session?.user, session?.user.plan, isAuthLoading, router]);
 
     // Combined loading state
     const isLoading = isAuthLoading || isDataLoading;

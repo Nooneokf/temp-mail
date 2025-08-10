@@ -11,19 +11,19 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Navigation from "./Navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from '@/contexts/AuthContext';
 import { AuthPopup } from './AuthPopup';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from './ui/dropdown-menu';
 import { LATEST_CHANGELOG_VERSION } from "@/lib/changelog"; // <-- Import latest version
 import { WhatsNewModal } from "./WhatsNewModal"; // <-- Import the modal
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export function AppHeader() {
   const t = useTranslations('AppHeader');
   const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { isAuthenticated, user, logout, isLoading, isLoginPopupOpen } = useAuth(); // Use the auth context
-  const [isPopupOpen, setIsPopupOpen] = useState(isLoginPopupOpen);
+  const { data: session, status } = useSession(); // <-- Use the session hook
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // --- "WHAT'S NEW" STATE ---
   const [isWhatsNewOpen, setIsWhatsNewOpen] = useState(false);
@@ -75,6 +75,27 @@ export function AppHeader() {
     };
   }, [menuOpen]);
 
+
+  const renderAuthButton = () => {
+    if (status === 'loading') {
+      return <div className="h-9 w-24 bg-muted rounded animate-pulse"></div>;
+    }
+    if (status === 'authenticated') {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">{session.user?.name || 'Account'}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem asChild><Link href="/dashboard">Dashboard</Link></DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    }
+    return <Button onClick={() => setIsPopupOpen(true)}>Login</Button>;
+  };
+
   return (
     <>
       <header className="border-b w-full relative z-50 bg-background">
@@ -95,21 +116,8 @@ export function AppHeader() {
             <Navigation />
 
             {/* --- AUTH BUTTON LOGIC --- */}
-              {isLoading ? (
-                <div className="h-6 w-20 bg-muted rounded animate-pulse"></div>
-              ) : isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">{user?.name || 'Account'}</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem asChild><Link href="/dashboard">Dashboard</Link></DropdownMenuItem>
-                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Button onClick={() => setIsPopupOpen(true)}>Login</Button>
-              )}
+            {renderAuthButton()}
+
             {/* --- END AUTH BUTTON LOGIC --- */}
             {/* --- "WHAT'S NEW" BUTTON --- */}
             <Button
@@ -232,39 +240,27 @@ export function AppHeader() {
                   <FaDiscord className="h-4 w-4" /> {t('discord')}
                 </a>
                 {/* --- AUTH BUTTON LOGIC --- */}
-              {isLoading ? (
-                <div className="h-6 w-20 bg-muted rounded animate-pulse"></div>
-              ) : isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">{user?.name || 'Account'}</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem asChild><Link href="/dashboard">Dashboard</Link></DropdownMenuItem>
-                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Button onClick={() => setIsPopupOpen(true)}>Login</Button>
-              )}
-            {/* --- END AUTH BUTTON LOGIC --- */}
-            {/* --- "WHAT'S NEW" BUTTON --- */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={openWhatsNew}
-              className="relative p-2 w-full"
-              aria-label={'whats new'}
-            >
-              <Gift className="h-5 w-5" /> Updates
-              {!hasSeenLatest && (
-                <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
-                </span>
-              )}
-            </Button>
-            {/* --- END "WHAT'S NEW" BUTTON --- */}
+                <div className="mt-auto pt-4 border-t">
+                  {renderAuthButton()}
+                </div>
+                {/* --- END AUTH BUTTON LOGIC --- */}
+                {/* --- "WHAT'S NEW" BUTTON --- */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={openWhatsNew}
+                  className="relative p-2 w-full"
+                  aria-label={'whats new'}
+                >
+                  <Gift className="h-5 w-5" /> Updates
+                  {!hasSeenLatest && (
+                    <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                    </span>
+                  )}
+                </Button>
+                {/* --- END "WHAT'S NEW" BUTTON --- */}
 
                 <Navigation />
               </motion.div>
@@ -272,7 +268,7 @@ export function AppHeader() {
           )}
         </AnimatePresence>
       </header>
-      <AuthPopup isOpen={isPopupOpen || isLoginPopupOpen} onClose={() => setIsPopupOpen(false)} />
+      <AuthPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
       {/* Add the modal to the component's return statement */}
       <WhatsNewModal isOpen={isWhatsNewOpen} onClose={() => setIsWhatsNewOpen(false)} />
     </>

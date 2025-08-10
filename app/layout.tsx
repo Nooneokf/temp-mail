@@ -14,17 +14,14 @@ export const metadata = {
     ],
   },
 };
+import { GoogleAnalytics } from '@next/third-parties/google';
+import "@/styles/global.css";
+import Providers from "@/components/Providers";
+import { getServerSession } from "next-auth"; // server-side session fetch
 
-import { GoogleAnalytics } from '@next/third-parties/google'
-import "@/styles/global.css"
-import { Toaster } from 'react-hot-toast';
-import { AuthContextWrapper } from '@/components/AuthContextWrapper';
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(); // fetch session server-side
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
   return (
     <html lang="en">
       <head>
@@ -32,10 +29,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <AuthContextWrapper> {/* Wrap everything here */}
-          <Toaster position="top-center" reverseOrder={false} /> {/* <-- Add Toaster component */}{children}
-        </AuthContextWrapper>
+        <Providers session={session}>
+          {children}
+        </Providers>
       </body>
     </html>
-  )
+  );
 }

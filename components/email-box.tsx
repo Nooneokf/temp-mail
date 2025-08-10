@@ -17,9 +17,10 @@ import { ShareDropdown } from "./ShareDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useTranslations } from "next-intl";
-import { useAuth } from '@/contexts/AuthContext'; // <-- Import Auth
 import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'; // <-- Import new hook
 import { Crown } from "lucide-react"; // <-- Import Crown icon
+import { useSession } from "next-auth/react";
+import useSWR from 'swr'; // <-- Recommended for data fetching
 
 const FREE_DOMAINS = [ // <-- Rename for clarity
   "saleis.live", "arrangewith.me", "areueally.info", "ditapi.info",
@@ -27,7 +28,17 @@ const FREE_DOMAINS = [ // <-- Rename for clarity
   "ditpay.info", "ditplay.info", "ditube.info", "junkstopper.info"
 ];
 
-
+// A simple fetcher function for useSWR
+const fetcher = (url: string) => fetch(url).then(res => {
+    if (!res.ok) {
+        const error = new Error('An error occurred while fetching the data.');
+        // Attach extra info to the error object.
+        error.info = res.json();
+        error.status = res.status;
+        throw error;
+    }
+    return res.json();
+});
 
 function generateRandomEmail(domain: string = FREE_DOMAINS[0]): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
@@ -52,7 +63,7 @@ interface Message {
 export function EmailBox() {
 
   const t = useTranslations('EmailBox');
-  const { isAuthenticated, plan, openLoginPopup, user } = useAuth(); // <-- Use Auth state
+  const {data: session, status} = useSession();
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -74,12 +85,22 @@ export function EmailBox() {
     newDomains: false
   });
   const [showAttachmentNotice, setShowAttachmentNotice] = useState(false);
+  const isAuthenticated = status === 'authenticated';
+
+
+  // --- DATA FETCHING WITH SWR ---
+  // Fetch custom domains if the user is a pro
+  const { data: customDomains, error: customDomainsError } = useSWR<any[]>(
+    isAuthenticated && session.user.plan === 'pro' ? '/api/user/domains' : null,
+    fetcher
+  );
+
 
   // --- DYNAMIC DOMAIN LIST LOGIC ---
   const availableDomains = useMemo(() => {
-    if (plan === 'pro' && user?.customDomains) {
+    if (session?.user.plan === 'pro' && customDomains) {
       // Filter for verified domains only
-      const verifiedCustomDomains = user.customDomains
+      const verifiedCustomDomains = customDomains
         .filter(d => d.verified)
         .map(d => d.domain);
 
@@ -88,16 +109,16 @@ export function EmailBox() {
     }
     // For free or anonymous users, just return the free domains
     return FREE_DOMAINS;
-  }, [plan, user]);
+  }, [session?.user.plan, session?.user]);
 
   // --- FEATURE: Keyboard Shortcuts ---
   const shortcuts = {
     'r': () => refreshInbox(),
     'c': () => copyEmail(),
     'd': () => deleteEmail(),
-    'n': () => isAuthenticated && changeEmail(), // Only allow edit mode if logged in
+    'n': () => session?.user && changeEmail(), // Only allow edit mode if logged in
   };
-  useKeyboardShortcuts(shortcuts, plan); // Pass plan to enable/disable shortcuts
+  useKeyboardShortcuts(shortcuts, session?.user.plan); // Pass plan to enable/disable shortcuts
 
   useEffect(() => {
     const initializeEmailBox = async () => {
@@ -173,6 +194,7 @@ export function EmailBox() {
       };
     }
   }, [email, token, oldEmailUsed]); // Add WebSocket dependencies
+
 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -273,44 +295,27 @@ export function EmailBox() {
   }
 
   const changeEmail = () => {
-    // --- FEATURE: Tiered Edit Logic ---
-    if (!isAuthenticated) {
-      // For anonymous, get a new random email from the free domains list
-      const domain = FREE_DOMAINS[Math.floor(Math.random() * FREE_DOMAINS.length)];
+    if (!isAuthenticated) { // Anonymous user gets a new random email
       const newEmail = generateRandomEmail(selectedDomain);
       setEmail(newEmail);
-      setSelectedDomain(domain);
-      setIsEditing(false);
       return;
     }
-    if (isEditing) {
-      const [prefix] = email.split('@')
+    if (isEditing) { // Logged-in user saves their custom email
+      const [prefix] = email.split('@');
       if (prefix && prefix.length > 0) {
-        const newEmail = `${prefix}@${selectedDomain}`
-        setEmail(newEmail)
-        setIsEditing(false)
-
+        setEmail(`${prefix}@${selectedDomain}`);
+        setIsEditing(false);
       } else {
-        setError('Please enter a valid email prefix')
+        setError('Please enter a valid email prefix.');
       }
-      if (prefix && token) {
-        refreshInbox(); // Refresh inbox only when both email and token are available
-        const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5)
-        setEmailHistory(updatedHistory)
-        if (typeof window !== 'undefined') {
-
-          localStorage.setItem('emailHistory', JSON.stringify(updatedHistory))
-        }
-      }
-    } else {
-      setIsEditing(true)
-
+    } else { // Enter edit mode
+      setIsEditing(true);
     }
-  }
+  };
 
   // --- FEATURE: Save to Local Storage ---
   const saveToLocalStorage = async (message: Message) => {
-    if (plan !== 'free') return; // Only for free tier users
+    if (session?.user.plan !== 'free') return; // Only for free tier users
     // Fetch full message first
     const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, { /*...*/ });
     const data = await response.json();
@@ -526,8 +531,8 @@ export function EmailBox() {
             onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
             aria-label={isEditing ? t('save') : t('change')}
           >
-            {!isAuthenticated ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
-            <span className="hidden sm:inline">{!isAuthenticated ? t('change') : isEditing ? t('save') : t('change')}</span>
+            {!session?.user ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
+            <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
             <AnimatePresence>
               {!discoveredUpdates.newDomains && (
                 <motion.span
@@ -582,7 +587,7 @@ export function EmailBox() {
                   <TableCell>
                     <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
                     <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
-                    {plan === 'free' && (
+                    {session?.user.plan === 'free' && (
                       <Button variant="ghost" size="icon" title="Save to Browser" onClick={() => saveToLocalStorage(message)}>
                         <Star className="h-4 w-4" />
                       </Button>
@@ -611,7 +616,7 @@ export function EmailBox() {
       {showAttachmentNotice && (
         <div className="p-3 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 text-center">
           An email arrived with an attachment that exceeds your plan's limit.
-          <button onClick={openLoginPopup} className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
+          <button className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
         </div>
       )}
       <CardHeader>

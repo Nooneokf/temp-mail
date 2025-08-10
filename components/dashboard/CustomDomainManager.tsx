@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Loader2, Copy, Trash2, CheckCircle, HelpCircle } from "lucide-react";
 import { RefreshCw } from "lucide-react"; // <-- Add RefreshCw
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 interface CustomDomain {
     domain: string;
@@ -22,7 +22,8 @@ interface CustomDomainManagerProps {
 }
 
 export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps) {
-    const { user } = useAuth();
+    const {data: session, status: isAuthLoading} = useSession();
+    const user = session?.user;
     const [domains, setDomains] = useState<CustomDomain[]>(initialDomains);
     const [newDomain, setNewDomain] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
             const response = await fetch('/api/user/domains', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ domain: newDomain, wyiUserId: user.wyiUserId }),
+                body: JSON.stringify({ domain: newDomain, wyiUserId: user.id }),
             });
 
             const result = await response.json();
@@ -64,7 +65,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
             const response = await fetch('/api/user/domains', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ domain: domainToDelete, wyiUserId: user.wyiUserId }),
+                body: JSON.stringify({ domain: domainToDelete, wyiUserId: user.id }),
             });
 
             const result = await response.json();
@@ -89,7 +90,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
             const response = await fetch('/api/user/domains/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ domain: domainToVerify, wyiUserId: user.wyiUserId }),
+                body: JSON.stringify({ domain: domainToVerify, wyiUserId: user.id }),
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || 'Verification failed.');
