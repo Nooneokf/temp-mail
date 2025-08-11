@@ -18,8 +18,8 @@ import { WhatsNewModal } from "./WhatsNewModal";
 import { signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-export function AppHeader({initialSession}: {initialSession: Session; }) {
-  const {data: _, status} = useSession()
+export function AppHeader({ initialSession }: { initialSession: Session; }) {
+  const { data: _, status } = useSession()
   const session = initialSession
   const t = useTranslations('AppHeader');
   const { theme, setTheme } = useTheme();
@@ -106,11 +106,11 @@ export function AppHeader({initialSession}: {initialSession: Session; }) {
               )}
 
               {/* Plan Badge on Avatar */}
-              <div className="absolute -bottom-2 w-full flex justify-center">
+              {!isPro && <div className="absolute -bottom-2 w-full flex justify-center">
                 <div className={`rounded-md px-1 py-[1px] text-[8px] font-bold border ${isPro ? 'bg-yellow-400 text-black' : 'bg-secondary text-secondary-foreground'}`}>
                   {isPro ? 'PRO' : 'FREE'}
                 </div>
-              </div>
+              </div>}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
@@ -178,6 +178,11 @@ export function AppHeader({initialSession}: {initialSession: Session; }) {
 
           <div className="md:hidden flex items-center gap-2">
             {renderAuthButton()}
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="p-2" aria-label={t('aria_toggle_theme')}>
+              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">{t('aria_toggle_theme')}</span>
+            </Button>
             <Button variant="ghost" size="icon" onClick={toggleMobileMenu} className="p-2" aria-label={menuOpen ? t('aria_close_menu') : t('aria_open_menu')} aria-expanded={menuOpen}>
               <MenuIconLucide className="h-5 w-5" />
             </Button>
@@ -198,13 +203,12 @@ export function AppHeader({initialSession}: {initialSession: Session; }) {
                   <a href="https://github.com/DishIs/temp-mail" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaGithub className="h-4 w-4" /> {t('github')}</a>
                   <a href="https://www.patreon.com/maildrop" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaPatreon className="h-4 w-4" /> {t('patreon')}</a>
                   <a href="https://discord.gg/Ztp7kT2QBz" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaDiscord className="h-4 w-4" /> {t('discord')}</a>
-                  <Button variant="ghost" onClick={() => { openWhatsNew(); handleMobileLinkClick(); }} className="relative p-2 w-full justify-start gap-2" aria-label={'whats new'}>
+                  <Button variant="ghost" onClick={() => { openWhatsNew(); handleMobileLinkClick(); }} className="relative p-2 w-full justify-start gap-2 mt-auto" aria-label={'whats new'}>
                     <Gift className="h-5 w-5" /> Updates
                     {!hasSeenLatest && <span className="absolute top-2 right-2 flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span></span>}
                   </Button>
-                  <Button variant="ghost" onClick={() => { toggleTheme(); handleMobileLinkClick(); }} className="relative p-2 w-full justify-start gap-2" aria-label={t('aria_toggle_theme')}>
-                    <Sun className="h-5 w-5" /> Light / Dark
-                  </Button>
+
+                  <Navigation />
                 </div>
               </motion.div>
             </>

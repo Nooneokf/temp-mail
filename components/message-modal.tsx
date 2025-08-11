@@ -82,7 +82,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     if (!token || !message) return;
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/mailbox?mailbox=${message.to.split('@')[0]}&messageId=${messageId}`, {
+      const response = await fetch(`/api/mailbox?fullMailboxId=${message.to.split('@')[0]}&messageId=${messageId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

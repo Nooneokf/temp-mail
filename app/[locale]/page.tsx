@@ -109,7 +109,8 @@ export default async function Page({ params }: Props) {
                     </main>
                     <AppFooter />
                 </div>
-                <DITMailPopup />
+                {session?.user.plan !== 'pro' && 
+                <DITMailPopup /> }
             </ThemeProvider>
         </>
     );

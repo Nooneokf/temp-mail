@@ -523,7 +523,7 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{isAuthenticated ? 'Press N to edit' : 'Login to edit and use its shortcut'}</p>
+                <p>{!isAuthenticated ? 'Login to edit and use its shortcut' : session?.user.plan === "pro" ? 'Press N to edit' : 'Only for PRO users'}</p>
               </TooltipContent>
             </Tooltip>
 
@@ -544,7 +544,7 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{isAuthenticated ? 'Press D to delete' : 'Login to use shortcuts'}</p>
+                <p>{!isAuthenticated ? 'Login to use shortcuts' : session?.user.plan === "pro" ? 'Press D to delete' : 'Only for PRO users'}</p>
               </TooltipContent>
             </Tooltip>
           </div>
