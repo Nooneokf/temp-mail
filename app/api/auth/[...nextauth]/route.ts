@@ -80,7 +80,33 @@ export const authOptions: NextAuthOptions = {
             },
             // --- END OF THE FIX ---
 
-            userinfo: "https://whatsyour.info/api/v1/me",
+            // --- START OF THE CRITICAL FIX ---
+            // We must also override the userinfo request to use fetch.
+            userinfo: {
+                url: "https://whatsyour.info/api/v1/me",
+                async request(context) {
+                    // The context contains the tokens from the previous step.
+                    const { tokens } = context;
+
+                    const response = await fetch("https://whatsyour.info/api/v1/me", {
+                        headers: {
+                            // Use the access token to authenticate the request to the userinfo endpoint.
+                            Authorization: `Bearer ${tokens.access_token}`,
+                            "User-Agent": "freecustom-email-app",
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(`Userinfo request failed: ${text}`);
+                    }
+
+                    // The request function must return the user profile JSON object.
+                    const profile = await response.json();
+                    return profile;
+                }
+            },
+            // --- END OF THE CRITICAL FIX ---
             clientId: process.env.WYI_CLIENT_ID,
             clientSecret: process.env.WYI_CLIENT_SECRET,
 

@@ -46,6 +46,8 @@ export async function POST(request: Request) {
             }),
         });
 
+        console.log(serviceResponse)
+
         return NextResponse.json(serviceResponse);
 
     } catch (error: any) {

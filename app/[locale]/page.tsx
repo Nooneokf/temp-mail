@@ -12,19 +12,41 @@ import { Locale } from 'next-intl';
 import { ThemeProvider } from '@/components/theme-provider';
 import { DITMailPopup } from '@/components/DITMailPopup';
 
+// --- NEW IMPORTS for Server-Side Data Fetching ---
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // Adjust path if needed
+import { fetchFromServiceAPI } from '@/lib/api'; // Assuming this is your API helper
+
 type Props = {
-    params: Promise<{ locale: Locale }>;
+    params: { locale: Locale };
 };
 
 export default async function Page({ params }: Props) {
-    const { locale } = await params;
-
-    // Set the locale for the current request (for static rendering)
+    const { locale } = params;
     setRequestLocale(locale);
 
-    // ✅ Use getTranslations instead of useTranslations
     const t = await getTranslations({ locale, namespace: 'PageContent' });
     const tJsonLd = await getTranslations({ locale, namespace: 'JsonLd' });
+
+    // --- 1. Fetch Session and Custom Domains on the Server ---
+    const session = await getServerSession(authOptions);
+    let customDomains = []; // Default to an empty array
+
+    // Only fetch domains if the user is authenticated and has a 'pro' plan
+    if (session?.user?.id && session.user.plan === 'pro') {
+        try {
+            // Replicate the logic from your API route to fetch domains directly
+            const serviceResponse = await fetchFromServiceAPI(`/user/${session.user.id}/domains`);
+            // Ensure we have an array, even if the API response is unexpected
+            if (Array.isArray(serviceResponse.domains)) {
+                customDomains = serviceResponse.domains;
+            }
+        } catch (error) {
+            console.error("Failed to fetch custom domains on server:", error);
+            // Don't block the page render; proceed with empty domains
+        }
+    }
+
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -51,7 +73,11 @@ export default async function Page({ params }: Props) {
                     <AppHeader />
                     <main className="mx-auto m-2 px-4 py-8">
                         <section className="mb-12">
-                            <EmailBox />
+                            {/* --- 2. Pass Fetched Data as Props to the Client Component --- */}
+                            <EmailBox
+                                initialSession={session}
+                                initialCustomDomains={customDomains}
+                            />
                             <Status />
 
                             <h1 className="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">

@@ -64,14 +64,24 @@ interface Message {
   date: string;
 }
 
-export function EmailBox() {
 
-  const { data: session, status } = useSession();
+export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps) {
   const t = useTranslations('EmailBox');
+
+  // --- 1. Use the initial props from the server ---
+  const [session] = useState(initialSession); // Initialize state with server-provided prop
+  const isAuthenticated = !!session;
+
+  // --- STATE MANAGEMENT (Client-side interactions) ---
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [emailHistory, setEmailHistory] = useState<string[]>([]);
+  const [selectedDomain, setSelectedDomain] = useState('');
+  const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
+  const [token, setToken] =useState<string | null>(null);
+    
+  // Modals and UI states
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -80,182 +90,99 @@ export function EmailBox() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ type: "email" | "message"; id?: string } | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [oldEmailUsed, setOldEmailUsed] = useState(false);
   const [blockButtons, setBlockButtons] = useState(false);
-  const [selectedDomain, setSelectedDomain] = useState(''); // Default to the first domain
-  const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
-  const [discoveredUpdates, setDiscoveredUpdates] = useState({
-    newDomains: false
-  });
+  const [oldEmailUsed, setOldEmailUsed] = useState(false);
+  const [discoveredUpdates, setDiscoveredUpdates] = useState({ newDomains: false });
   const [showAttachmentNotice, setShowAttachmentNotice] = useState(false);
-  const isAuthenticated = status === 'authenticated';
 
-
-  // --- DATA FETCHING WITH SWR ---
-  // Fetch custom domains if the user is a pro
-  const { data: customDomains, error: customDomainsError } = useSWR<any[]>(
-    isAuthenticated && session?.user?.plan === 'pro' ? '/api/user/domains' : null,
-    fetcher
-  );
-
-
-  // --- DYNAMIC DOMAIN LIST LOGIC ---
+  // --- 3. Memoize availableDomains based on the initial prop ---
   const availableDomains = useMemo(() => {
-    if (session?.user.plan === 'pro' && customDomains) {
-      // Filter for verified domains only
-      const verifiedCustomDomains = customDomains
-        .filter(d => d.verified)
-        .map(d => d.domain);
+      const verifiedCustomDomains = initialCustomDomains
+          ?.filter(d => d.verified)
+          .map(d => d.domain) ?? [];
 
-      // Prepend user's domains to the list of free domains
-      return [...verifiedCustomDomains, ...FREE_DOMAINS];
-    }
-    // For free or anonymous users, just return the free domains
-    return FREE_DOMAINS;
-  }, [session, customDomains]); // <-- CORRECTED DEPENDENCY ARRAY
+      return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
+  }, [initialCustomDomains]);
 
-  // --- FEATURE: Keyboard Shortcuts ---
-  const shortcuts = {
-    'r': () => refreshInbox(),
-    'c': () => copyEmail(),
-    'd': () => deleteEmail(),
-    'n': () => session?.user && changeEmail(), // Only allow edit mode if logged in
-  };
-  useKeyboardShortcuts(shortcuts, session?.user?.plan);
-  // Pass plan to enable/disable shortcuts
-
+  // --- 4. Simplify Initialization Logic ---
   useEffect(() => {
-    const initializeEmailBox = async () => {
-      // Check for stored token or fetch a new one
-      const storedToken = getCookie("authToken") as string | undefined;
-      if (storedToken) {
-        setToken(storedToken);
-      } else {
-        await fetchToken(); // Fetches and sets token in state
-      }
+    const initialize = async () => {
+        // Fetch the auth token needed for API calls
+        await fetchToken();
 
-      // Generate a random email after ensuring the token is set
-      if (typeof window !== 'undefined') {
-        // randomize domain selection too
-        let domain = localStorage.getItem('primaryDomain') as string
-        setPrimaryDomain(domain || null);
+        // Load client-side state from localStorage
+        const storedHistory = localStorage.getItem('emailHistory');
+        if (storedHistory) setEmailHistory(JSON.parse(storedHistory));
 
-        if (!domain && !(availableDomains.includes(domain))) {
-          domain = availableDomains[Math.floor(Math.random() * availableDomains.length)];
-        }
-        const newEmail = generateRandomEmail(domain);
-        setEmail(newEmail);
-        setSelectedDomain(domain); // Set the selected domain to the random one
+        const storedPrimary = localStorage.getItem('primaryDomain');
+        if (storedPrimary) setPrimaryDomain(storedPrimary);
 
-        // Load updates from localStorage
-        const updates = localStorage.getItem('discoveredUpdates');
-        if (updates) {
-          setDiscoveredUpdates(JSON.parse(updates));
+        // Select initial domain using the already available `availableDomains` list
+        let initialDomain = '';
+        if (storedPrimary && availableDomains.includes(storedPrimary)) {
+            initialDomain = storedPrimary;
         } else {
-          localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: false }));
+            initialDomain = availableDomains[0] || FREE_DOMAINS[0];
         }
-      }
-      // --- MODIFIED: Smartly select initial domain ---
-      if (typeof window !== 'undefined') {
-        // Default to the first available domain. If the user is Pro with a verified
-        // custom domain, that will be selected automatically.
-        const initialDomain = availableDomains[0] || FREE_DOMAINS[0];
 
         const newEmail = generateRandomEmail(initialDomain);
         setEmail(newEmail);
         setSelectedDomain(initialDomain);
-      }
     };
 
-    if (availableDomains.length > 0) {
-      initializeEmailBox();
-    }
-    // Re-run initialization if the list of available domains changes (e.g., after login)
-  }, [availableDomains]);
+    initialize();
+  }, [availableDomains]); // This effect now runs only once when `availableDomains` is ready
+
+
+  // --- OTHER EFFECTS ---
+  useEffect(() => {
+    if (!email || !token) return;
+
+    refreshInbox();
+
+    const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
+    socket.onopen = () => console.log("WebSocket connection established");
+    socket.onmessage = () => refreshInbox();
+
+    return () => socket.close();
+  }, [email, token, oldEmailUsed, ]);
 
   useEffect(() => {
-    if (email && token) {
-      refreshInbox(); // Initial inbox load
+    if (!email || isEditing) return;
 
-      const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
+    const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
+    setEmailHistory(updatedHistory);
+    localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
+  }, [email, isEditing, ]);
 
-      socket.onopen = () => {
-        console.log("WebSocket connection established");
-      };
+  // --- KEYBOARD SHORTCUTS ---
+  const shortcuts = {
+    'r': () => refreshInbox(),
+    'c': () => copyEmail(),
+    'd': () => deleteEmail(),
+    'n': () => isAuthenticated && changeEmail(),
+  };
+  useKeyboardShortcuts(shortcuts, session?.user?.plan);
 
-      socket.onmessage = () => {
-        // const data = JSON.parse(event.data);
-
-        // Option 1: Automatically refresh full inbox
-        refreshInbox();
-
-        // Option 2: Append message if structure is known
-        // setMessages((prev) => [data.message, ...prev]);
-      };
-
-      return () => {
-        socket.close(); // Cleanup on component unmount or email change
-      };
-    }
-  }, [email, token, oldEmailUsed]); // Add WebSocket dependencies
-
-
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  // 1. Load history from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedHistory = localStorage.getItem('emailHistory');
-      if (storedHistory) {
-        setEmailHistory(JSON.parse(storedHistory));
-      }
-    }
-  }, []);
-
-  // 2. Update history when email changes and not editing
-  useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      email &&
-      !isEditing
-    ) {
-      const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
-      setEmailHistory(updatedHistory);
-      localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, isEditing]);
-
-
-  const fetchToken = async () => {
+  // --- ASYNC & HANDLER FUNCTIONS ---
+  const fetchToken = async (): Promise<string | null> => {
     try {
-      const response = await fetch("/api/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const response = await fetch("/api/auth", { method: "POST" });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json() as { token?: string };
       if (data.token) {
         setToken(data.token);
-        setCookie("authToken", data.token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "strict",
-          maxAge: 3600, // 1 hour in seconds
-        });
-      } else {
-        throw new Error("No token received from server");
+        setCookie("authToken", data.token, { maxAge: 3600 }); // Simplified cookie setting
+        return data.token;
       }
+      throw new Error("No token received from server");
     } catch (error) {
       setError(`Error fetching token: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      return null;
     }
   };
+
+
 
 
   const refreshInbox = async () => {
@@ -298,25 +225,6 @@ export function EmailBox() {
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
-
-  const changeEmail = () => {
-    if (!isAuthenticated) { // Anonymous user gets a new random email
-      const newEmail = generateRandomEmail(selectedDomain);
-      setEmail(newEmail);
-      return;
-    }
-    if (isEditing) { // Logged-in user saves their custom email
-      const [prefix] = email.split('@');
-      if (prefix && prefix.length > 0) {
-        setEmail(`${prefix}@${selectedDomain}`);
-        setIsEditing(false);
-      } else {
-        setError('Please enter a valid email prefix.');
-      }
-    } else { // Enter edit mode
-      setIsEditing(true);
-    }
-  };
 
   // --- FEATURE: Save to Local Storage ---
   const saveToLocalStorage = async (message: Message) => {
@@ -403,30 +311,53 @@ export function EmailBox() {
       setBlockButtons(false);
     }
   }
-  const handleDomainChange = (newDomain: string) => {
-    setSelectedDomain(newDomain);
-    const prefix = email.split("@")[0];
-    setEmail(`${prefix}@${newDomain}`);
-  };
+    // --- HANDLER FUNCTIONS ---
+    const changeEmail = () => {
+        if (!isAuthenticated) {
+            const newEmail = generateRandomEmail(selectedDomain);
+            setEmail(newEmail);
+            return;
+        }
+        if (isEditing) {
+            const [prefix] = email.split('@');
+            if (prefix && prefix.length > 0) {
+                setEmail(`${prefix}@${selectedDomain}`);
+                setIsEditing(false);
+            } else {
+                setError('Please enter a valid email prefix.');
+            }
+        } else {
+            setIsEditing(true);
+        }
+    };
 
-  const handleNewDomainUpdates = () => {
-    setDiscoveredUpdates({ newDomains: true });
-    localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
-  }
+    const handleEmailInputChange = (newPrefix: string) => {
+        newPrefix = newPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '');
+        setEmail(`${newPrefix}@${selectedDomain}`);
+        setBlockButtons(newPrefix.length === 0);
+    };
 
-  const handlePrimaryDomainChange = (domain: string) => {
-    const current = localStorage.getItem('primaryDomain');
+    const handleDomainChange = (newDomain: string) => {
+        setSelectedDomain(newDomain);
+        const prefix = email.split("@")[0];
+        setEmail(`${prefix}@${newDomain}`);
+    };
 
-    if (current === domain) {
-      // Remove from localStorage and clear state
-      localStorage.removeItem('primaryDomain');
-      setPrimaryDomain('');
-    } else {
-      // Set new primary domain
-      localStorage.setItem('primaryDomain', domain);
-      setPrimaryDomain(domain);
+    const handlePrimaryDomainChange = (domain: string) => {
+        const current = localStorage.getItem('primaryDomain');
+        if (current === domain) {
+            localStorage.removeItem('primaryDomain');
+            setPrimaryDomain(null);
+        } else {
+            localStorage.setItem('primaryDomain', domain);
+            setPrimaryDomain(domain);
+        }
+    };
+
+    const handleNewDomainUpdates = () => {
+        setDiscoveredUpdates({ newDomains: true });
+        localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
     }
-  };
 
 
   return (
