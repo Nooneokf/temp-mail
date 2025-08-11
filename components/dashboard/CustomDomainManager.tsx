@@ -329,7 +329,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
                 if (!user) return;
                 setIsLoading(true);
                 try {
-                  const res = await fetch(`/api/user/${user.id}/dashboard-data`, { cache: "no-store" });
+                  const res = await fetch(`/api/user/dashboard-data`, { cache: "no-store" });
                   const json = await res.json();
                   const list = json?.customDomains ?? json?.data?.customDomains ?? [];
                   const normalized = Array.isArray(list)
