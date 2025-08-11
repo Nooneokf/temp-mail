@@ -40,7 +40,7 @@ export default async function DashboardPage({
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="min-h-screen max-w-[100vw] bg-background">
-                <AppHeader />
+                <AppHeader initialSession={session} />
                 {accessLevel === "unauth" && <UnauthView />}
                 {accessLevel === "notpro" && <NotProView />}
                 {accessLevel === "pro" && data && (
