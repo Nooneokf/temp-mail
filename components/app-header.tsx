@@ -6,23 +6,47 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu as MenuIconLucide, X as CloseIcon, Gift } from "lucide-react";
 import Link from 'next/link';
-import { FaDiscord, FaGithub, FaPatreon } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaPatreon, FaCrown } from "react-icons/fa";
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Navigation from "./Navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { AuthPopup } from './AuthPopup';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from './ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { LATEST_CHANGELOG_VERSION } from "@/lib/changelog"; // <-- Import latest version
 import { WhatsNewModal } from "./WhatsNewModal"; // <-- Import the modal
 import { signOut, useSession } from 'next-auth/react';
+
+// A new component for the curved text
+const CurvedText = ({ text, radius }: { text: string; radius: number }) => {
+  const characters = text.split('');
+  const degree = 360 / characters.length;
+
+  return (
+    <div className="relative w-full h-full flex items-center justify-center">
+      {characters.map((char, i) => (
+        <span
+          key={i}
+          className="absolute h-full"
+          style={{
+            transform: `rotate(${degree * i - (characters.length / 2) * degree}deg)`,
+            transformOrigin: `0 ${radius}px`,
+          }}
+        >
+          {char}
+        </span>
+      ))}
+    </div>
+  );
+};
+
 
 export function AppHeader() {
   const t = useTranslations('AppHeader');
   const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { data: session, status } = useSession(); // <-- Use the session hook
+  const { data: session, status } = useSession();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // --- "WHAT'S NEW" STATE ---
@@ -78,16 +102,65 @@ export function AppHeader() {
 
   const renderAuthButton = () => {
     if (status === 'loading') {
-      return <div className="h-9 w-24 bg-muted rounded animate-pulse"></div>;
+      return <div className="h-9 w-24 bg-muted rounded-full animate-pulse"></div>;
     }
     if (status === 'authenticated' && session?.user) {
+      // @ts-ignore
+      const userPlan = session.user?.plan || 'Free';
+      const isPro = userPlan === 'Pro';
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost">{session.user?.name || 'Account'}</Button>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              {session.user.image ? (
+                <div className={`relative h-10 w-10 rounded-full border-2 ${isPro ? 'border-yellow-400' : 'border-white'}`}>
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name || 'User avatar'}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-full"
+                  />
+                  {isPro && (
+                    <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
+                      <FaCrown className="h-4 w-4 text-yellow-400" />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <span>{session.user.name?.charAt(0)}</span>
+              )}
+            </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem asChild><Link href="/dashboard">Dashboard</Link></DropdownMenuItem>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <div className="flex flex-col items-center justify-center p-2">
+              <div className="text-center">
+                <p className="text-sm font-medium">{session.user.name}</p>
+                <p className="text-xs text-muted-foreground">{session.user.email}</p>
+              </div>
+              <div className="relative w-24 h-12 mt-2">
+                <CurvedText text={userPlan.toUpperCase()} radius={25} />
+              </div>
+            </div>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href="https://whatsyour.info/billing" target="_blank" rel="noopener noreferrer">Billing</a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href="https://whatsyour.info/profile" target="_blank" rel="noopener noreferrer">WYI Profile</a>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {!isPro && (
+              <DropdownMenuItem asChild>
+                <Button asChild className="w-full">
+                  <Link href="/pricing">Upgrade</Link>
+                </Button>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -95,6 +168,7 @@ export function AppHeader() {
     }
     return <Button onClick={() => setIsPopupOpen(true)} className='md:p-4 p-2'>Login</Button>;
   };
+
 
   return (
     <>

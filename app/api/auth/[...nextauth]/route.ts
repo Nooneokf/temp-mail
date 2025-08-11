@@ -10,6 +10,7 @@ interface WYIProfile {
     firstName: string;
     lastName: string;
     isProUser: boolean;
+    username: string
 }
 
 // This function calls your backend to create or update the user
@@ -115,7 +116,7 @@ export const authOptions: NextAuthOptions = {
                     id: profile._id,
                     name: `${profile.firstName} ${profile.lastName}`.trim(),
                     email: profile.email,
-                    // Add any other user properties you need here
+                    image: `https://whatsyour.info/api/v1/avatar/${profile.username}`,
                     plan: profile.isProUser ? 'pro' : 'free',
                 };
             },
