@@ -4,9 +4,9 @@
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu as MenuIconLucide, X as CloseIcon, Gift } from "lucide-react";
+import { Moon, Sun, Menu as MenuIconLucide, X as CloseIcon, Gift, Crown } from "lucide-react";
 import Link from 'next/link';
-import { FaDiscord, FaGithub, FaPatreon, FaCrown } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaPatreon } from "react-icons/fa";
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Navigation from "./Navigation";
@@ -15,38 +15,16 @@ import { AuthPopup } from './AuthPopup';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { LATEST_CHANGELOG_VERSION } from "@/lib/changelog"; // <-- Import latest version
 import { WhatsNewModal } from "./WhatsNewModal"; // <-- Import the modal
-import { signOut, useSession } from 'next-auth/react';
-
-// A new component for the curved text
-const CurvedText = ({ text, radius }: { text: string; radius: number }) => {
-  const characters = text.split('');
-  const degree = 360 / characters.length;
-
-  return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      {characters.map((char, i) => (
-        <span
-          key={i}
-          className="absolute h-full"
-          style={{
-            transform: `rotate(${degree * i - (characters.length / 2) * degree}deg)`,
-            transformOrigin: `0 ${radius}px`,
-          }}
-        >
-          {char}
-        </span>
-      ))}
-    </div>
-  );
-};
+import { signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 
-export function AppHeader() {
+export function AppHeader({initialSession}: {initialSession: Session; }) {
   const t = useTranslations('AppHeader');
   const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { data: session, status } = useSession();
+  const session = initialSession
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // --- "WHAT'S NEW" STATE ---
@@ -68,7 +46,6 @@ export function AppHeader() {
     setHasSeenLatest(true);
   };
   // --- END "WHAT'S NEW" STATE ---
-
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -102,19 +79,19 @@ export function AppHeader() {
 
   const renderAuthButton = () => {
     if (status === 'loading') {
-      return <div className="h-9 w-24 bg-muted rounded-full animate-pulse"></div>;
+      return <div className="h-10 w-10 bg-muted rounded-full animate-pulse"></div>;
     }
     if (status === 'authenticated' && session?.user) {
-      // @ts-ignore
+      // @ts-ignore - Assuming 'plan' is a custom property on the session user object
       const userPlan = session.user?.plan || 'Free';
       const isPro = userPlan === 'Pro';
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              {session.user.image ? (
-                <div className={`relative h-10 w-10 rounded-full border-2 ${isPro ? 'border-yellow-400' : 'border-white'}`}>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+              <div className={`relative h-full w-full rounded-full border-2 ${isPro ? 'border-yellow-400' : 'border-white'}`}>
+                {session.user.image ? (
                   <Image
                     src={session.user.image}
                     alt={session.user.name || 'User avatar'}
@@ -122,25 +99,51 @@ export function AppHeader() {
                     objectFit="cover"
                     className="rounded-full"
                   />
-                  {isPro && (
-                    <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
-                      <FaCrown className="h-4 w-4 text-yellow-400" />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <span>{session.user.name?.charAt(0)}</span>
-              )}
+                ) : (
+                  <div className="flex items-center justify-center h-full w-full bg-muted rounded-full text-muted-foreground">
+                    {session.user.name?.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                {isPro && (
+                  <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
+                     <Crown className="h-4 w-4 text-yellow-400" />
+                  </div>
+                )}
+              </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <div className="flex flex-col items-center justify-center p-2">
-              <div className="text-center">
-                <p className="text-sm font-medium">{session.user.name}</p>
-                <p className="text-xs text-muted-foreground">{session.user.email}</p>
+          <DropdownMenuContent className="w-64" align="end" forceMount>
+            <div className="flex flex-col items-center justify-center pt-4 pb-2">
+              <div className="relative h-16 w-16 mb-2">
+                <div className={`relative h-full w-full rounded-full border-2 ${isPro ? 'border-yellow-400' : 'border-white'}`}>
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || 'User avatar'}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full w-full bg-muted rounded-full text-muted-foreground">
+                      {session.user.name?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  {isPro && (
+                     <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
+                        <Crown className="h-5 w-5 text-yellow-400" />
+                     </div>
+                  )}
+                </div>
+                <div className="absolute -bottom-2 w-full flex justify-center">
+                  <div className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold text-secondary-foreground shadow">
+                    {userPlan} Plan
+                  </div>
+                </div>
               </div>
-              <div className="relative w-24 h-12 mt-2">
-                <CurvedText text={userPlan.toUpperCase()} radius={25} />
+              <div className="text-center mt-3">
+                <p className="text-sm font-medium truncate">{session.user.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
               </div>
             </div>
             <DropdownMenuSeparator />
@@ -155,11 +158,11 @@ export function AppHeader() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {!isPro && (
-              <DropdownMenuItem asChild>
-                <Button asChild className="w-full">
-                  <Link href="/pricing">Upgrade</Link>
-                </Button>
-              </DropdownMenuItem>
+              <div className="p-1">
+                 <Button asChild className="w-full" size="sm">
+                    <Link href="/pricing">Upgrade to Pro</Link>
+                 </Button>
+              </div>
             )}
             <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
@@ -168,7 +171,6 @@ export function AppHeader() {
     }
     return <Button onClick={() => setIsPopupOpen(true)} className='md:p-4 p-2'>Login</Button>;
   };
-
 
   return (
     <>
@@ -191,12 +193,7 @@ export function AppHeader() {
 
           <div className="hidden md:flex items-center gap-4">
             <Navigation />
-
-            {/* --- AUTH BUTTON LOGIC --- */}
             {renderAuthButton()}
-
-            {/* --- END AUTH BUTTON LOGIC --- */}
-            {/* --- "WHAT'S NEW" BUTTON --- */}
             <Button
               variant="ghost"
               size="icon"
@@ -212,8 +209,6 @@ export function AppHeader() {
                 </span>
               )}
             </Button>
-            {/* --- END "WHAT'S NEW" BUTTON --- */}
-
             <Button
               variant="ghost"
               size="icon"
@@ -228,10 +223,7 @@ export function AppHeader() {
           </div>
 
           <div className="md:hidden flex items-center gap-2">
-            {/* --- AUTH BUTTON LOGIC --- */}
-            <div className="">
-              {renderAuthButton()}
-            </div>
+            {renderAuthButton()}
             <Button
               variant="ghost"
               size="icon"
@@ -321,13 +313,10 @@ export function AppHeader() {
                   <FaDiscord className="h-4 w-4" /> {t('discord')}
                 </a>
 
-                {/* --- END AUTH BUTTON LOGIC --- */}
-                {/* --- "WHAT'S NEW" BUTTON --- */}
                 <Button
                   variant="ghost"
-                  size="icon"
                   onClick={openWhatsNew}
-                  className="relative p-2 w-full"
+                  className="relative p-2 w-full justify-start gap-2"
                   aria-label={'whats new'}
                 >
                   <Gift className="h-5 w-5" /> Updates
@@ -338,8 +327,6 @@ export function AppHeader() {
                     </span>
                   )}
                 </Button>
-                {/* --- END "WHAT'S NEW" BUTTON --- */}
-
                 <Navigation />
               </motion.div>
             </>
@@ -347,7 +334,6 @@ export function AppHeader() {
         </AnimatePresence>
       </header>
       <AuthPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-      {/* Add the modal to the component's return statement */}
       <WhatsNewModal isOpen={isWhatsNewOpen} onClose={() => setIsWhatsNewOpen(false)} />
     </>
   );

@@ -19,10 +19,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useTranslations } from "next-intl";
 import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'; // <-- Import new hook
 import { Crown } from "lucide-react"; // <-- Import Crown icon
-import { useSession } from "next-auth/react";
-import useSWR from 'swr'; // <-- Recommended for data fetching
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import { Session } from "next-auth";
 
 
 
@@ -62,6 +61,11 @@ interface Message {
   to: string;
   subject: string;
   date: string;
+}
+
+interface EmailBoxProps {
+  initialSession: Session;
+  initialCustomDomains: Object[]
 }
 
 
