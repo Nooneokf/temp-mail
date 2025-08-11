@@ -82,7 +82,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     if (!token || !message) return;
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/mailbox?fullMailboxId=${message.to.split('@')[0]}&messageId=${messageId}`, {
+      const response = await fetch(`/api/mailbox?fullMailboxId=${message.to}&messageId=${messageId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -116,7 +116,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
-  
+
   if (!message) return null;
 
   return (
@@ -130,7 +130,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <p><strong>To:</strong> {fullMessage?.to || message.to}</p>
           <p><strong>Date:</strong> {new Date(fullMessage?.date || message.date).toLocaleString()}</p>
         </div>
-        
+
         {/* MODIFICATION START: Main content area */}
         <div className="mt-4 border rounded-md flex-grow overflow-hidden relative">
           {isLoading ? (
@@ -139,20 +139,20 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             </div>
           ) : fullMessage?.html ? (
             <iframe
-              srcDoc={fullMessage.html}
+              srcDoc={`<base target="_blank" />${fullMessage.html}`}
               className="w-full h-full border-none"
               title={fullMessage.subject}
-              sandbox="allow-same-origin" // For security, prevents scripts unless you need them
+              sandbox="allow-same-origin allow-popups"
             />
           ) : (
             <pre className="whitespace-pre-wrap p-4 overflow-y-auto">{fullMessage?.body || "No content"}</pre>
           )}
         </div>
         {/* MODIFICATION END */}
-        
+
         {/* ATTACHMENT HANDLING START */}
         {fullMessage?.attachments && fullMessage.attachments.length > 0 && (
-           <div className="mt-4 flex-shrink-0"> {/* Add flex-shrink-0 to prevent this from shrinking */}
+          <div className="mt-4 flex-shrink-0"> {/* Add flex-shrink-0 to prevent this from shrinking */}
             <h3 className="font-semibold mb-2">Attachments ({fullMessage.attachments.length})</h3>
             <div className="space-y-2 max-h-32 overflow-y-auto"> {/* Add scroll for many attachments */}
               {fullMessage.attachments.map((att, index) => {
@@ -179,14 +179,14 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
         {/* SCANNED BY DITMAIL NOTICE */}
         <div className="mt-4 pt-4 border-t text-center">
-            <div className="flex items-center justify-center text-xs text-gray-400">
-                <ShieldCheck className="h-4 w-4 mr-2" />
-                <span>Scanned by DITMail</span>
-                <Link href="/blog/about-mail-security" target="_blank" rel="noopener noreferrer" className="ml-1 flex items-center hover:underline">
-                   <Info className="h-3 w-3 mr-1" />
-                   Learn more
-                </Link>
-            </div>
+          <div className="flex items-center justify-center text-xs text-gray-400">
+            <ShieldCheck className="h-4 w-4 mr-2" />
+            <span>Scanned by DITMail</span>
+            <Link href="/blog/about-mail-security" target="_blank" rel="noopener noreferrer" className="ml-1 flex items-center hover:underline">
+              <Info className="h-3 w-3 mr-1" />
+              Learn more
+            </Link>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
