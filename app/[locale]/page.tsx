@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
         try {
             // Fetch the entire user profile in one call
             const profileData = await fetchFromServiceAPI(`/user/profile/${session.user.id}`);
-            
+
             if (profileData.success && profileData.user) {
                 const { user } = profileData;
                 // Get custom domains if the user is pro
@@ -94,26 +94,28 @@ export default async function Page({ params }: Props) {
                                 initialCurrentInbox={currentInbox}
                             />
                             <Status />
-                            <h1 className="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
-                                {t('h1')}
-                            </h1>
-                            <p
-                                className="mb-4 text-muted-foreground leading-relaxed"
-                                dangerouslySetInnerHTML={{ __html: t.raw('p1') }}
-                            ></p>
-                            <p className="mb-4 text-muted-foreground leading-relaxed">
-                                {t.rich('p2_part1', {
-                                    strong: (chunks) => <strong>{chunks}</strong>
-                                })}
-                                <Link className="text-blue-700 hover:underline" href="/blog/forever-free-and-ad-free">
-                                    {t('p2_link1')}
-                                </Link>
-                                {t.rich('p2_part2')}
-                                <Link className="text-blue-700 hover:underline" href="/blog/why-we-are-fastest">
-                                    {t('p2_link2')}
-                                </Link>
-                                {t.rich('p2_part3')}
-                            </p>
+                            <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+                                <h1 className="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
+                                    {t('h1')}
+                                </h1>
+                                <p
+                                    className="mb-4 text-muted-foreground leading-relaxed"
+                                    dangerouslySetInnerHTML={{ __html: t.raw('p1') }}
+                                ></p>
+                                <p className="mb-4 text-muted-foreground leading-relaxed">
+                                    {t.rich('p2_part1', {
+                                        strong: (chunks) => <strong>{chunks}</strong>
+                                    })}
+                                    <Link className="text-blue-700 hover:underline" href="/blog/forever-free-and-ad-free">
+                                        {t('p2_link1')}
+                                    </Link>
+                                    {t.rich('p2_part2')}
+                                    <Link className="text-blue-700 hover:underline" href="/blog/why-we-are-fastest">
+                                        {t('p2_link2')}
+                                    </Link>
+                                    {t.rich('p2_part3')}
+                                </p>
+                            </div>
                         </section>
                         <WhySection />
                         <PopularArticles />

@@ -121,19 +121,26 @@ export default function Status() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900/50 p-6 mt-5 rounded-xl border border-gray-200 dark:border-gray-800 backdrop-blur-sm">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6 tracking-wide">System Status</h2>
+    // --- REVISED: Updated styles for main container ---
+    <div className="bg-white dark:bg-black p-6 mt-5 rounded-xl border border-gray-200 dark:border-gray-700">
+      {/* --- REVISED: Updated titles and added SEO text --- */}
+      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 tracking-wide">Emails Passing Through Our Service</h2>
+      <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
+        Track the real-time flow of temporary emails processed by our servers. 'Queued' shows successfully delivered emails, while 'Denied' reflects messages blocked by our filters.
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-blue-50 dark:bg-blue-900/30 p-5 rounded-xl">
-          <p className="text-sm font-medium text-blue-500 dark:text-blue-400 mb-2">Queued</p>
-          <div className="text-4xl font-extrabold text-blue-800 dark:text-blue-200">
-            <CountUp start={status.queued - 100} end={status.queued} duration={2.75} separator="," />
+        {/* --- REVISED: Removed bg colors, using borders --- */}
+        <div className="border border-gray-200 dark:border-gray-700 p-5 rounded-xl">
+          <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2">Queued</p>
+          <div className="text-4xl font-extrabold text-gray-800 dark:text-gray-200">
+            <CountUp start={status.queued > 100 ? status.queued - 100 : 0} end={status.queued} duration={2.75} separator="," />
           </div>
         </div>
-        <div className="bg-red-50 dark:bg-red-900/30 p-5 rounded-xl">
-          <p className="text-sm font-medium text-red-500 dark:text-red-400 mb-2">Denied</p>
-          <div className="text-4xl font-extrabold text-red-800 dark:text-red-200">
-            <CountUp start={status.denied - 100} end={status.denied} duration={2.75} separator="," />
+        {/* --- REVISED: Removed bg colors, using borders --- */}
+        <div className="border border-gray-200 dark:border-gray-700 p-5 rounded-xl">
+          <p className="text-sm font-medium text-red-600 dark:text-red-400 mb-2">Denied</p>
+          <div className="text-4xl font-extrabold text-gray-800 dark:text-gray-200">
+            <CountUp start={status.denied > 100 ? status.denied - 100 : 0} end={status.denied} duration={2.75} separator="," />
           </div>
         </div>
       </div>
