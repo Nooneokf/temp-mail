@@ -1,8 +1,9 @@
 // app/api/mailbox/route.ts
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
+import { getServerSession } from 'next-auth'
 import { fetchFromServiceAPI } from '@/lib/api'
 import { authOptions } from '../auth/[...nextauth]/route'
+import jwt from "jsonwebtoken";
 
 // Define the shape of your NextAuth session
 interface UserSession {
@@ -19,7 +20,15 @@ export async function GET(request: Request) {
   // 1. Get the server-side session and the token from NextAuth.js
   const session: UserSession | null = await getServerSession(authOptions);
 
-  const token = session?.accessToken || '';
+    const role = session?.user.role || "";
+
+  // 2. Sign { role } with NEXTAUTH_SECRET
+  const signedToken = jwt.sign(
+    { role },
+    process.env.NEXTAUTH_SECRET as string,
+    { algorithm: "HS256", expiresIn: "15m" }
+  );
+
 
   const { searchParams } = new URL(request.url)
   const mailbox = searchParams.get('fullMailboxId')
@@ -34,7 +43,7 @@ export async function GET(request: Request) {
     const options = {
       headers: {
         // 3. Pass the JWT to your backend service API
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${signedToken}`
       }
     };
     
@@ -58,11 +67,15 @@ export async function DELETE(request: Request) {
   // 1. Get the server-side session and the token from NextAuth.js
   const session: UserSession | null = await getServerSession(authOptions);
 
-  // 2. Authenticate the request and ensure a token exists
-  if (!session?.accessToken) {
-    return NextResponse.json({ error: 'Unauthorized: No valid session found' }, { status: 401 });
-  }
-  const token = session.accessToken;
+  const role = session?.user.role || "";
+
+  // 2. Sign { role } with NEXTAUTH_SECRET
+  const signedToken = jwt.sign(
+    { role },
+    process.env.NEXTAUTH_SECRET as string,
+    { algorithm: "HS256", expiresIn: "15m" }
+  );
+
 
   const { searchParams } = new URL(request.url)
   const mailbox = searchParams.get('fullMailboxId')
@@ -77,7 +90,7 @@ export async function DELETE(request: Request) {
       method: "DELETE",
       headers: {
         // 3. Pass the JWT to your backend service API
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${signedToken}`
       }
     });
     return NextResponse.json(data);

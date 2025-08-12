@@ -59,17 +59,17 @@ export const authOptions: NextAuthOptions = {
                     const response = await fetch("https://whatsyour.info/api/v1/oauth/token", {
                         method: "POST",
                         headers: {
-                          "Content-Type": "application/json"
+                            "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                          grant_type: "authorization_code",
-                          code: context.params.code,
-                          redirect_uri: context.provider.callbackUrl,
-                          client_id: context.provider.clientId,
-                          client_secret: context.provider.clientSecret,
+                            grant_type: "authorization_code",
+                            code: context.params.code,
+                            redirect_uri: context.provider.callbackUrl,
+                            client_id: context.provider.clientId,
+                            client_secret: context.provider.clientSecret,
                         }),
                     });
-        
+
                     const tokens = await response.json();
                     if (!response.ok) {
                         console.error("Token request failed:", tokens);
@@ -124,38 +124,37 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
-            // This callback runs AFTER the token exchange is successful.
             if (account?.provider === 'wyi' && profile) {
                 try {
-                    // On every sign-in, ensure the user exists and is up-to-date in your database
                     await upsertUserInBackend(profile as WYIProfile);
-                    return true; // Allow the sign-in
+                    return true;
                 } catch (error) {
                     console.error("Sign-in aborted due to backend error:", error);
-                    return false; // Prevent sign-in if the backend sync fails
+                    return false;
                 }
             }
             return false;
         },
 
-        async jwt({ token, user, account }) {
-            // After sign-in, add custom properties from the User object to the JWT
+        async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
                 token.plan = (user as any).plan;
+                token.role = (user as any).role; // ✅ store role in JWT
             }
             return token;
         },
 
         async session({ session, token }) {
-            // Make the custom properties available on the client-side session object
             if (token) {
                 session.user.id = token.id as string;
                 session.user.plan = token.plan as 'free' | 'pro';
+                session.user.role = token.role as string; // ✅ expose role to session
             }
             return session;
         },
     },
+
 };
 
 const handler = NextAuth(authOptions);
