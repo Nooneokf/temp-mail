@@ -1,24 +1,50 @@
 // app/api/auth/[...nextauth]/route.ts
-
-import NextAuth from 'next-auth';
-import type { NextAuthOptions, User } from 'next-auth';
+import NextAuth, { type NextAuthOptions } from 'next-auth';
+import type { DefaultSession, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import { fetchFromServiceAPI } from '@/lib/api';
 
+// --------------------
+// 1️⃣ Custom Profile Type
+// --------------------
 interface WYIProfile {
     _id: string;
     email: string;
     firstName: string;
     lastName: string;
     isProUser: boolean;
-    username: string
+    username: string;
 }
 
-// This function calls your backend to create or update the user
-// It replicates the logic from your original WYI callback.
-async function upsertUserInBackend(profile: WYIProfile) {
+// --------------------
+// 2️⃣ Module Augmentation for NextAuth Types
+// --------------------
+declare module 'next-auth' {
+    interface Session {
+        user: {
+            id: string;
+            plan: 'free' | 'pro';
+        } & DefaultSession['user'];
+    }
+
+    interface User {
+        id: string;
+        plan: 'free' | 'pro';
+    }
+}
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        id: string;
+        plan: 'free' | 'pro';
+    }
+}
+
+// --------------------
+// 3️⃣ Helper: Upsert User in Backend
+// --------------------
+async function upsertUserInBackend(profile: WYIProfile): Promise<void> {
     try {
-        // This endpoint needs to exist on your Express backend.
-        // It should handle the upsert logic based on wyiUserId.
         await fetchFromServiceAPI('/auth/upsert-user', {
             method: 'POST',
             body: JSON.stringify({
@@ -30,12 +56,13 @@ async function upsertUserInBackend(profile: WYIProfile) {
         });
     } catch (error) {
         console.error("Failed to upsert user in backend:", error);
-        // If this fails, the login should be aborted.
         throw new Error("Could not sync user with backend.");
     }
 }
 
-
+// --------------------
+// 4️⃣ Auth Options with Strict Typing
+// --------------------
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
@@ -45,14 +72,10 @@ export const authOptions: NextAuthOptions = {
             id: 'wyi',
             name: 'WhatsYourInfo',
             type: 'oauth',
-            // It's better practice to use the object format for authorization
             authorization: {
                 url: "https://whatsyour.info/oauth/authorize",
                 params: { scope: "profile:read email:read" },
             },
-
-            // --- START OF THE FIX ---
-            // Explicitly define how to request the token, matching your working example.
             token: {
                 url: "https://whatsyour.info/api/v1/oauth/token",
                 async request(context) {
@@ -75,23 +98,15 @@ export const authOptions: NextAuthOptions = {
                         console.error("Token request failed:", tokens);
                         throw new Error(tokens.error_description || "Token request failed");
                     }
-                    // The request function needs to return an object with a `tokens` property
                     return { tokens };
                 },
             },
-            // --- END OF THE FIX ---
-
-            // --- START OF THE CRITICAL FIX ---
-            // We must also override the userinfo request to use fetch.
             userinfo: {
                 url: "https://whatsyour.info/api/v1/me",
                 async request(context) {
-                    // The context contains the tokens from the previous step.
                     const { tokens } = context;
-
                     const response = await fetch("https://whatsyour.info/api/v1/me", {
                         headers: {
-                            // Use the access token to authenticate the request to the userinfo endpoint.
                             Authorization: `Bearer ${tokens.access_token}`,
                             "User-Agent": "freecustom-email-app",
                         }
@@ -102,15 +117,12 @@ export const authOptions: NextAuthOptions = {
                         throw new Error(`Userinfo request failed: ${text}`);
                     }
 
-                    // The request function must return the user profile JSON object.
-                    const profile = await response.json();
+                    const profile: WYIProfile = await response.json();
                     return profile;
                 }
             },
-            // --- END OF THE CRITICAL FIX ---
             clientId: process.env.WYI_CLIENT_ID,
             clientSecret: process.env.WYI_CLIENT_SECRET,
-
             profile(profile: WYIProfile): User {
                 return {
                     id: profile._id,
@@ -139,21 +151,23 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
-                token.plan = (user as any).plan;
+                token.plan = user.plan;
             }
             return token;
         },
 
         async session({ session, token }) {
-            if (token) {
-                session.user.id = token.id as string;
-                session.user.plan = token.plan as 'free' | 'pro';
+            if (session.user) {
+                session.user.id = token.id;
+                session.user.plan = token.plan;
             }
             return session;
         },
     },
-
 };
 
+// --------------------
+// 5️⃣ Export Handler
+// --------------------
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

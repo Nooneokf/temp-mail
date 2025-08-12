@@ -18,7 +18,7 @@ import { WhatsNewModal } from "./WhatsNewModal";
 import { signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-export function AppHeader({ initialSession }: { initialSession: Session; }) {
+export function AppHeader({ initialSession }: { initialSession: Session | null; }) {
   const { data: _, status } = useSession()
   const session = initialSession
   const t = useTranslations('AppHeader');
