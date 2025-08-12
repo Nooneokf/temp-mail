@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CheckCircle, XCircle, Info } from "lucide-react";
+import { CheckCircle, XCircle, Info, Loader2 } from "lucide-react"; // <-- Import Loader2
 import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
@@ -121,11 +121,12 @@ interface AuthPopupProps {
 
 export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
     const [pricing, setPricing] = useState(USD_PRICING);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isGeoLoading, setIsGeoLoading] = useState(true);
+    const [loadingPlan, setLoadingPlan] = useState<string | null>(null); // <-- NEW: State to track loading plan
 
     useEffect(() => {
         if (isOpen) {
-            setIsLoading(true);
+            setIsGeoLoading(true);
             fetch("/api/get-geo")
                 .then(res => res.json())
                 .then(data => {
@@ -134,7 +135,7 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                     else setPricing(USD_PRICING);
                 })
                 .catch(() => setPricing(USD_PRICING))
-                .finally(() => setIsLoading(false));
+                .finally(() => setIsGeoLoading(false));
         }
     }, [isOpen]);
 
@@ -151,56 +152,74 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                     </DialogHeader>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
-                        {plansData.map((plan) => (
-                            <div key={plan.title} className={cn(
-                                "border rounded-lg p-6 flex flex-col",
-                                plan.isPopular && "border-2 border-primary"
-                            )}>
-                                {plan.isPopular && (
-                                    <div className="text-center mb-4">
-                                        <span className="bg-primary text-primary-foreground px-3 py-1 text-sm rounded-full">Most Popular</span>
-                                    </div>
-                                )}
-                                <h3 className="text-xl font-bold text-center">{plan.title}</h3>
-                                <p className="text-muted-foreground text-center text-sm mb-4 h-10">{plan.description}</p>
-
-                                <div className="text-center mb-6 h-16 flex items-center justify-center">
-                                    {plan.title === "WYI Pro" ? (
-                                        isLoading ? (
-                                            <div className="space-y-2">
-                                                <Skeleton className="h-8 w-24 mx-auto" />
-                                                <Skeleton className="h-4 w-20 mx-auto" />
-                                            </div>
+                        {plansData.map((plan) => {
+                            const isLoadingThisPlan = loadingPlan === plan.title; // <-- NEW: Check if this plan is loading
+                            return (
+                                <div key={plan.title} className={cn(
+                                    "border rounded-lg p-6 flex flex-col",
+                                    plan.isPopular && "border-2 border-primary"
+                                )}>
+                                    {plan.isPopular && (
+                                        <div className="text-center mb-4">
+                                            <span className="bg-primary text-primary-foreground px-3 py-1 text-sm rounded-full">Most Popular</span>
+                                        </div>
+                                    )}
+                                    <h3 className="text-xl font-bold text-center">{plan.title}</h3>
+                                    <p className="text-muted-foreground text-center text-sm mb-4 h-10">{plan.description}</p>
+    
+                                    <div className="text-center mb-6 h-16 flex items-center justify-center">
+                                        {plan.title === "WYI Pro" ? (
+                                            isGeoLoading ? (
+                                                <div className="space-y-2">
+                                                    <Skeleton className="h-8 w-24 mx-auto" />
+                                                    <Skeleton className="h-4 w-20 mx-auto" />
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center">
+                                                    <p className="text-3xl font-bold">{pricing.currency}{pricing.monthly} <span className="text-lg font-normal text-muted-foreground">/ month</span></p>
+                                                    <p className="text-muted-foreground text-sm">{pricing.yearlyText}</p>
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="flex flex-col items-center">
-                                                <p className="text-3xl font-bold">{pricing.currency}{pricing.monthly} <span className="text-lg font-normal text-muted-foreground">/ month</span></p>
-                                                <p className="text-muted-foreground text-sm">{pricing.yearlyText}</p>
-                                            </div>
-                                        )
-                                    ) : (
-                                        <p className="text-3xl font-bold">$0 <span className="text-lg font-normal text-muted-foreground">/ forever</span></p>
-                                    )}
+                                            <p className="text-3xl font-bold">$0 <span className="text-lg font-normal text-muted-foreground">/ forever</span></p>
+                                        )}
+                                    </div>
+    
+                                    <ul className="space-y-3 mb-8 flex-grow">
+                                        {plan.features.map(feature => (
+                                            <Feature key={feature.text} {...feature} />
+                                        ))}
+                                    </ul>
+                                    
+                                    {/* --- REVISED BUTTON LOGIC --- */}
+                                    <Button
+                                        onClick={() => {
+                                            if (plan.button.onClick) {
+                                                setLoadingPlan(plan.title); // Set loading state for this plan
+                                                plan.button.onClick();   // Execute the sign-in action
+                                            }
+                                        }}
+                                        variant={plan.button.variant as any}
+                                        disabled={plan.button.disabled || isLoadingThisPlan} // Disable if this plan is loading
+                                        className="w-full"
+                                    >
+                                        {isLoadingThisPlan ? (
+                                            <>
+                                                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                                                Redirecting...
+                                            </>
+                                        ) : (
+                                            <>
+                                                {plan.title.includes("WYI") && ( // Show logo for WYI plans
+                                                    <img src='/wyi.png' alt="WYI Logo" className="w-5 h-5 mr-2" />
+                                                )}
+                                                {plan.button.label}
+                                            </>
+                                        )}
+                                    </Button>
                                 </div>
-
-                                <ul className="space-y-3 mb-8 flex-grow">
-                                    {plan.features.map(feature => (
-                                        <Feature key={feature.text} {...feature} />
-                                    ))}
-                                </ul>
-
-                                <Button
-                                    onClick={plan.button.onClick}
-                                    variant={plan.button.variant as any}
-                                    disabled={plan.button.disabled}
-                                    className="w-full"
-                                >
-                                    {plan.button.label !== "Login with WYI" && plan.button.label !== "Upgrade with WYI" ? null : (
-                                        <img src='/wyi.png' alt="WYI Logo" className="w-5 h-5 mr-2" />
-                                    )}
-                                    {plan.button.label}
-                                </Button>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 </TooltipProvider>
             </DialogContent>
