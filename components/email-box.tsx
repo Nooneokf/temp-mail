@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { getCookie, setCookie } from "cookies-next";
-import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck, Star, ListOrdered } from "lucide-react";
+import { Mail, RefreshCw, Trash2, Edit, QrCode, Copy, Check, CheckCheck, Star, ListOrdered, RotateCwSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -563,7 +563,7 @@ export function EmailBox({
                   onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
                   aria-label={isEditing ? t('save') : t('change')}
                 >
-                  {!session?.user ? <RefreshCw className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
+                  {!session?.user ? <RotateCwSquare className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
                   <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
                   {/* NEW: Shortcut Badge */}
                   {isAuthenticated && <Badge variant="outline" className="ml-auto hidden sm:block">N</Badge>}

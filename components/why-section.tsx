@@ -17,7 +17,8 @@ export async function WhySection() {
 
   return (
     <section className="space-y-12">
-      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 rounded-lg p-6">
         <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">
           {t('snippet_title')}
         </h2>
@@ -27,7 +28,8 @@ export async function WhySection() {
         ></p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{t('domain_list_title')}</h2>
         <p className="mt-2 text-gray-600 dark:text-gray-300">{t('domain_list_p')}</p>
         <ul className="mt-4 list-disc pl-5 text-gray-700 dark:text-gray-200 space-y-1">
@@ -37,7 +39,8 @@ export async function WhySection() {
         </ul>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{t('definition_title')}</h2>
         <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">
           {t.rich('definition_p', {
@@ -48,7 +51,8 @@ export async function WhySection() {
         </p>
       </div>
       
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('use_case_title')}</h3>
         <ul className="mt-4 space-y-3">
           {useCases.map((item, i) => (
@@ -60,7 +64,8 @@ export async function WhySection() {
         </ul>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('checklist_title')}</h3>
         <ul className="mt-4 space-y-3">
           {features.map((feature, i) => (
@@ -75,7 +80,8 @@ export async function WhySection() {
         </p>
       </div>
 
-       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+       <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('usage_title')}</h3>
         <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">
           {t.rich('usage_p1', {
@@ -86,7 +92,8 @@ export async function WhySection() {
         <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">{t('usage_p2')}</p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {/* --- REVISED: Updated background, removed shadow --- */}
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('conclusion_title')}</h3>
         <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">{t('conclusion_p1')}</p>
         <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
