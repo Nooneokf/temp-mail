@@ -19,11 +19,7 @@ export async function GET(request: Request) {
   // 1. Get the server-side session and the token from NextAuth.js
   const session: UserSession | null = await getServerSession(authOptions);
 
-  // 2. Authenticate the request and ensure a token exists
-  if (!session?.accessToken) {
-    return NextResponse.json({ error: 'Unauthorized: No valid session found' }, { status: 401 })
-  }
-  const token = session.accessToken;
+  const token = session?.accessToken || '';
 
   const { searchParams } = new URL(request.url)
   const mailbox = searchParams.get('fullMailboxId')
