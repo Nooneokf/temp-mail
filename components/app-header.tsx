@@ -4,7 +4,7 @@
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu as MenuIconLucide, X as CloseIcon, Gift, Crown } from "lucide-react";
+import { Moon, Sun, Menu as MenuIconLucide, X as CloseIcon, Gift } from "lucide-react";
 import Link from 'next/link';
 import { FaDiscord, FaGithub, FaPatreon } from "react-icons/fa";
 import { useState, useCallback, useEffect, useRef } from "react";
@@ -98,19 +98,12 @@ export function AppHeader({ initialSession }: { initialSession: Session | null; 
                 )}
               </div>
 
-              {/* Crown for Pro Users */}
-              {isPro && (
-                <div className="absolute -top-1 -right-1 rounded-full bg-background p-0.5">
-                  <Crown className="h-4 w-4 text-yellow-400" />
-                </div>
-              )}
-
               {/* Plan Badge on Avatar */}
-              {!isPro && <div className="absolute -bottom-2 w-full flex justify-center">
+              <div className="absolute -bottom-2 w-full flex justify-center">
                 <div className={`rounded-md px-1 py-[1px] text-[8px] font-bold border ${isPro ? 'bg-yellow-400 text-black' : 'bg-secondary text-secondary-foreground'}`}>
                   {isPro ? 'PRO' : 'FREE'}
                 </div>
-              </div>}
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
