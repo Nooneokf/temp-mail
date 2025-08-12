@@ -179,13 +179,15 @@ export function EmailBox({
         const currentLocalHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
         let newHistory = [email, ...currentLocalHistory.filter(e => e !== email)];
 
-        if (session?.user && session?.user?.plan !== 'pro') {
+        if (session?.user?.plan === 'free') {
+          newHistory = newHistory.slice(0, 7);
+        } else if (!session?.user) {
           newHistory = newHistory.slice(0, 5);
         }
 
         localStorage.setItem('emailHistory', JSON.stringify(newHistory));
         setEmailHistory(newHistory);
-    }, [email]);
+    }, [email, session]);
 
     // --- NEW: Effect to persist the last used domain ---
     useEffect(() => {
