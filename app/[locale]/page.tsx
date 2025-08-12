@@ -15,6 +15,7 @@ import { DITMailPopup } from '@/components/DITMailPopup';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { fetchFromServiceAPI } from '@/lib/api';
+import { AwardsSection } from '@/components/AwardsSection';
 
 type Props = {
     params: { locale: Locale };
@@ -116,7 +117,9 @@ export default async function Page({ params }: Props) {
                         </section>
                         <WhySection />
                         <PopularArticles />
+
                     </main>
+                    <AwardsSection />
                     <AppFooter />
                 </div>
                 {session?.user.plan !== 'pro' && <DITMailPopup />}
