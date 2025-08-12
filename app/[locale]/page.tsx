@@ -85,7 +85,7 @@ export default async function Page({ params }: Props) {
                 <div className="min-h-screen max-w-[100vw] bg-background">
                     <AppHeader initialSession={session} />
                     <main className="mx-auto m-2 px-4 py-8">
-                        <section className="mb-12">
+                        <section className="mb-4">
                             {/* --- Pass all fetched data as props --- */}
                             <EmailBox
                                 initialSession={session}
@@ -94,15 +94,15 @@ export default async function Page({ params }: Props) {
                                 initialCurrentInbox={currentInbox}
                             />
                             <Status />
-                            <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
-                                <h1 className="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
+                            <div className="bg-white dark:bg-black border mt-4 dark:border-gray-700 p-6 rounded-lg">
+                                <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
                                     {t('h1')}
                                 </h1>
                                 <p
                                     className="mb-4 text-muted-foreground leading-relaxed"
                                     dangerouslySetInnerHTML={{ __html: t.raw('p1') }}
                                 ></p>
-                                <p className="mb-4 text-muted-foreground leading-relaxed">
+                                <p className=" text-muted-foreground leading-relaxed">
                                     {t.rich('p2_part1', {
                                         strong: (chunks) => <strong>{chunks}</strong>
                                     })}

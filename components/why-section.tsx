@@ -16,7 +16,7 @@ export async function WhySection() {
   const useCases = ['use_case_item1', 'use_case_item2', 'use_case_item3', 'use_case_item4'];
 
   return (
-    <section className="space-y-12">
+    <section className="space-y-4">
       {/* --- REVISED: Updated background, removed shadow --- */}
       <div className="bg-white dark:bg-black border dark:border-gray-700 rounded-lg p-6">
         <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">

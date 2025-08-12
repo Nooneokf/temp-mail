@@ -63,23 +63,23 @@ interface EmailBoxProps {
  * 3. The first free domain as a fallback.
  */
 const getPreferredDomain = (
-    availableDomains: string[],
-    lastUsedDomain: string | null
+  availableDomains: string[],
+  lastUsedDomain: string | null
 ): string => {
-    // 1. Prioritize the last used domain if it's still available
-    if (lastUsedDomain && availableDomains.includes(lastUsedDomain)) {
-        return lastUsedDomain;
-    }
+  // 1. Prioritize the last used domain if it's still available
+  if (lastUsedDomain && availableDomains.includes(lastUsedDomain)) {
+    return lastUsedDomain;
+  }
 
-    // 2. Find the first custom domain, which is always at the start of the list
-    const firstAvailableDomain = availableDomains[0];
-    const isFirstDomainCustom = firstAvailableDomain && !FREE_DOMAINS.includes(firstAvailableDomain);
-    if (isFirstDomainCustom) {
-        return firstAvailableDomain;
-    }
+  // 2. Find the first custom domain, which is always at the start of the list
+  const firstAvailableDomain = availableDomains[0];
+  const isFirstDomainCustom = firstAvailableDomain && !FREE_DOMAINS.includes(firstAvailableDomain);
+  if (isFirstDomainCustom) {
+    return firstAvailableDomain;
+  }
 
-    // 3. Fallback to the first available domain (which would be a free one)
-    return firstAvailableDomain || FREE_DOMAINS[0];
+  // 3. Fallback to the first available domain (which would be a free one)
+  return firstAvailableDomain || FREE_DOMAINS[0];
 };
 
 
@@ -121,114 +121,114 @@ export function EmailBox({
   const [discoveredUpdates, setDiscoveredUpdates] = useState({ newDomains: false });
   const [showAttachmentNotice, setShowAttachmentNotice] = useState(false);
 
-  
-    // Custom domains are now correctly given preference in the available list
-    const availableDomains = useMemo(() => {
-        const verifiedCustomDomains = initialCustomDomains?.filter((d: any) => d.verified).map((d: any) => d.domain) ?? [];
-        return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
-    }, [initialCustomDomains]);
-  
-    const updateUserInbox = async (newInbox: string) => {
-        if (!isAuthenticated || !newInbox) return;
-        try {
-          await fetch('/api/user/inboxes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ inboxName: newInbox }),
-          });
-        } catch (err) {
-          console.error("Error syncing inbox:", err);
-        }
+
+  // Custom domains are now correctly given preference in the available list
+  const availableDomains = useMemo(() => {
+    const verifiedCustomDomains = initialCustomDomains?.filter((d: any) => d.verified).map((d: any) => d.domain) ?? [];
+    return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
+  }, [initialCustomDomains]);
+
+  const updateUserInbox = async (newInbox: string) => {
+    if (!isAuthenticated || !newInbox) return;
+    try {
+      await fetch('/api/user/inboxes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inboxName: newInbox }),
+      });
+    } catch (err) {
+      console.error("Error syncing inbox:", err);
+    }
+  };
+
+  // --- REVISED: Initialization Effect ---
+  useEffect(() => {
+    const initialize = async () => {
+      await fetchToken();
+      const localHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
+      const lastUsedDomain: string | null = localStorage.getItem('lastUsedDomain');
+
+      // Use the new helper to get the best domain based on preferences
+      const initialDomain = getPreferredDomain(availableDomains, lastUsedDomain);
+      let effectiveInitialEmail: string | null = null;
+      let historyToDisplay: string[] = [];
+
+      if (initialInboxes.length > 0) {
+        historyToDisplay = initialInboxes;
+        effectiveInitialEmail = initialCurrentInbox || initialInboxes[0];
+      } else if (localHistory.length > 0) {
+        historyToDisplay = localHistory;
+        effectiveInitialEmail = localHistory[0];
+      } else {
+        effectiveInitialEmail = generateRandomEmail(initialDomain);
+        historyToDisplay = [effectiveInitialEmail];
+      }
+
+      setEmail(effectiveInitialEmail);
+      setEmailHistory(historyToDisplay);
+      setSelectedDomain(effectiveInitialEmail.split('@')[1]);
     };
+    initialize();
+  }, []);
 
-    // --- REVISED: Initialization Effect ---
-    useEffect(() => {
-        const initialize = async () => {
-            await fetchToken();
-            const localHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
-            const lastUsedDomain: string | null = localStorage.getItem('lastUsedDomain');
+  // --- REVISED: History & Persistence Effect ---
+  useEffect(() => {
+    if (!email) return;
+    updateUserInbox(email);
 
-            // Use the new helper to get the best domain based on preferences
-            const initialDomain = getPreferredDomain(availableDomains, lastUsedDomain);
-            let effectiveInitialEmail: string | null = null;
-            let historyToDisplay: string[] = [];
+    const currentLocalHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
+    let newHistory = [email, ...currentLocalHistory.filter(e => e !== email)];
 
-            if (initialInboxes.length > 0) {
-                historyToDisplay = initialInboxes;
-                effectiveInitialEmail = initialCurrentInbox || initialInboxes[0];
-            } else if (localHistory.length > 0) {
-                historyToDisplay = localHistory;
-                effectiveInitialEmail = localHistory[0];
-            } else {
-                effectiveInitialEmail = generateRandomEmail(initialDomain);
-                historyToDisplay = [effectiveInitialEmail];
-            }
-            
-            setEmail(effectiveInitialEmail);
-            setEmailHistory(historyToDisplay);
-            setSelectedDomain(effectiveInitialEmail.split('@')[1]);
-        };
-        initialize();
-    }, []);
+    if (session?.user?.plan === 'free') {
+      newHistory = newHistory.slice(0, 7);
+    } else if (!session?.user) {
+      newHistory = newHistory.slice(0, 5);
+    }
 
-    // --- REVISED: History & Persistence Effect ---
-    useEffect(() => {
-        if (!email) return;
-        updateUserInbox(email);
+    localStorage.setItem('emailHistory', JSON.stringify(newHistory));
+    setEmailHistory(newHistory);
+  }, [email, session]);
 
-        const currentLocalHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
-        let newHistory = [email, ...currentLocalHistory.filter(e => e !== email)];
+  // --- NEW: Effect to persist the last used domain ---
+  useEffect(() => {
+    // This ensures that whenever the selected domain changes, it's saved.
+    if (selectedDomain) {
+      localStorage.setItem('lastUsedDomain', selectedDomain);
+    }
+  }, [selectedDomain]);
 
-        if (session?.user?.plan === 'free') {
-          newHistory = newHistory.slice(0, 7);
-        } else if (!session?.user) {
-          newHistory = newHistory.slice(0, 5);
-        }
+  useEffect(() => {
+    if (!email || !token) return;
+    refreshInbox();
+    const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
+    socket.onopen = () => console.log("WebSocket connection established");
+    socket.onmessage = () => refreshInbox();
+    return () => socket.close();
+  }, [email, token]);
 
-        localStorage.setItem('emailHistory', JSON.stringify(newHistory));
-        setEmailHistory(newHistory);
-    }, [email, session]);
+  const useHistoryEmail = (historyEmail: string) => {
+    setEmail(historyEmail);
+    setSelectedDomain(historyEmail.split('@')[1]); // Also update selected domain
+    setIsEditing(false);
+  };
 
-    // --- NEW: Effect to persist the last used domain ---
-    useEffect(() => {
-        // This ensures that whenever the selected domain changes, it's saved.
-        if (selectedDomain) {
-            localStorage.setItem('lastUsedDomain', selectedDomain);
-        }
-    }, [selectedDomain]);
+  // --- REVISED: Delete action to respect domain preference ---
+  const deleteEmail = () => {
+    // Use the helper to find the best domain for the new email
+    const lastUsedDomain = localStorage.getItem('lastUsedDomain');
+    const domainToUse = getPreferredDomain(availableDomains, lastUsedDomain);
 
-    useEffect(() => {
-        if (!email || !token) return;
-        refreshInbox();
-        const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
-        socket.onopen = () => console.log("WebSocket connection established");
-        socket.onmessage = () => refreshInbox();
-        return () => socket.close();
-    }, [email, token]);
+    const newEmail = generateRandomEmail(domainToUse);
+    setEmail(newEmail);
+    setSelectedDomain(domainToUse);
+    setMessages([]);
+  };
 
-    const useHistoryEmail = (historyEmail: string) => {
-        setEmail(historyEmail);
-        setSelectedDomain(historyEmail.split('@')[1]); // Also update selected domain
-        setIsEditing(false);
-    };
-      
-    // --- REVISED: Delete action to respect domain preference ---
-    const deleteEmail = () => {
-        // Use the helper to find the best domain for the new email
-        const lastUsedDomain = localStorage.getItem('lastUsedDomain');
-        const domainToUse = getPreferredDomain(availableDomains, lastUsedDomain);
-        
-        const newEmail = generateRandomEmail(domainToUse);
-        setEmail(newEmail);
-        setSelectedDomain(domainToUse);
-        setMessages([]);
-    };
-    
-    const handleDomainChange = (newDomain: string) => {
-        setSelectedDomain(newDomain); // This will trigger the save to localStorage
-        const prefix = email.split("@")[0];
-        setEmail(`${prefix}@${newDomain}`);
-    };
+  const handleDomainChange = (newDomain: string) => {
+    setSelectedDomain(newDomain); // This will trigger the save to localStorage
+    const prefix = email.split("@")[0];
+    setEmail(`${prefix}@${newDomain}`);
+  };
 
 
   // --- KEYBOARD SHORTCUTS ---
@@ -483,49 +483,49 @@ export function EmailBox({
               {email || t('loading')}
             </div>
           )}
-        <TooltipProvider delayDuration={200}>
-          <div className="flex gap-2" role="group" aria-label="Email actions">
-            <Tooltip>
-              <TooltipTrigger asChild>
-            <Button
-              variant="secondary"
-              size="icon"
-              onClick={copyEmail}
-              className="relative"
-              disabled={blockButtons}
-              aria-label="Copy email address"
-              title="Copy email address"
-            >
-              <Copy className={cn(
-                "h-4 w-4 transition-all",
-                copied ? "opacity-0" : "opacity-100"
-              )} />
-              <span className={cn(
-                "absolute inset-0 flex items-center justify-center transition-all",
-                copied ? "opacity-100" : "opacity-0"
-              )}>
-                <Check className="h-4 w-4 transition-all" />
-              </span>
-              <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
-            </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
-              </TooltipContent>
-            </Tooltip>
-            <Button
-              className="hidden xs:flex"
-              variant="secondary"
-              size="icon"
-              onClick={() => setIsQRModalOpen(true)}
-              disabled={blockButtons}
-              title={t('show_qr')}
-              aria-label={t('show_qr')}
-            >
-              <QrCode className="h-4 w-4" />
-            </Button>
-            <ShareDropdown />
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="flex gap-2" role="group" aria-label="Email actions">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    onClick={copyEmail}
+                    className="relative"
+                    disabled={blockButtons}
+                    aria-label="Copy email address"
+                    title="Copy email address"
+                  >
+                    <Copy className={cn(
+                      "h-4 w-4 transition-all",
+                      copied ? "opacity-0" : "opacity-100"
+                    )} />
+                    <span className={cn(
+                      "absolute inset-0 flex items-center justify-center transition-all",
+                      copied ? "opacity-100" : "opacity-0"
+                    )}>
+                      <Check className="h-4 w-4 transition-all" />
+                    </span>
+                    <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
+                </TooltipContent>
+              </Tooltip>
+              <Button
+                className="hidden xs:flex"
+                variant="secondary"
+                size="icon"
+                onClick={() => setIsQRModalOpen(true)}
+                disabled={blockButtons}
+                title={t('show_qr')}
+                aria-label={t('show_qr')}
+              >
+                <QrCode className="h-4 w-4" />
+              </Button>
+              <ShareDropdown />
+            </div>
           </TooltipProvider>
         </div>
         {/* Action Buttons with Tooltips */}
@@ -604,10 +604,10 @@ export function EmailBox({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{!isAuthenticated ? 'Login to use shortcuts' : (session?.user &&  session?.user.plan === "pro") ? 'Press D to delete' : 'Only for PRO users'}</p>
+                <p>{!isAuthenticated ? 'Login to use shortcuts' : (session?.user && session?.user.plan === "pro") ? 'Press D to delete' : 'Only for PRO users'}</p>
               </TooltipContent>
             </Tooltip>
-             {(session?.user && session?.user?.plan === 'pro') && (
+            {(session?.user && session?.user?.plan === 'pro') && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -692,7 +692,7 @@ export function EmailBox({
         <h2 className="text-xl font-semibold">{t('card_header_title')}</h2>
         <p className="text-sm text-muted-foreground">{t('card_header_p')}</p>
       </CardHeader>
-        <ManageInboxesModal
+      <ManageInboxesModal
         isOpen={isManageModalOpen}
         onClose={() => setIsManageModalOpen(false)}
         inboxes={initialInboxes} // Pass the full server list to the modal
@@ -720,6 +720,6 @@ export function EmailBox({
         onConfirm={handleDeleteConfirmation}
         itemToDelete={itemToDelete?.type === 'email' ? 'email address' : 'message'}
       />
-        </Card>
-    );
+    </Card>
+  );
 }
