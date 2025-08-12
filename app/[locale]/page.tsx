@@ -84,7 +84,7 @@ export default async function Page({ params }: Props) {
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                 <div className="min-h-screen max-w-[100vw] bg-background">
                     <AppHeader initialSession={session} />
-                    <main className="mx-auto m-2 px-4 py-8">
+                    <main className="mx-auto m-2 px-4 py-4">
                         <section className="mb-4">
                             {/* --- Pass all fetched data as props --- */}
                             <EmailBox
