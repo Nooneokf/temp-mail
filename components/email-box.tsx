@@ -62,14 +62,19 @@ interface Message {
   subject: string;
   date: string;
 }
-
 interface EmailBoxProps {
-  initialSession: Session;
-  initialCustomDomains: Object[]
+  initialSession: Session | null;
+  initialCustomDomains: any[]; // Use a more specific type if available
+  initialInboxes: string[];
+  initialCurrentInbox: string | null;
 }
 
-
-export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps) {
+export function EmailBox({
+  initialSession,
+  initialCustomDomains,
+  initialInboxes,
+  initialCurrentInbox
+}: EmailBoxProps) {
   const t = useTranslations('EmailBox');
 
   // --- 1. Use the initial props from the server ---
@@ -80,11 +85,11 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [emailHistory, setEmailHistory] = useState<string[]>([]);
+  const [emailHistory, setEmailHistory] = useState<string[]>(initialInboxes);
   const [selectedDomain, setSelectedDomain] = useState('');
   const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
-  const [token, setToken] =useState<string | null>(null);
-    
+  const [token, setToken] = useState<string | null>(null);
+
   // Modals and UI states
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -101,63 +106,89 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
 
   // --- 3. Memoize availableDomains based on the initial prop ---
   const availableDomains = useMemo(() => {
-      const verifiedCustomDomains = initialCustomDomains
-          ?.filter(d => d.verified)
-          .map(d => d.domain) ?? [];
+    const verifiedCustomDomains = initialCustomDomains
+      ?.filter(d => d.verified)
+      .map(d => d.domain) ?? [];
 
-      return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
+    return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
   }, [initialCustomDomains]);
 
-  // --- 4. Simplify Initialization Logic ---
+
+
+  // --- NEW: Function to update the user's inbox on the backend ---
+  const updateUserInbox = async (newInbox: string) => {
+    if (!isAuthenticated || !newInbox) return; // Only for logged-in users
+
+    try {
+      const response = await fetch('/api/user/inboxes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inboxName: newInbox }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update inbox on server.');
+      }
+      console.log(`Successfully synced inbox ${newInbox} with backend.`);
+    } catch (err) {
+      // Non-critical error, so we just log it and don't show a popup
+      console.error("Error syncing inbox:", err);
+    }
+  };
+
+
+  // --- Simplified Initialization and Sync Effect ---
   useEffect(() => {
     const initialize = async () => {
-        // Fetch the auth token needed for API calls
-        await fetchToken();
+      await fetchToken();
 
-        // Load client-side state from localStorage
-        const storedHistory = localStorage.getItem('emailHistory');
-        if (storedHistory) setEmailHistory(JSON.parse(storedHistory));
+      // Prioritize server-provided inbox, then local history, then generate new
+      const clientHistory = JSON.parse(localStorage.getItem('emailHistory') || '[]');
+      const lastUsedClient = clientHistory[0];
 
-        const storedPrimary = localStorage.getItem('primaryDomain');
-        if (storedPrimary) setPrimaryDomain(storedPrimary);
+      let effectiveInitialEmail = initialCurrentInbox || lastUsedClient;
 
-        // Select initial domain using the already available `availableDomains` list
-        let initialDomain = '';
-        if (storedPrimary && availableDomains.includes(storedPrimary)) {
-            initialDomain = storedPrimary;
-        } else {
-            initialDomain = availableDomains[0] || FREE_DOMAINS[0];
-        }
+      if (!effectiveInitialEmail) {
+        const initialDomain = availableDomains[0] || FREE_DOMAINS[0];
+        effectiveInitialEmail = generateRandomEmail(initialDomain);
+      }
 
-        const newEmail = generateRandomEmail(initialDomain);
-        setEmail(newEmail);
-        setSelectedDomain(initialDomain);
+      setEmail(effectiveInitialEmail);
+      setSelectedDomain(effectiveInitialEmail.split('@')[1]);
     };
-
     initialize();
-  }, [availableDomains]); // This effect now runs only once when `availableDomains` is ready
+  }, []); // Run only once on mount
 
 
-  // --- OTHER EFFECTS ---
+  // This effect now handles syncing the current email with the backend
+  useEffect(() => {
+    if (!email) return;
+
+    // Sync with backend if user is logged in
+    updateUserInbox(email);
+
+    // Add to local history for ordering
+    const updatedLocalHistory = [email, ...JSON.parse(localStorage.getItem('emailHistory') || '[]').filter((e: string) => e !== email)].slice(0, 10);
+    localStorage.setItem('emailHistory', JSON.stringify(updatedLocalHistory));
+
+    // Pro users have their full history from the server, free users rely on local
+    if (session?.user?.plan !== 'pro') {
+      setEmailHistory(updatedLocalHistory);
+    }
+
+  }, [email]); // This runs every time `email` state changes
+
+
   useEffect(() => {
     if (!email || !token) return;
-
     refreshInbox();
-
     const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
     socket.onopen = () => console.log("WebSocket connection established");
     socket.onmessage = () => refreshInbox();
-
     return () => socket.close();
-  }, [email, token, oldEmailUsed, ]);
+  }, [email, token]);
 
-  useEffect(() => {
-    if (!email || isEditing) return;
-
-    const updatedHistory = [email, ...emailHistory.filter(e => e !== email)].slice(0, 5);
-    setEmailHistory(updatedHistory);
-    localStorage.setItem('emailHistory', JSON.stringify(updatedHistory));
-  }, [email, isEditing, ]);
 
   // --- KEYBOARD SHORTCUTS ---
   const shortcuts = {
@@ -315,53 +346,53 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
       setBlockButtons(false);
     }
   }
-    // --- HANDLER FUNCTIONS ---
-    const changeEmail = () => {
-        if (!isAuthenticated) {
-            const newEmail = generateRandomEmail(selectedDomain);
-            setEmail(newEmail);
-            return;
-        }
-        if (isEditing) {
-            const [prefix] = email.split('@');
-            if (prefix && prefix.length > 0) {
-                setEmail(`${prefix}@${selectedDomain}`);
-                setIsEditing(false);
-            } else {
-                setError('Please enter a valid email prefix.');
-            }
-        } else {
-            setIsEditing(true);
-        }
-    };
-
-    const handleEmailInputChange = (newPrefix: string) => {
-        newPrefix = newPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '');
-        setEmail(`${newPrefix}@${selectedDomain}`);
-        setBlockButtons(newPrefix.length === 0);
-    };
-
-    const handleDomainChange = (newDomain: string) => {
-        setSelectedDomain(newDomain);
-        const prefix = email.split("@")[0];
-        setEmail(`${prefix}@${newDomain}`);
-    };
-
-    const handlePrimaryDomainChange = (domain: string) => {
-        const current = localStorage.getItem('primaryDomain');
-        if (current === domain) {
-            localStorage.removeItem('primaryDomain');
-            setPrimaryDomain(null);
-        } else {
-            localStorage.setItem('primaryDomain', domain);
-            setPrimaryDomain(domain);
-        }
-    };
-
-    const handleNewDomainUpdates = () => {
-        setDiscoveredUpdates({ newDomains: true });
-        localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
+  // --- HANDLER FUNCTIONS ---
+  const changeEmail = () => {
+    if (!isAuthenticated) {
+      const newEmail = generateRandomEmail(selectedDomain);
+      setEmail(newEmail);
+      return;
     }
+    if (isEditing) {
+      const [prefix] = email.split('@');
+      if (prefix && prefix.length > 0) {
+        setEmail(`${prefix}@${selectedDomain}`);
+        setIsEditing(false);
+      } else {
+        setError('Please enter a valid email prefix.');
+      }
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleEmailInputChange = (newPrefix: string) => {
+    newPrefix = newPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '');
+    setEmail(`${newPrefix}@${selectedDomain}`);
+    setBlockButtons(newPrefix.length === 0);
+  };
+
+  const handleDomainChange = (newDomain: string) => {
+    setSelectedDomain(newDomain);
+    const prefix = email.split("@")[0];
+    setEmail(`${prefix}@${newDomain}`);
+  };
+
+  const handlePrimaryDomainChange = (domain: string) => {
+    const current = localStorage.getItem('primaryDomain');
+    if (current === domain) {
+      localStorage.removeItem('primaryDomain');
+      setPrimaryDomain(null);
+    } else {
+      localStorage.setItem('primaryDomain', domain);
+      setPrimaryDomain(domain);
+    }
+  };
+
+  const handleNewDomainUpdates = () => {
+    setDiscoveredUpdates({ newDomains: true });
+    localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
+  }
 
 
   return (
@@ -423,49 +454,49 @@ export function EmailBox({ initialSession, initialCustomDomains }: EmailBoxProps
               {email || t('loading')}
             </div>
           )}
-        <TooltipProvider delayDuration={200}>
-          <div className="flex gap-2" role="group" aria-label="Email actions">
-            <Tooltip>
-              <TooltipTrigger asChild>
-            <Button
-              variant="secondary"
-              size="icon"
-              onClick={copyEmail}
-              className="relative"
-              disabled={blockButtons}
-              aria-label="Copy email address"
-              title="Copy email address"
-            >
-              <Copy className={cn(
-                "h-4 w-4 transition-all",
-                copied ? "opacity-0" : "opacity-100"
-              )} />
-              <span className={cn(
-                "absolute inset-0 flex items-center justify-center transition-all",
-                copied ? "opacity-100" : "opacity-0"
-              )}>
-                <Check className="h-4 w-4 transition-all" />
-              </span>
-              <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
-            </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
-              </TooltipContent>
-            </Tooltip>
-            <Button
-              className="hidden xs:flex"
-              variant="secondary"
-              size="icon"
-              onClick={() => setIsQRModalOpen(true)}
-              disabled={blockButtons}
-              title={t('show_qr')}
-              aria-label={t('show_qr')}
-            >
-              <QrCode className="h-4 w-4" />
-            </Button>
-            <ShareDropdown />
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="flex gap-2" role="group" aria-label="Email actions">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    onClick={copyEmail}
+                    className="relative"
+                    disabled={blockButtons}
+                    aria-label="Copy email address"
+                    title="Copy email address"
+                  >
+                    <Copy className={cn(
+                      "h-4 w-4 transition-all",
+                      copied ? "opacity-0" : "opacity-100"
+                    )} />
+                    <span className={cn(
+                      "absolute inset-0 flex items-center justify-center transition-all",
+                      copied ? "opacity-100" : "opacity-0"
+                    )}>
+                      <Check className="h-4 w-4 transition-all" />
+                    </span>
+                    <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
+                </TooltipContent>
+              </Tooltip>
+              <Button
+                className="hidden xs:flex"
+                variant="secondary"
+                size="icon"
+                onClick={() => setIsQRModalOpen(true)}
+                disabled={blockButtons}
+                title={t('show_qr')}
+                aria-label={t('show_qr')}
+              >
+                <QrCode className="h-4 w-4" />
+              </Button>
+              <ShareDropdown />
+            </div>
           </TooltipProvider>
         </div>
         {/* Action Buttons with Tooltips */}

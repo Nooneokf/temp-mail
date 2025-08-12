@@ -12,10 +12,9 @@ import { Locale } from 'next-intl';
 import { ThemeProvider } from '@/components/theme-provider';
 import { DITMailPopup } from '@/components/DITMailPopup';
 
-// --- NEW IMPORTS for Server-Side Data Fetching ---
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // Adjust path if needed
-import { fetchFromServiceAPI } from '@/lib/api'; // Assuming this is your API helper
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { fetchFromServiceAPI } from '@/lib/api';
 
 type Props = {
     params: { locale: Locale };
@@ -28,25 +27,37 @@ export default async function Page({ params }: Props) {
     const t = await getTranslations({ locale, namespace: 'PageContent' });
     const tJsonLd = await getTranslations({ locale, namespace: 'JsonLd' });
 
-    // --- 1. Fetch Session and Custom Domains on the Server ---
+    // --- FETCH ALL USER DATA ON SERVER ---
     const session = await getServerSession(authOptions);
-    let customDomains = []; // Default to an empty array
+    let customDomains = [];
+    let userInboxes = [];
+    let currentInbox = null;
 
-    // Only fetch domains if the user is authenticated and has a 'pro' plan
-    if (session?.user?.id && session.user.plan === 'pro') {
+    if (session?.user?.id) {
         try {
-            // Replicate the logic from your API route to fetch domains directly
-            const serviceResponse = await fetchFromServiceAPI(`/user/${session.user.id}/domains`);
-            // Ensure we have an array, even if the API response is unexpected
-            if (Array.isArray(serviceResponse.domains)) {
-                customDomains = serviceResponse.domains;
+            // Fetch the entire user profile in one call
+            const profileData = await fetchFromServiceAPI(`/user/profile/${session.user.id}`);
+            
+            if (profileData.success && profileData.user) {
+                const { user } = profileData;
+                // Get custom domains if the user is pro
+                if (user.plan === 'pro' && Array.isArray(user.customDomains)) {
+                    customDomains = user.customDomains;
+                }
+                // Get the list of user's inboxes
+                if (Array.isArray(user.inboxes)) {
+                    userInboxes = user.inboxes;
+                    // Set the initial inbox to the first one in their list as a default
+                    if (userInboxes.length > 0) {
+                        currentInbox = userInboxes[0];
+                    }
+                }
             }
         } catch (error) {
-            console.error("Failed to fetch custom domains on server:", error);
-            // Don't block the page render; proceed with empty domains
+            console.error("Failed to fetch user profile data on server:", error);
+            // Gracefully continue with empty arrays on error
         }
     }
-
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -63,32 +74,32 @@ export default async function Page({ params }: Props) {
     };
 
     return (
-        <><Script
-            id="json-ld"
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
+        <>
+            <Script
+                id="json-ld"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                 <div className="min-h-screen max-w-[100vw] bg-background">
-                    <AppHeader initialSession={session}/>
+                    <AppHeader initialSession={session} />
                     <main className="mx-auto m-2 px-4 py-8">
                         <section className="mb-12">
-                            {/* --- 2. Pass Fetched Data as Props to the Client Component --- */}
+                            {/* --- Pass all fetched data as props --- */}
                             <EmailBox
                                 initialSession={session}
                                 initialCustomDomains={customDomains}
+                                initialInboxes={userInboxes}
+                                initialCurrentInbox={currentInbox}
                             />
                             <Status />
-
                             <h1 className="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
                                 {t('h1')}
                             </h1>
-
                             <p
                                 className="mb-4 text-muted-foreground leading-relaxed"
                                 dangerouslySetInnerHTML={{ __html: t.raw('p1') }}
                             ></p>
-
                             <p className="mb-4 text-muted-foreground leading-relaxed">
                                 {t.rich('p2_part1', {
                                     strong: (chunks) => <strong>{chunks}</strong>
@@ -103,14 +114,12 @@ export default async function Page({ params }: Props) {
                                 {t.rich('p2_part3')}
                             </p>
                         </section>
-
                         <WhySection />
                         <PopularArticles />
                     </main>
                     <AppFooter />
                 </div>
-                {session?.user.plan !== 'pro' && 
-                <DITMailPopup /> }
+                {session?.user.plan !== 'pro' && <DITMailPopup />}
             </ThemeProvider>
         </>
     );
