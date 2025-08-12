@@ -24,23 +24,11 @@ import { Badge } from "@/components/ui/badge";
 import { Session } from "next-auth";
 import { ManageInboxesModal } from "./manage-inboxes-modal";
 
-
-
 const FREE_DOMAINS = [
   "saleis.live", "arrangewith.me", "areueally.info", "ditapi.info",
   "ditcloud.info", "ditdrive.info", "ditgame.info", "ditlearn.info",
   "ditpay.info", "ditplay.info", "ditube.info", "junkstopper.info"
 ];
-
-const fetcher = (url: string) => fetch(url).then(res => {
-  if (!res.ok) {
-    const error = new Error('An error occurred while fetching the data.');
-    error.info = res.json();
-    error.status = res.status;
-    throw error;
-  }
-  return res.json();
-});
 
 function generateRandomEmail(domain: string): string {
   const chars = "abcdefghijklmnopqrstuvwxyz";
@@ -191,7 +179,7 @@ export function EmailBox({
         const currentLocalHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
         let newHistory = [email, ...currentLocalHistory.filter(e => e !== email)];
 
-        if (session?.user?.plan !== 'pro') {
+        if (session?.user && session?.user?.plan !== 'pro') {
           newHistory = newHistory.slice(0, 5);
         }
 
@@ -248,7 +236,7 @@ export function EmailBox({
     'd': () => deleteEmail(),
     'n': () => isAuthenticated && changeEmail(),
   };
-  useKeyboardShortcuts(shortcuts, session.user.plan);
+  useKeyboardShortcuts(shortcuts, session?.user?.plan || 'anonymous');
 
   // --- ASYNC & HANDLER FUNCTIONS ---
   const fetchToken = async (): Promise<string | null> => {
@@ -315,7 +303,7 @@ export function EmailBox({
   // --- FEATURE: Save to Local Storage ---
   const saveToLocalStorage = async (message: Message) => {
     // NEW: Safely access session.user.plan
-    if (session?.user?.plan !== 'free') return;
+    if (session?.user && session?.user?.plan !== 'free') return;
     const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -593,7 +581,7 @@ export function EmailBox({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{!isAuthenticated ? 'Login to edit and use its shortcut' : session?.user.plan === "pro" ? 'Press N to edit' : 'Only for PRO users'}</p>
+                <p>{!isAuthenticated ? 'Login to edit and use its shortcut' : (session?.user && session?.user.plan === "pro") ? 'Press N to edit' : 'Only for PRO users'}</p>
               </TooltipContent>
             </Tooltip>
 
@@ -614,10 +602,10 @@ export function EmailBox({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{!isAuthenticated ? 'Login to use shortcuts' : session?.user.plan === "pro" ? 'Press D to delete' : 'Only for PRO users'}</p>
+                <p>{!isAuthenticated ? 'Login to use shortcuts' : (session?.user &&  session?.user.plan === "pro") ? 'Press D to delete' : 'Only for PRO users'}</p>
               </TooltipContent>
             </Tooltip>
-             {session?.user?.plan === 'pro' && (
+             {(session?.user && session?.user?.plan === 'pro') && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -666,7 +654,7 @@ export function EmailBox({
                   <TableCell>
                     <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
                     <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
-                    {session?.user?.plan === 'free' && (
+                    {(session?.user && session?.user?.plan === 'free') && (
                       <Button variant="ghost" size="icon" title="Save to Browser" onClick={() => saveToLocalStorage(message)}>
                         <Star className="h-4 w-4" />
                       </Button>
