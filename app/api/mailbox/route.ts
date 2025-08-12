@@ -20,11 +20,11 @@ export async function GET(request: Request) {
   // 1. Get the server-side session and the token from NextAuth.js
   const session: UserSession | null = await getServerSession(authOptions);
 
-    const role = session?.user.role || "";
+    const plan = session?.user.plan || "";
 
-  // 2. Sign { role } with NEXTAUTH_SECRET
+  // 2. Sign { plan } with NEXTAUTH_SECRET
   const signedToken = jwt.sign(
-    { role },
+    { plan },
     process.env.NEXTAUTH_SECRET as string,
     { algorithm: "HS256", expiresIn: "15m" }
   );
@@ -67,11 +67,11 @@ export async function DELETE(request: Request) {
   // 1. Get the server-side session and the token from NextAuth.js
   const session: UserSession | null = await getServerSession(authOptions);
 
-  const role = session?.user.role || "";
+  const plan = session?.user.plan || "";
 
-  // 2. Sign { role } with NEXTAUTH_SECRET
+  // 2. Sign { plan } with NEXTAUTH_SECRET
   const signedToken = jwt.sign(
-    { role },
+    { plan },
     process.env.NEXTAUTH_SECRET as string,
     { algorithm: "HS256", expiresIn: "15m" }
   );

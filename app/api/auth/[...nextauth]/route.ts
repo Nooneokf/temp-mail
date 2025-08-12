@@ -140,7 +140,6 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 token.id = user.id;
                 token.plan = (user as any).plan;
-                token.role = (user as any).role; // ✅ store role in JWT
             }
             return token;
         },
@@ -149,7 +148,6 @@ export const authOptions: NextAuthOptions = {
             if (token) {
                 session.user.id = token.id as string;
                 session.user.plan = token.plan as 'free' | 'pro';
-                session.user.role = token.role as string; // ✅ expose role to session
             }
             return session;
         },
