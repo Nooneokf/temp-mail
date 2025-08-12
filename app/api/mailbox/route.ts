@@ -1,11 +1,29 @@
 // app/api/mailbox/route.ts
 import { NextResponse } from 'next/server'
-import { authenticateRequest, fetchFromServiceAPI } from '@/lib/api'
+import { getServerSession } from 'next-auth/next'
+import { fetchFromServiceAPI } from '@/lib/api'
+import { authOptions } from '../auth/[...nextauth]/route'
+
+// Define the shape of your NextAuth session
+interface UserSession {
+  user?: {
+    name?: string | null
+    email?: string | null
+    image?: string | null
+  }
+  // This is the crucial part: assuming the token is stored here by your JWT callback
+  accessToken?: string 
+}
 
 export async function GET(request: Request) {
-  if (!await authenticateRequest(request)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // 1. Get the server-side session and the token from NextAuth.js
+  const session: UserSession | null = await getServerSession(authOptions);
+
+  // 2. Authenticate the request and ensure a token exists
+  if (!session?.accessToken) {
+    return NextResponse.json({ error: 'Unauthorized: No valid session found' }, { status: 401 })
   }
+  const token = session.accessToken;
 
   const { searchParams } = new URL(request.url)
   const mailbox = searchParams.get('fullMailboxId')
@@ -16,23 +34,39 @@ export async function GET(request: Request) {
   }
 
   try {
+    let data;
+    const options = {
+      headers: {
+        // 3. Pass the JWT to your backend service API
+        'Authorization': `Bearer ${token}`
+      }
+    };
+    
     if (messageId) {
-      const data = await fetchFromServiceAPI(`/mailbox/${mailbox}/message/${messageId}`)
-      return NextResponse.json(data)
+      // Fetch a single message
+      data = await fetchFromServiceAPI(`/mailbox/${mailbox}/message/${messageId}`, options);
     } else {
-      const data = await fetchFromServiceAPI(`/mailbox/${mailbox}`)
-      return NextResponse.json(data)
+      // Fetch the list of messages
+      data = await fetchFromServiceAPI(`/mailbox/${mailbox}`, options);
     }
+    return NextResponse.json(data);
+
   } catch (error) {
-    console.error('API request failed:', error)
-    return NextResponse.json({ error: 'Failed to fetch data from the API' }, { status: 500 })
+    console.error('API request failed:', error);
+    // It's good practice to not expose the internal error message to the client
+    return NextResponse.json({ error: 'Failed to fetch data from the service API' }, { status: 500 });
   }
 }
 
 export async function DELETE(request: Request) {
-  if (!await authenticateRequest(request)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // 1. Get the server-side session and the token from NextAuth.js
+  const session: UserSession | null = await getServerSession(authOptions);
+
+  // 2. Authenticate the request and ensure a token exists
+  if (!session?.accessToken) {
+    return NextResponse.json({ error: 'Unauthorized: No valid session found' }, { status: 401 });
   }
+  const token = session.accessToken;
 
   const { searchParams } = new URL(request.url)
   const mailbox = searchParams.get('fullMailboxId')
@@ -44,12 +78,16 @@ export async function DELETE(request: Request) {
 
   try {
     const data = await fetchFromServiceAPI(`/mailbox/${mailbox}/message/${messageId}`, {
-      method: "DELETE"
-    })
-    return NextResponse.json(data)
+      method: "DELETE",
+      headers: {
+        // 3. Pass the JWT to your backend service API
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return NextResponse.json(data);
+
   } catch (error) {
-    console.error('API request failed:', error)
-    return NextResponse.json({ error: 'Failed to delete the message' }, { status: 500 })
+    console.error('API request failed during DELETE:', error);
+    return NextResponse.json({ error: 'Failed to delete the message' }, { status: 500 });
   }
 }
-
