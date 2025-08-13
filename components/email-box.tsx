@@ -17,8 +17,8 @@ import { ShareDropdown } from "./ShareDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useTranslations } from "next-intl";
-import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'; // <-- Import new hook
-import { Crown } from "lucide-react"; // <-- Import Crown icon
+import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts';
+import { Crown } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Session } from "next-auth";
@@ -55,33 +55,20 @@ interface EmailBoxProps {
   initialCurrentInbox: string | null;
 }
 
-/**
- * --- NEW HELPER FUNCTION ---
- * Determines the best domain to use based on priority:
- * 1. Last used domain (if still valid).
- * 2. The first available custom domain.
- * 3. The first free domain as a fallback.
- */
 const getPreferredDomain = (
   availableDomains: string[],
   lastUsedDomain: string | null
 ): string => {
-  // 1. Prioritize the last used domain if it's still available
   if (lastUsedDomain && availableDomains.includes(lastUsedDomain)) {
     return lastUsedDomain;
   }
-
-  // 2. Find the first custom domain, which is always at the start of the list
   const firstAvailableDomain = availableDomains[0];
   const isFirstDomainCustom = firstAvailableDomain && !FREE_DOMAINS.includes(firstAvailableDomain);
   if (isFirstDomainCustom) {
     return firstAvailableDomain;
   }
-
-  // 3. Fallback to the first available domain (which would be a free one)
   return firstAvailableDomain || FREE_DOMAINS[0];
 };
-
 
 export function EmailBox({
   initialSession,
@@ -90,15 +77,9 @@ export function EmailBox({
   initialCurrentInbox
 }: EmailBoxProps) {
   const t = useTranslations('EmailBox');
-
-  // --- 1. Use the initial props from the server ---
-  const [session] = useState(initialSession); // Initialize state with server-provided prop
+  const [session] = useState(initialSession);
   const isAuthenticated = !!session;
-
-  // Modals and UI states
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
-
-  // --- STATE MANAGEMENT (Client-side interactions) ---
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -106,8 +87,6 @@ export function EmailBox({
   const [selectedDomain, setSelectedDomain] = useState('');
   const [primaryDomain, setPrimaryDomain] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
-
-  // Modals and UI states
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -120,9 +99,8 @@ export function EmailBox({
   const [oldEmailUsed, setOldEmailUsed] = useState(false);
   const [discoveredUpdates, setDiscoveredUpdates] = useState({ newDomains: false });
   const [showAttachmentNotice, setShowAttachmentNotice] = useState(false);
+  const [savedMessageIds, setSavedMessageIds] = useState<Set<string>>(new Set()); // <-- NEW: State for saved messages
 
-
-  // Custom domains are now correctly given preference in the available list
   const availableDomains = useMemo(() => {
     const verifiedCustomDomains = initialCustomDomains?.filter((d: any) => d.verified).map((d: any) => d.domain) ?? [];
     return [...new Set([...verifiedCustomDomains, ...FREE_DOMAINS])];
@@ -141,14 +119,11 @@ export function EmailBox({
     }
   };
 
-  // --- REVISED: Initialization Effect ---
   useEffect(() => {
     const initialize = async () => {
       await fetchToken();
       const localHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
       const lastUsedDomain: string | null = localStorage.getItem('lastUsedDomain');
-
-      // Use the new helper to get the best domain based on preferences
       const initialDomain = getPreferredDomain(availableDomains, lastUsedDomain);
       let effectiveInitialEmail: string | null = null;
       let historyToDisplay: string[] = [];
@@ -171,11 +146,9 @@ export function EmailBox({
     initialize();
   }, []);
 
-  // --- REVISED: History & Persistence Effect ---
   useEffect(() => {
     if (!email) return;
     updateUserInbox(email);
-
     const currentLocalHistory: string[] = JSON.parse(localStorage.getItem('emailHistory') || '[]');
     let newHistory = [email, ...currentLocalHistory.filter(e => e !== email)];
 
@@ -184,14 +157,11 @@ export function EmailBox({
     } else if (!session?.user) {
       newHistory = newHistory.slice(0, 5);
     }
-
     localStorage.setItem('emailHistory', JSON.stringify(newHistory));
     setEmailHistory(newHistory);
   }, [email, session]);
 
-  // --- NEW: Effect to persist the last used domain ---
   useEffect(() => {
-    // This ensures that whenever the selected domain changes, it's saved.
     if (selectedDomain) {
       localStorage.setItem('lastUsedDomain', selectedDomain);
     }
@@ -206,18 +176,26 @@ export function EmailBox({
     return () => socket.close();
   }, [email, token]);
 
+  // --- NEW: Helper to check local storage and update saved state ---
+  const checkSavedMessages = (currentMessages: Message[]) => {
+    const savedIds = new Set<string>();
+    currentMessages.forEach(msg => {
+      if (localStorage.getItem(`saved-msg-${msg.id}`)) {
+        savedIds.add(msg.id);
+      }
+    });
+    setSavedMessageIds(savedIds);
+  };
+
   const useHistoryEmail = (historyEmail: string) => {
     setEmail(historyEmail);
-    setSelectedDomain(historyEmail.split('@')[1]); // Also update selected domain
+    setSelectedDomain(historyEmail.split('@')[1]);
     setIsEditing(false);
   };
 
-  // --- REVISED: Delete action to respect domain preference ---
   const deleteEmail = () => {
-    // Use the helper to find the best domain for the new email
     const lastUsedDomain = localStorage.getItem('lastUsedDomain');
     const domainToUse = getPreferredDomain(availableDomains, lastUsedDomain);
-
     const newEmail = generateRandomEmail(domainToUse);
     setEmail(newEmail);
     setSelectedDomain(domainToUse);
@@ -225,13 +203,11 @@ export function EmailBox({
   };
 
   const handleDomainChange = (newDomain: string) => {
-    setSelectedDomain(newDomain); // This will trigger the save to localStorage
+    setSelectedDomain(newDomain);
     const prefix = email.split("@")[0];
     setEmail(`${prefix}@${newDomain}`);
   };
 
-
-  // --- KEYBOARD SHORTCUTS ---
   const shortcuts = {
     'r': () => refreshInbox(),
     'c': () => copyEmail(),
@@ -240,7 +216,6 @@ export function EmailBox({
   };
   useKeyboardShortcuts(shortcuts, session?.user?.plan || 'anonymous');
 
-  // --- ASYNC & HANDLER FUNCTIONS ---
   const fetchToken = async (): Promise<string | null> => {
     try {
       const response = await fetch("/api/auth", { method: "POST" });
@@ -248,7 +223,7 @@ export function EmailBox({
       const data = await response.json() as { token?: string };
       if (data.token) {
         setToken(data.token);
-        setCookie("authToken", data.token, { maxAge: 3600 }); // Simplified cookie setting
+        setCookie("authToken", data.token, { maxAge: 3600 });
         return data.token;
       }
       throw new Error("No token received from server");
@@ -258,9 +233,6 @@ export function EmailBox({
     }
   };
 
-
-
-
   const refreshInbox = async () => {
     if (!token) {
       setError('Not authenticated');
@@ -269,23 +241,15 @@ export function EmailBox({
     setIsRefreshing(true);
     try {
       const response = await fetch(`/api/mailbox?fullMailboxId=${email}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-      // Check for attachment notice from backend
-      if (data.wasAttachmentStripped) {
-        setShowAttachmentNotice(true);
-      } else {
-        setShowAttachmentNotice(false);
-      }
+      setShowAttachmentNotice(!!data.wasAttachmentStripped);
       const typedData = data as { success: boolean; data: Message[]; message?: string };
       if (typedData.success && Array.isArray(typedData.data)) {
         setMessages(typedData.data);
+        checkSavedMessages(typedData.data); // <-- Check saved status on refresh
       } else {
         throw new Error(typedData.message || 'Failed to fetch messages');
       }
@@ -297,67 +261,77 @@ export function EmailBox({
   };
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(email)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    await navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
-  // --- FEATURE: Save to Local Storage ---
-  const saveToLocalStorage = async (message: Message) => {
-    // NEW: Safely access session.user.plan
-    if (session?.user && session?.user?.plan !== 'free') return;
-    const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${message.id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+  // --- REVISED: Toggle save/unsave without alert ---
+  const toggleSaveMessage = async (message: Message) => {
+    if (session?.user?.plan !== 'free') return;
+
+    const isSaved = savedMessageIds.has(message.id);
+    const messageId = message.id;
+
+    if (isSaved) {
+      localStorage.removeItem(`saved-msg-${messageId}`);
+      setSavedMessageIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(messageId);
+        return newSet;
+      });
+    } else {
+      try {
+        const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${messageId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (data.success) {
+          localStorage.setItem(`saved-msg-${messageId}`, JSON.stringify(data.data));
+          setSavedMessageIds(prev => new Set(prev).add(messageId));
+        } else {
+          setError('Failed to fetch message details for saving.');
+        }
+      } catch (err) {
+        setError(`Error saving message: ${err instanceof Error ? err.message : 'Unknown error'}`);
       }
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem(`saved-msg-${message.id}`, JSON.stringify(data.data));
-      alert("Message saved to your browser's local storage!");
     }
   };
 
   const deleteMessage = (messageId: string) => {
-    setItemToDelete({ type: 'message', id: messageId })
-    setIsDeleteModalOpen(true)
-  }
+    setItemToDelete({ type: 'message', id: messageId });
+    setIsDeleteModalOpen(true);
+  };
 
   const viewMessage = async (message: Message) => {
-    setSelectedMessage(message)
-    setIsMessageModalOpen(true)
-  }
+    setSelectedMessage(message);
+    setIsMessageModalOpen(true);
+  };
 
   const handleDeleteConfirmation = async () => {
     if (itemToDelete?.type === 'email') {
-      let domain = localStorage.getItem('primaryDomain') as string
-      if (!domain && !(availableDomains.includes(domain))) {
+      let domain = localStorage.getItem('primaryDomain') as string;
+      if (!domain || !availableDomains.includes(domain)) {
         domain = availableDomains[Math.floor(Math.random() * availableDomains.length)];
       }
       const newEmail = generateRandomEmail(domain);
       setEmail(newEmail);
       setSelectedDomain(domain);
       setMessages([]);
-
       if (email && token) {
-        refreshInbox(); // Refresh inbox only when both email and token are available
+        refreshInbox();
       }
-
     } else if (itemToDelete?.type === 'message' && itemToDelete.id) {
       try {
         const response = await fetch(`/api/mailbox?fullMailboxId=${email}&messageId=${itemToDelete.id}`, {
           method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json()
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
         const typedData = data as { success: boolean; message?: string };
         if (typedData.success) {
-          setMessages(messages.filter(m => m.id !== itemToDelete.id))
+          setMessages(messages.filter(m => m.id !== itemToDelete.id));
         } else {
           throw new Error(typedData.message || 'Failed to delete message');
         }
@@ -365,23 +339,16 @@ export function EmailBox({
         setError(`Error deleting message: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     }
-    setIsDeleteModalOpen(false)
-    setItemToDelete(null)
-  }
+    setIsDeleteModalOpen(false);
+    setItemToDelete(null);
+  };
 
   const handleEmailInputChage = (newPrefix: string) => {
-    // only small aplhabets allowed if upper then change to lower
-    newPrefix = newPrefix.toLowerCase()
-    // Allow characters valid in email prefixes (alphanumeric, dots, underscores, and hyphens)
-    newPrefix = newPrefix.replace(/[^a-z0-9._-]/g, '');
+    newPrefix = newPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '');
     setEmail(`${newPrefix}@${selectedDomain}`);
-    if (newPrefix.length === 0) {
-      setBlockButtons(true);
-    } else {
-      setBlockButtons(false);
-    }
-  }
-  // --- HANDLER FUNCTIONS ---
+    setBlockButtons(newPrefix.length === 0);
+  };
+
   const changeEmail = () => {
     if (!isAuthenticated) {
       const newEmail = generateRandomEmail(selectedDomain);
@@ -401,12 +368,6 @@ export function EmailBox({
     }
   };
 
-  const handleEmailInputChange = (newPrefix: string) => {
-    newPrefix = newPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '');
-    setEmail(`${newPrefix}@${selectedDomain}`);
-    setBlockButtons(newPrefix.length === 0);
-  };
-
   const handlePrimaryDomainChange = (domain: string) => {
     const current = localStorage.getItem('primaryDomain');
     if (current === domain) {
@@ -421,8 +382,7 @@ export function EmailBox({
   const handleNewDomainUpdates = () => {
     setDiscoveredUpdates({ newDomains: true });
     localStorage.setItem('discoveredUpdates', JSON.stringify({ newDomains: true }));
-  }
-
+  };
 
   return (
     <Card className="border-dashed">
@@ -442,8 +402,7 @@ export function EmailBox({
                     {selectedDomain || t('select_domain')}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar"
-                >
+                <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar">
                   {availableDomains.map((domain) => {
                     const isCustom = !FREE_DOMAINS.includes(domain);
                     return (
@@ -456,7 +415,6 @@ export function EmailBox({
                           {isCustom && <Crown className="h-4 w-4 text-amber-500" />}
                           <span>{domain}</span>
                         </div>
-
                         <Button
                           title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
                           variant="ghost"
@@ -465,12 +423,7 @@ export function EmailBox({
                           aria-label={`Set ${domain} as primary`}
                           className="hover:bg-transparent"
                         >
-                          <Star
-                            className={`h-4 w-4 ${primaryDomain === domain
-                              ? 'fill-yellow-500 text-yellow-500 dark:fill-yellow-400 dark:text-yellow-400'
-                              : 'text-muted-foreground'
-                              }`}
-                          />
+                          <Star className={`h-4 w-4 ${primaryDomain === domain ? 'fill-yellow-500 text-yellow-500' : 'text-muted-foreground'}`} />
                         </Button>
                       </DropdownMenuItem>
                     );
@@ -479,150 +432,75 @@ export function EmailBox({
               </DropdownMenu>
             </div>
           ) : (
-            <div className="flex-1 rounded-md bg-muted p-2">
-              {email || t('loading')}
-            </div>
+            <div className="flex-1 rounded-md bg-muted p-2">{email || t('loading')}</div>
           )}
           <TooltipProvider delayDuration={200}>
             <div className="flex gap-2" role="group" aria-label="Email actions">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    onClick={copyEmail}
-                    className="relative"
-                    disabled={blockButtons}
-                    aria-label="Copy email address"
-                    title="Copy email address"
-                  >
-                    <Copy className={cn(
-                      "h-4 w-4 transition-all",
-                      copied ? "opacity-0" : "opacity-100"
-                    )} />
-                    <span className={cn(
-                      "absolute inset-0 flex items-center justify-center transition-all",
-                      copied ? "opacity-100" : "opacity-0"
-                    )}>
+                  <Button variant="secondary" size="icon" onClick={copyEmail} className="relative" disabled={blockButtons} aria-label="Copy email address" title="Copy email address">
+                    <Copy className={cn("h-4 w-4 transition-all", copied && "opacity-0")} />
+                    <span className={cn("absolute inset-0 flex items-center justify-center transition-all", copied ? "opacity-100" : "opacity-0")}>
                       <Check className="h-4 w-4 transition-all" />
                     </span>
                     <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p>
-                </TooltipContent>
+                <TooltipContent><p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p></TooltipContent>
               </Tooltip>
-              <Button
-                className="hidden xs:flex"
-                variant="secondary"
-                size="icon"
-                onClick={() => setIsQRModalOpen(true)}
-                disabled={blockButtons}
-                title={t('show_qr')}
-                aria-label={t('show_qr')}
-              >
+              <Button className="hidden xs:flex" variant="secondary" size="icon" onClick={() => setIsQRModalOpen(true)} disabled={blockButtons} title={t('show_qr')} aria-label={t('show_qr')}>
                 <QrCode className="h-4 w-4" />
               </Button>
               <ShareDropdown />
             </div>
           </TooltipProvider>
         </div>
-        {/* Action Buttons with Tooltips */}
-        {/* NEW: Wrap buttons in TooltipProvider */}
         <TooltipProvider delayDuration={200}>
           <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
-            {/* Refresh Button */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  disabled={blockButtons || isRefreshing}
-                  variant="outline"
-                  className="flex-1"
-                  onClick={refreshInbox}
-                  aria-label={isRefreshing ? t('refreshing') : t('refresh')}
-                >
+                <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={refreshInbox} aria-label={isRefreshing ? t('refreshing') : t('refresh')}>
                   <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
                   <span className="hidden sm:inline">{isRefreshing ? t('refreshing') : t('refresh')}</span>
-                  {/* NEW: Shortcut Badge */}
                   <Badge variant="outline" className="ml-auto hidden sm:block">R</Badge>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>{isAuthenticated ? 'Press R to refresh' : 'Login to use shortcuts'}</p>
-              </TooltipContent>
+              <TooltipContent><p>{isAuthenticated ? 'Press R to refresh' : 'Login to use shortcuts'}</p></TooltipContent>
             </Tooltip>
-
-            {/* Change/Save Button */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  disabled={blockButtons}
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => { changeEmail(); handleNewDomainUpdates(); }}
-                  aria-label={isEditing ? t('save') : t('change')}
-                >
+                <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={() => { changeEmail(); handleNewDomainUpdates(); }} aria-label={isEditing ? t('save') : t('change')}>
                   {!session?.user ? <RotateCwSquare className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
                   <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
-                  {/* NEW: Shortcut Badge */}
                   {isAuthenticated && <Badge variant="outline" className="ml-auto hidden sm:block">N</Badge>}
                   <AnimatePresence>
                     {!discoveredUpdates.newDomains && (
-                      <motion.span
-                        key="new-badge"
-                        initial={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-[10px] bg-black text-white rounded-full px-1.5"
-                      >
-                        {t('new')}
-                      </motion.span>
+                      <motion.span key="new-badge" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="text-[10px] bg-black text-white rounded-full px-1.5">{t('new')}</motion.span>
                     )}
                   </AnimatePresence>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>{!isAuthenticated ? 'Login to edit and use its shortcut' : (session?.user && session?.user.plan === "pro") ? 'Press N to edit' : 'Only for PRO users'}</p>
-              </TooltipContent>
+              <TooltipContent><p>{!isAuthenticated ? 'Login to edit and use its shortcut' : (session?.user?.plan === "pro") ? 'Press N to edit' : 'Only for PRO users'}</p></TooltipContent>
             </Tooltip>
-
-            {/* Delete Button */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  disabled={blockButtons}
-                  variant="outline"
-                  className="flex-1"
-                  onClick={deleteEmail}
-                  aria-label={t('delete')}
-                >
+                <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={deleteEmail} aria-label={t('delete')}>
                   <Trash2 className="mr-2 h-4 w-4" />
                   <span className="hidden sm:inline">{t('delete')}</span>
-                  {/* NEW: Shortcut Badge */}
                   <Badge variant="outline" className="ml-auto hidden sm:block">D</Badge>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>{!isAuthenticated ? 'Login to use shortcuts' : (session?.user && session?.user.plan === "pro") ? 'Press D to delete' : 'Only for PRO users'}</p>
-              </TooltipContent>
+              <TooltipContent><p>{!isAuthenticated ? 'Login to use shortcuts' : (session?.user?.plan === "pro") ? 'Press D to delete' : 'Only for PRO users'}</p></TooltipContent>
             </Tooltip>
-            {(session?.user && session?.user?.plan === 'pro') && (
+            {(session?.user?.plan === 'pro') && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => setIsManageModalOpen(true)}
-                    aria-label="Manage all inboxes"
-                  >
+                  <Button variant="outline" className="flex-1" onClick={() => setIsManageModalOpen(true)} aria-label="Manage all inboxes">
                     <ListOrdered className="mr-2 h-4 w-4" />
                     <span className="hidden sm:inline">Manage Inboxes</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>View and manage your full inbox history.</p>
-                </TooltipContent>
+                <TooltipContent><p>View and manage your full inbox history.</p></TooltipContent>
               </Tooltip>
             )}
           </div>
@@ -656,9 +534,15 @@ export function EmailBox({
                   <TableCell>
                     <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
                     <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
-                    {(session?.user && session?.user?.plan === 'free') && (
-                      <Button variant="ghost" size="icon" title="Save to Browser" onClick={() => saveToLocalStorage(message)}>
-                        <Star className="h-4 w-4" />
+                    {/* --- REVISED: Save button with dynamic state --- */}
+                    {(session?.user?.plan === 'free') && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        title={savedMessageIds.has(message.id) ? "Unsave from Browser" : "Save to Browser"}
+                        onClick={() => toggleSaveMessage(message)}
+                      >
+                        <Star className={cn("h-4 w-4", savedMessageIds.has(message.id) && "fill-amber-500 text-amber-500")} />
                       </Button>
                     )}
                   </TableCell>
@@ -673,53 +557,26 @@ export function EmailBox({
             {emailHistory.map((historyEmail, index) => (
               <li key={index} className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">{historyEmail}</span>
-                <Button variant="ghost" size="sm" onClick={() => { setEmail(historyEmail); setOldEmailUsed(!oldEmailUsed); }}>
-                  {t('history_use')}
-                </Button>
+                <Button variant="ghost" size="sm" onClick={() => { setEmail(historyEmail); setOldEmailUsed(!oldEmailUsed); }}>{t('history_use')}</Button>
               </li>
             ))}
           </ul>
         </div>
       </CardContent>
-      {/* --- FEATURE: Attachment Notice --- */}
       {showAttachmentNotice && (
         <div className="p-3 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 text-center">
-          An email arrived with an attachment that exceeds your plan's limit.
-          <button className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
+          An email arrived with an attachment that exceeds your plan's limit. <button className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
         </div>
       )}
       <CardHeader>
         <h2 className="text-xl font-semibold">{t('card_header_title')}</h2>
         <p className="text-sm text-muted-foreground">{t('card_header_p')}</p>
       </CardHeader>
-      <ManageInboxesModal
-        isOpen={isManageModalOpen}
-        onClose={() => setIsManageModalOpen(false)}
-        inboxes={initialInboxes} // Pass the full server list to the modal
-        onSelectInbox={useHistoryEmail} // Re-use the handler to set the active email
-      />
-      <QRCodeModal
-        email={email}
-        isOpen={isQRModalOpen}
-        onClose={() => setIsQRModalOpen(false)}
-      />
-      <MessageModal
-        message={selectedMessage}
-        isOpen={isMessageModalOpen}
-        onClose={() => setIsMessageModalOpen(false)}
-      />
-      {error && (
-        <ErrorPopup
-          message={error}
-          onClose={() => setError(null)}
-        />
-      )}
-      <DeleteConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteConfirmation}
-        itemToDelete={itemToDelete?.type === 'email' ? 'email address' : 'message'}
-      />
+      <ManageInboxesModal isOpen={isManageModalOpen} onClose={() => setIsManageModalOpen(false)} inboxes={initialInboxes} onSelectInbox={useHistoryEmail} />
+      <QRCodeModal email={email} isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} />
+      <MessageModal message={selectedMessage} isOpen={isMessageModalOpen} onClose={() => setIsMessageModalOpen(false)} />
+      {error && (<ErrorPopup message={error} onClose={() => setError(null)} />)}
+      <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleDeleteConfirmation} itemToDelete={itemToDelete?.type === 'email' ? 'email address' : 'message'} />
     </Card>
   );
 }
