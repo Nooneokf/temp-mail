@@ -1,0 +1,109 @@
+{
+  "Metadata": {
+    "title": "自定义临时邮箱 – 最快的无广告一次性电子邮件",
+    "description": "立即生成一个自定义的临时邮箱地址——可从多个域名中选择，无需注册，无广告，永久免费。",
+    "keywords": "临时邮箱, 一次性邮箱, 自定义邮箱, 假邮箱, 临时收件箱, 无广告邮箱, 10分钟邮箱, 邮箱隐私, 免费临时邮箱, 临时邮箱专业版, 商务临时邮箱",
+    "openGraph": {
+      "title": "自定义临时邮箱 – 面向企业和开发者的专业功能",
+      "description": "立即生成一个自定义的临时邮箱地址。使用我们的临时邮箱专业版计划，使用您自己的域名。无广告，提供永久免费选项。",
+      "alt": "FreeCustom.Email 标志"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email 是一个注重隐私的一次性电子邮件平台，适用于测试、开发者和快速注册。提供免费和专业版计划。"
+  },
+  "PageContent": {
+    "h1": "我们的快速自定义一次性临时邮件技术如何工作",
+    "p1": "在当今世界，在线服务——从免费试用到社区聊天——都需要电子邮件地址，这使您面临垃圾邮件、机器人和不必要的跟踪。<strong>使用 FreeCustom.Email，您可以立即在多个域上获得一个无广告的自定义临时邮件地址</strong>——无需注册，并且始终安全。",
+    "p2_part1": "<strong>这项服务永久免费，完全无广告，并使用轻量级代码、边缘缓存和全球域进行了速度优化。</strong>了解更多关于我们的",
+    "p2_link1": "免费和无广告承诺",
+    "p2_part2": "以及我们的",
+    "p2_link2": "PageSpeed驱动的架构",
+    "p2_part3": "。"
+  },
+  "Navigation": {
+    "home": "主页",
+    "pathnames": "路径名"
+  },
+  "LocaleSwitcher": {
+    "label": "切换语言",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {未知}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - 文档",
+    "aria_api_docs": "查看API文档",
+    "aria_discord": "加入我们的Discord社区",
+    "aria_toggle_theme": "切换主题",
+    "aria_open_menu": "打开移动菜单",
+    "aria_close_menu": "关闭移动菜单",
+    "github": "GitHub",
+    "aria_github": "查看GitHub仓库",
+    "patreon": "Patreon",
+    "aria_patreon": "查看Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "加载中...",
+    "placeholder_username": "用户名",
+    "select_domain": "选择域名",
+    "error_valid_prefix": "请输入有效的电子邮件前缀",
+    "copy_email": "复制电子邮件地址",
+    "show_qr": "显示二维码",
+    "refresh": "刷新",
+    "refreshing": "刷新中",
+    "change": "更改",
+    "save": "保存",
+    "new": "新",
+    "delete": "删除",
+    "table_sender": "发件人",
+    "table_subject": "主题",
+    "table_date": "日期",
+    "table_actions": "操作",
+    "inbox_empty_title": "您的收件箱是空的",
+    "inbox_empty_subtitle": "正在等待收件。无需刷新。",
+    "view": "查看",
+    "history_title": "邮件历史",
+    "history_use": "使用",
+    "card_header_title": "立即生成您最佳的自定义临时邮件地址",
+    "card_header_p": "使用安全、无广告的自定义临时邮件，避免垃圾邮件、网络钓鱼和自动机器人。保持您真实收件箱的清洁和隐私——即时生成，无需注册，永久免费。",
+    "unset_primary": "取消首选",
+    "set_primary": "设为首选"
+  },
+  "WhySection": {
+    "snippet_title": "什么是“自定义临时邮箱”？",
+    "snippet_p": "<strong>自定义临时邮箱</strong>是您数字隐私的第一道防线。从多个域名立即生成一个无广告的一次性电子邮件地址。通过 <strong>FreeCustom.Email</strong>，您可以获得一个安全的临时邮箱，用于保护隐私、防止垃圾邮件以及进行快速、匿名的注册。现在提供免费和专业计划以获得高级功能。",
+    "domain_list_title": "用于自定义临时邮箱的 FreeCustom.Email 域名",
+    "domain_list_p": "从我们精选的域名列表中选择，以确保您的临时邮件始终可以送达且不会被阻止。",
+    "updates_title": "从匿名使用到专业功能：新特性",
+    "updates_p": "FreeCustom.Email 已经进化。虽然匿名使用仍然快速免费，但您现在可以使用您的 whatsyour.info 帐户登录，以解锁为普通用户、开发者和企业量身定制的强大新功能。",
+    "updates_item1_title": "匿名访客",
+    "updates_item1_desc": "用于快速、一次性的任务。获取一个即时临时邮箱，包含5条消息历史和12小时存储。无附件，无需登录。",
+    "updates_item2_title": "WYI 免费用户",
+    "updates_item2_desc": "登录以获得更多控制权。获取10条消息历史、24小时存储、支持1MB附件，并能够将重要邮件保存在您的浏览器中。",
+    "updates_item3_title": "WYI 专业版 - 面向企业和开发者",
+    "updates_item3_desc": "终极的<strong>临时邮箱专业版</strong>体验。使用您自己的企业域名（例如 @your-company.com），获得5GB的永久云存储、25MB的附件和完整的API访问权限，以实现无缝集成。",
+    "definition_title": "什么是一次性临时电子邮件（临时邮箱）？",
+    "definition_p": "一次性或<strong>临时电子邮件</strong>（也称为<em>临时邮箱</em>）是用于在线注册的短期地址，可保护您的真实收件箱免受垃圾邮件的侵害。这是维护隐私的完美工具。了解如何为个人或企业用途<link>创建一个临时邮箱地址</link>。",
+    "use_case_title": "为什么要使用自定义临时邮箱？从个人到企业",
+    "use_case_item1": "在网上购物时保护您的个人收件箱免受营销垃圾邮件的侵害。",
+    "use_case_item2": "开发人员可以测试用户注册流程，而不会弄乱真实的收件箱。",
+    "use_case_item3": "企业可以使用<strong>带有自定义域名的临时邮箱</strong>进行内部测试和质量保证。",
+    "use_case_item4": "安全地访问内容、下载资源并加入社区，而无需透露您的主电子邮件。",
+    "checklist_title": "如何选择最佳的临时邮箱服务",
+    "checklist_item1": "无需注册的即时、自定义临时电子邮件地址。",
+    "checklist_item2": "一个清晰、无广告的体验，专注于速度和隐私。",
+    "checklist_item3": "支持<strong>自定义域名，用于专业的商务临时邮箱</strong>。",
+    "checklist_item4": "灵活的存储选项，从临时Redis到永久云存储。",
+    "checklist_item5": "一个可靠的平台，公开承诺永久免费。",
+    "checklist_item6": "为专业用户提供的高级功能，包括大附件和API访问。",
+    "checklist_p": "<strong>Freecustom.email</strong>在所有方面都表现出色，提供了一个多功能的解决方案，从简单的匿名使用扩展到专业人士的强大工具。",
+    "usage_title": "如何使用 FreeCustom.Email 临时邮箱",
+    "usage_p1": "只需访问网站，输入自定义名称，选择一个域名，您的临时收件箱就已激活。无广告，无需注册。要解锁更多功能，只需使用您的WYI帐户登录即可。有关详细信息，请参阅我们关于<link>创建临时邮箱地址</link>的帖子。",
+    "usage_p2": "如果一个地址收到了太多垃圾邮件，只需删除它并在几秒钟内创建另一个。您的真实收件箱始终是安全的。",
+    "conclusion_title": "自定义和专业临时邮箱的最佳选择",
+    "conclusion_p1": "无论您是需要一个快速的一次性地址，还是为您的企业需要一个强大的<strong>临时邮箱专业版</strong>解决方案，FreeCustom.Email都旨在满足您的需求。我们提供无与伦比的速度、隐私和灵活性，而且完全没有广告。",
+    "conclusion_p2": "探索我们的<link>最佳实践指南</link>，以充分利用您的临时电子邮件地址。"
+  }
+}

@@ -1,30 +1,38 @@
 export const metadata = {
-  title: 'Free Custom Temporary Email Address - Temp Mail',
-  description: 'Keep your real email inbox clean. Temporary emails are perfect for any transaction where you want to improve your online privacy. Use our disposable email addresses for ad blocking, no spam, no ads, just temporary mail.',
-  favicon: '/favicon.ico',
-  // Open Graph
-  ogTitle: 'Free Custom Temporary Email Address - Temp Mail',
-  ogDescription: 'Keep your real email inbox clean. Temporary emails are perfect for any transaction where you want to improve your online privacy. Use our disposable email addresses for ad blocking, no spam, no ads, just temporary mail.',
-  ogImage: 'https://freecustom.email/logo.png',
-  ogUrl: 'https://freecustom.email/',
-  // Target Keywords
-  keywords: 'temp mail, custom mail, disposable email, temporary email, fake email, email privacy, spam-free email, temporary inbox'
-}
-import { GoogleAnalytics } from '@next/third-parties/google'
-import "@/styles/global.css"
+  title: 'Custom Temp Mail – Fastest Ad‑Free Disposable Email',
+  description: 'Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.',
+  keywords: 'temp mail, disposable email, custom mail, fake email, temporary inbox, no ads email, 10minmail, email privacy, free temp mail',
+  openGraph: {
+    title: 'Custom Temp Mail – Fastest Ad‑Free Disposable Email',
+    description: 'Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.',
+    url: 'https://www.freecustom.email/',
+    images: [
+      {
+        url: 'https://www.freecustom.email/logo.webp',
+        alt: 'FreeCustom.Email Logo',
+      },
+    ],
+  },
+};
+import { GoogleAnalytics } from '@next/third-parties/google';
+import "@/styles/global.css";
+import Providers from "@/components/Providers";
+import { getServerSession } from "next-auth"; // server-side session fetch
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(); // fetch session server-side
+
   return (
     <html lang="en">
       <head>
-      <GoogleAnalytics gaId="G-RXTEEVC8C4" />
+        <GoogleAnalytics gaId="G-RXTEEVC8C4" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        <Providers session={session}>
+          {children}
+        </Providers>
+      </body>
     </html>
-  )
+  );
 }

@@ -1,0 +1,109 @@
+{
+  "Metadata": {
+    "title": "Email temporaire personnalisé – Le plus rapide des emails jetables sans publicité",
+    "description": "Générez une adresse e-mail temporaire personnalisée instantanément — choisissez parmi plusieurs domaines, sans inscription, sans publicité, gratuit pour toujours.",
+    "keywords": "email temporaire, adresse mail jetable, mail personnalisé, faux email, boîte de réception temporaire, email sans pub, 10minmail, confidentialité email, email temporaire gratuit, email temporaire pro, email temporaire pour entreprise",
+    "openGraph": {
+      "title": "Email Temporaire Personnalisé – Fonctionnalités Pro pour Entreprises & Développeurs",
+      "description": "Générez une adresse e-mail temporaire personnalisée instantanément. Utilisez vos propres domaines avec notre plan pro d'email temporaire. Sans publicité, option gratuite pour toujours disponible.",
+      "alt": "Logo de FreeCustom.Email"
+    }
+  },
+  "JsonLd": {
+    "name": "FreeCustom.Email",
+    "description": "FreeCustom.Email est une plateforme d'email jetable axée sur la confidentialité pour les tests, les développeurs et les inscriptions rapides. Propose des plans gratuits et pro."
+  },
+  "PageContent": {
+    "h1": "Comment fonctionne notre technologie d'e-mail temporaire jetable, rapide et personnalisée",
+    "p1": "Dans le monde d'aujourd'hui, les services en ligne — des essais gratuits aux discussions communautaires — exigent des adresses e-mail, vous exposant au spam, aux bots et au suivi non sollicité. <strong>Avec FreeCustom.Email, vous obtenez une adresse e-mail temporaire personnalisée, instantanée et sans publicité</strong> sur plusieurs domaines — aucune inscription requise et toujours sécurisée.",
+    "p2_part1": "<strong>Ce service est gratuit pour toujours, entièrement sans publicité et optimisé pour la vitesse grâce à un code léger, une mise en cache en périphérie et des domaines mondiaux.</strong> Apprenez-en plus sur notre ",
+    "p2_link1": "promesse de gratuité et d'absence de publicité",
+    "p2_part2": " et notre ",
+    "p2_link2": "architecture axée sur PageSpeed",
+    "p2_part3": "."
+  },
+  "Navigation": {
+    "home": "Accueil",
+    "pathnames": "Chemins"
+  },
+  "LocaleSwitcher": {
+    "label": "Changer de langue",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} es {🇪🇸 Español} fr {🇫🇷 Français} hi {🇮🇳 हिन्दी} ru {🇷🇺 Русский} zh {🇨🇳 中文} other {Inconnu}}"
+  },
+  "AppHeader": {
+    "api": "API",
+    "api_docs": "API - Documentation",
+    "aria_api_docs": "Voir la documentation de l'API",
+    "aria_discord": "Rejoignez notre communauté Discord",
+    "aria_toggle_theme": "Changer de thème",
+    "aria_open_menu": "Ouvrir le menu mobile",
+    "aria_close_menu": "Fermer le menu mobile",
+    "github": "GitHub",
+    "aria_github": "Voir le dépôt GitHub",
+    "patreon": "Patreon",
+    "aria_patreon": "Voir Patreon",
+    "discord": "Discord"
+  },
+  "EmailBox": {
+    "loading": "Chargement...",
+    "placeholder_username": "nomdutilisateur",
+    "select_domain": "Sélectionner un domaine",
+    "error_valid_prefix": "Veuillez entrer un préfixe d'e-mail valide",
+    "copy_email": "Copier l'adresse e-mail",
+    "show_qr": "Afficher le code QR",
+    "refresh": "Actualiser",
+    "refreshing": "Actualisation",
+    "change": "Changer",
+    "save": "Sauvegarder",
+    "new": "nouveau",
+    "delete": "Supprimer",
+    "table_sender": "EXPÉDITEUR",
+    "table_subject": "SUJET",
+    "table_date": "DATE",
+    "table_actions": "ACTIONS",
+    "inbox_empty_title": "Votre boîte de réception est vide",
+    "inbox_empty_subtitle": "En attente d'e-mails entrants. Pas besoin d'actualiser.",
+    "view": "Voir",
+    "history_title": "Historique des e-mails",
+    "history_use": "Utiliser",
+    "card_header_title": "Générez instantanément votre meilleure adresse e-mail temporaire personnalisée",
+    "card_header_p": "Évitez le spam, le phishing et les bots automatisés avec un e-mail temporaire personnalisé, sécurisé et sans publicité. Gardez votre vraie boîte de réception propre et votre vie privée intacte — avec une génération instantanée, sans inscription, gratuit pour toujours.",
+    "unset_primary": "Définir comme non prioritaire",
+    "set_primary": "Définir comme prioritaire"
+  },
+  "WhySection": {
+    "snippet_title": "Qu'est-ce qu'un « E-mail Temporaire Personnalisé » ?",
+    "snippet_p": "L'<strong>email temporaire personnalisé</strong> est votre première ligne de défense pour la confidentialité numérique. Générez instantanément une adresse e-mail jetable et sans publicité à partir de plusieurs domaines. Avec <strong>FreeCustom.Email</strong>, vous obtenez un e-mail temporaire sécurisé pour la confidentialité, la protection contre le spam et des inscriptions rapides et anonymes. Maintenant avec des plans Gratuits et Pro pour des fonctionnalités avancées.",
+    "domain_list_title": "Domaines FreeCustom.Email pour E-mail Temporaire Personnalisé",
+    "domain_list_p": "Choisissez parmi notre liste de domaines sélectionnés pour garantir que votre e-mail temporaire soit toujours livrable et jamais bloqué.",
+    "updates_title": "De l'utilisation anonyme à la puissance Pro : Nouvelles fonctionnalités",
+    "updates_p": "FreeCustom.Email a évolué. Bien que l'utilisation anonyme reste rapide et gratuite, vous pouvez maintenant vous connecter avec votre compte whatsyour.info pour débloquer de nouvelles fonctionnalités puissantes conçues pour les utilisateurs réguliers, les développeurs et les entreprises.",
+    "updates_item1_title": "Invité Anonyme",
+    "updates_item1_desc": "Pour des tâches rapides et uniques. Obtenez un e-mail temporaire instantané avec un historique de 5 messages et un stockage de 12 heures. Pas de pièces jointes, aucune connexion requise.",
+    "updates_item2_title": "Utilisateur Gratuit WYI",
+    "updates_item2_desc": "Connectez-vous pour plus de contrôle. Obtenez un historique de 10 messages, un stockage de 24 heures, la prise en charge des pièces jointes jusqu'à 1 Mo et la possibilité de sauvegarder les e-mails importants dans votre navigateur.",
+    "updates_item3_title": "WYI Pro pour les Entreprises et les Développeurs",
+    "updates_item3_desc": "L'expérience ultime de l'<strong>email temporaire pro</strong>. Utilisez vos propres domaines d'entreprise (par ex., @votre-entreprise.com), obtenez 5 Go de stockage cloud permanent, des pièces jointes de 25 Mo et un accès complet à l'API pour une intégration transparente.",
+    "definition_title": "Qu'est-ce qu'un E-mail Temporaire Jetable (Temp Mail) ?",
+    "definition_p": "Un e-mail jetable ou <strong>temporaire</strong> (également appelé <em>temp mail</em>) est une adresse à courte durée de vie pour les inscriptions en ligne, protégeant votre vraie boîte de réception du spam. C'est l'outil parfait pour préserver la confidentialité. Apprenez à <link>créer une adresse e-mail temporaire</link> pour un usage personnel ou professionnel.",
+    "use_case_title": "Pourquoi utiliser un E-mail Temporaire Personnalisé ? Du personnel au professionnel",
+    "use_case_item1": "Protégez votre boîte de réception personnelle du spam marketing lors de vos achats en ligne.",
+    "use_case_item2": "Les développeurs peuvent tester les flux d'inscription des utilisateurs sans encombrer une vraie boîte de réception.",
+    "use_case_item3": "Les entreprises peuvent utiliser des <strong>e-mails temporaires avec des domaines personnalisés</strong> pour les tests internes et l'assurance qualité.",
+    "use_case_item4": "Accédez en toute sécurité au contenu, téléchargez des ressources et rejoignez des communautés sans révéler votre e-mail principal.",
+    "checklist_title": "Comment choisir le meilleur service d'E-mail Temporaire",
+    "checklist_item1": "Adresses e-mail temporaires personnalisées et instantanées sans inscription.",
+    "checklist_item2": "Une expérience claire et sans publicité axée sur la vitesse et la confidentialité.",
+    "checklist_item3": "Prise en charge des <strong>domaines personnalisés pour un usage professionnel d'e-mail temporaire d'entreprise</strong>.",
+    "checklist_item4": "Options de stockage flexibles, de Redis temporaire au stockage cloud permanent.",
+    "checklist_item5": "Une plateforme fiable avec un engagement public à être gratuite pour toujours.",
+    "checklist_item6": "Fonctionnalités avancées pour les utilisateurs Pro, y compris les grosses pièces jointes et l'accès à l'API.",
+    "checklist_p": "<strong>Freecustom.email</strong> répond à toutes les attentes, offrant une solution polyvalente qui s'adapte d'une utilisation simple et anonyme à un outil puissant pour les professionnels.",
+    "usage_title": "Comment utiliser l'E-mail Temporaire de FreeCustom.Email",
+    "usage_p1": "Visitez simplement le site, entrez un nom personnalisé, choisissez un domaine et votre boîte de réception temporaire est active. Sans publicité, sans inscription. Pour débloquer plus de puissance, connectez-vous simplement avec votre compte WYI. Pour plus de détails, consultez notre article sur <link>comment créer une adresse e-mail temporaire</link>.",
+    "usage_p2": "Si une adresse reçoit trop de spam, supprimez-la et créez-en une autre en quelques secondes. Votre vraie boîte de réception est toujours en sécurité.",
+    "conclusion_title": "Le meilleur choix pour un E-mail Temporaire Personnalisé et Professionnel",
+    "conclusion_p1": "Que vous ayez besoin d'une adresse jetable rapide ou d'une solution robuste d'<strong>email temporaire pro</strong> pour votre entreprise, FreeCustom.Email est conçu pour répondre à vos besoins. Nous offrons une vitesse, une confidentialité et une flexibilité inégalées, le tout sans publicité.",
+    "conclusion_p2": "Explorez notre <link>guide des meilleures pratiques</link> pour tirer le meilleur parti de vos adresses e-mail temporaires."
+  }
+}

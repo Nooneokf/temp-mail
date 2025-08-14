@@ -8,7 +8,7 @@ export function AppFooter() {
           <p className="text-sm text-center text-gray-600 mb-4 sm:mb-0">
             © {new Date().getFullYear()} DishIs Technologies. All rights reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4 items-center">
             <Link
               href="/blog/privacy-policy"
               className="text-sm text-gray-600 hover:text-blue-600 transition-colors"

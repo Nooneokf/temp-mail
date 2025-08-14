@@ -1,7 +1,8 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+// app/blog/page.tsx
 import Link from 'next/link'
+import { ThemeProvider } from '@/components/theme-provider'
+import { AppHeader } from '@/components/nLHeader'
+import { getBlogPosts } from '@/lib/posts'
 
 interface BlogPost {
   slug: string
@@ -10,26 +11,14 @@ interface BlogPost {
   excerpt?: string
 }
 
-export default function BlogPage() {
-  const blogDir = path.join(process.cwd(), 'content/blog')
-  const files = fs.readdirSync(blogDir)
 
-  const posts: BlogPost[] = files
-    .filter(filename => filename.endsWith('.md'))
-    .map(filename => {
-      const filePath = path.join(blogDir, filename)
-      const fileContent = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContent)
-      return {
-        slug: filename.replace('.md', ''),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt || content.slice(0, 120).replace(/\n/g, '') + '...',
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export default function BlogPage() {
+  const posts = getBlogPosts()
 
   return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="min-h-screen max-w-[100vw] bg-background">
+            <AppHeader />
     <div className="max-w-2xl mx-auto px-2 sm:px-4 py-8">
       <h1 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
         Blog Posts
@@ -55,10 +44,12 @@ export default function BlogPage() {
               >
                 Read more →
               </Link>
-            </div>
+               </div>
           </li>
         ))}
       </ul>
     </div>
-  )
+          </div>
+    </ThemeProvider>
+    )
 }

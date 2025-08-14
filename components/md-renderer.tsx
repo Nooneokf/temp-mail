@@ -3,6 +3,21 @@ import ReactMarkdown from 'react-markdown';
 import rehypeSlug from 'rehype-slug';
 import rehypeRaw from 'rehype-raw'; // Make sure you trust your HTML source if using this
 import remarkGfm from 'remark-gfm';
+import { visit } from 'unist-util-visit';
+import type { Root, Parent, Heading } from 'mdast';
+
+// Remove the first h1 node from the markdown AST
+function remarkRemoveFirstH1() {
+    return (tree: Root) => {
+        let removed = false;
+        visit(tree, 'heading', (node: Heading, index: number | undefined, parent: Parent | undefined) => {
+            if (!removed && node.depth === 1 && parent && typeof index === 'number') {
+                parent.children.splice(index, 1);
+                removed = true;
+            }
+        });
+    };
+}
 
 // Define a type for the code props to satisfy TypeScript and access ReactMarkdown specific props
 interface CodeProps extends React.HTMLAttributes<HTMLElement> {
@@ -14,7 +29,6 @@ interface CodeProps extends React.HTMLAttributes<HTMLElement> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow other props passed by ReactMarkdown
 }
-
 
 const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
     const headingBaseClasses = "font-bold text-slate-800 dark:text-slate-100";
@@ -33,7 +47,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
             <ReactMarkdown
                 rehypePlugins={[rehypeSlug, rehypeRaw]}
                 skipHtml={false} // Be cautious with this if content is user-generated
-                remarkPlugins={[remarkGfm]}
+                remarkPlugins={[remarkGfm, remarkRemoveFirstH1]}
                 components={{
                     h1: (props) => <h1 className={`${headingBaseClasses} text-4xl pb-2 mb-4 mt-6 border-b border-slate-300 dark:border-slate-700`} {...props} />,
                     h2: (props) => <h2 className={`${headingBaseClasses} text-3xl pb-2 mb-3 mt-5 border-b border-slate-300 dark:border-slate-700`} {...props} />,
@@ -42,7 +56,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
                     h5: (props) => <h5 className={`${headingBaseClasses} text-lg mb-2 mt-3`} {...props} />,
                     h6: (props) => <h6 className={`${headingBaseClasses} text-base mb-2 mt-3`} {...props} />,
                     p: (props) => <p className="my-4 leading-relaxed text-slate-700 dark:text-slate-300" {...props} />,
-                    a: ({ href, children, ...props }) => ( // node is not typically passed to 'a' unless explicitly
+                    a: ({ href, children, ...props }) => (
                         <a
                             href={href}
                             className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-150"
@@ -71,7 +85,6 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
                     code: (props: CodeProps) => {
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         const { node: _node, inline, className, children, ...rest } = props;
-                        // const match = /language-(\w+)/.exec(className || ''); // For syntax highlighting later
                         return !inline ? (
                             <pre className="bg-slate-900 dark:bg-opacity-75 text-slate-100 rounded-lg p-4 text-sm overflow-x-auto my-5 shadow-md scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800">
                                 <code className={`${className || ''} font-mono`} {...rest}>
@@ -120,8 +133,6 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
                             {...props}
                         />
                     ),
-                    // strong: ({node: _node, ...props}) => <strong className="font-bold text-slate-800 dark:text-slate-200" {...props} />,
-                    // em: ({node: _node, ...props}) => <em className="italic text-slate-600 dark:text-slate-400" {...props} />,
                 }}
             >
                 {content}

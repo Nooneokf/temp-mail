@@ -1,118 +1,149 @@
-import { FaCheckCircle } from "react-icons/fa";
+import { WhySectionKeys } from '@/lib/i18n-types';
+import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
+import { FaCheckCircle, FaStar, FaUser, FaUserShield } from 'react-icons/fa';
 
-export function WhySection() {
+export async function WhySection() {
+  const t = await getTranslations('WhySection');
+
+  // REVISED: Define items with a flag to indicate if they need rich text rendering
+  const features = [
+    { key: 'checklist_item1', rich: false },
+    { key: 'checklist_item2', rich: false },
+    { key: 'checklist_item3', rich: true }, // Contains <strong>
+    { key: 'checklist_item4', rich: false },
+    { key: 'checklist_item5', rich: false },
+    { key: 'checklist_item6', rich: false },
+  ];
+  const useCases = [
+    { key: 'use_case_item1', rich: false },
+    { key: 'use_case_item2', rich: false },
+    { key: 'use_case_item3', rich: true }, // Contains <strong>
+    { key: 'use_case_item4', rich: false }
+  ];
+
+  const updates = [
+    {
+      icon: <FaUser className="text-gray-500" />,
+      title: t('updates_item1_title'),
+      description: t('updates_item1_desc'),
+    },
+    {
+      icon: <FaUserShield className="text-blue-500" />,
+      title: t('updates_item2_title'),
+      description: t('updates_item2_desc'),
+    },
+    {
+      icon: <FaStar className="text-amber-500" />,
+      title: t('updates_item3_title'),
+      description: t.rich('updates_item3_desc', {
+        strong: (chunks) => <strong>{chunks}</strong>
+      }),
+    },
+  ];
+
   return (
-    <section className="space-y-12 bg-gray-50 dark:bg-gray-900 py-12 px-6 md:px-12 lg:px-24">
-      {/* Domain List */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h2 className="mb-4 text-3xl font-extrabold text-gray-800 dark:text-gray-100">Freecustom.email Domains</h2>
-        <p className="text-gray-600 dark:text-gray-300">
-          Freecustom.email provides a variety of domains for your disposable email addresses. Here are some of the domains you can use:
-        </p>
-        <ul className="list-disc pl-5 mt-4 text-gray-700 dark:text-gray-200">
-          <li>saleis.live</li>
-          <li>arrangewith.me</li>
+    <section className="space-y-4">
+      <div className="bg-white dark:bg-black border dark:border-gray-700 rounded-lg p-6">
+        <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">
+          {t('snippet_title')}
+        </h2>
+        <p
+          className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: t.raw('snippet_p') }}
+        ></p>
+      </div>
+
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{t('domain_list_title')}</h2>
+        <p className="mt-2 text-gray-600 dark:text-gray-300">{t('domain_list_p')}</p>
+        <ul className="mt-4 list-disc pl-5 text-gray-700 dark:text-gray-200 space-y-1">
+          {['saleis.live','arrangewith.me', 'areureally.info', 'ditapi.info', 'ditcloud.info', 'ditdrive.info', 'ditgame.info', 'ditlearn.info', 'ditpay.info', 'ditplay.info', 'ditube.info', 'junkstopper.info'].map(domain => (
+            <li key={domain}>{domain}</li>
+          ))}
         </ul>
       </div>
 
-      {/* What is Disposable Temporary E-mail */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h2 className="mb-4 text-3xl font-extrabold text-gray-800 dark:text-gray-100">What is Disposable Temporary E-mail?</h2>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          A disposable email is a free email service that allows you to receive emails at a temporary address that self-destructs after a specified period. Also known by names such as tempmail, 10minutemail, throwaway email, fake email generator, burner mail, or trash-mail, disposable email services help you avoid spam and protect your privacy.
-        </p>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
-          Many websites, forums, and Wi-Fi owners ask visitors to register before they can access content, post comments, or download something. Freecustom.email offers a modern, advanced throwaway email service to help you stay safe and avoid unwanted emails.
-        </p>
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{t('updates_title')}</h2>
+        <p className="mt-2 text-gray-600 dark:text-gray-300">{t('updates_p')}</p>
+        <div className="mt-6 space-y-4">
+          {updates.map((update, i) => (
+            <div key={i} className="flex items-start gap-4 p-3 rounded-md border dark:border-gray-800">
+              <div className="flex-shrink-0 mt-1">{update.icon}</div>
+              <div>
+                <h3 className="font-bold text-gray-800 dark:text-gray-100">{update.title}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{update.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Why Use a Fake Email Address */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-gray-100">Why Use a Fake Email Address?</h3>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          Services like Amazon Prime, Hulu, and Netflix offer limited-time trials, and a disposable email allows you to sign up and extend your trial period without revealing your real email address. Retailers and websites often require an email for offers, but they can flood your inbox with spam emails. A disposable email address solves this problem by providing a way to receive messages without cluttering your inbox.
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h2 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{t('definition_title')}</h2>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">
+          {t.rich('definition_p', {
+            strong: (chunks) => <strong>{chunks}</strong>,
+            em: (chunks) => <em>{chunks}</em>,
+            link: (chunks) => <Link href="/blog/how-to-create-temp-mail" className="text-blue-600 underline dark:text-blue-400">{chunks}</Link>
+          })}
         </p>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
-          Some people mistakenly associate disposable emails with malicious activities, but they serve legitimate purposes, including:
-        </p>
+      </div>
+      
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('use_case_title')}</h3>
         <ul className="mt-4 space-y-3">
-          <li className="flex items-start">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            <span className="dark:text-gray-200">
-              <strong>Sign-Up for Store Loyalty Cards:</strong> Avoid spam and protect your real email by using a disposable email when signing up for store loyalty cards or offers.
-            </span>
-          </li>
-          <li className="flex items-start">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            <span className="dark:text-gray-200">
-              <strong>Test Your App:</strong> If you&apos;ve built an app, you can use disposable emails to test your app by creating dummy accounts.
-            </span>
-          </li>
-          <li className="flex items-start">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            <span className="dark:text-gray-200">
-              <strong>Sign-Up for Multiple Accounts:</strong> Use disposable emails to sign up for multiple accounts on web apps (like IFTTT or Twitter) without managing separate inboxes.
-            </span>
-          </li>
-          <li className="flex items-start">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            <span className="dark:text-gray-200">
-              <strong>Eliminate Spam:</strong> A disposable email address helps reduce spam, especially if you frequently access web forms, forums, or discussion groups.
-            </span>
-          </li>
+          {/* --- REVISED: Conditional rendering to fix TS error --- */}
+          {useCases.map((item, i) => (
+            <li key={i} className="flex items-start">
+              <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
+              <span className="dark:text-gray-200">
+                {item.rich ? t.rich(item.key as WhySectionKeys, {
+                  strong: (chunks) => <strong>{chunks}</strong>
+                }) : t(item.key as WhySectionKeys)}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
 
-      {/* How to Choose a Disposable Email Service */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-gray-100">How to Choose a Disposable Email Service?</h3>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          When choosing a disposable email provider, look for these features:
-        </p>
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('checklist_title')}</h3>
         <ul className="mt-4 space-y-3">
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            Ability to create temporary email addresses with ease.
-          </li>
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            No registration or identity information required.
-          </li>
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            Anonymous email address options.
-          </li>
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            The ability to create multiple disposable email addresses.
-          </li>
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            Temporary email inboxes available for your use.
-          </li>
-          <li className="flex items-start dark:text-gray-200">
-            <FaCheckCircle className="text-green-500 mt-1 mr-2" />
-            A user-friendly and straightforward design.
-          </li>
+          {/* --- REVISED: Conditional rendering to fix TS error --- */}
+          {features.map((item, i) => (
+            <li key={i} className="flex items-start dark:text-gray-200">
+              <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
+              {item.rich ? t.rich(item.key as WhySectionKeys, {
+                strong: (chunks) => <strong>{chunks}</strong>
+              }) : t(item.key as WhySectionKeys)}
+            </li>
+          ))}
         </ul>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
-          <strong>Freecustom.email</strong> provides all these features, ensuring you stay spam-free and save time while using temporary email services.
+        <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed"
+           dangerouslySetInnerHTML={{ __html: t.raw('checklist_p') }}>
         </p>
       </div>
 
-      {/* How to Use a Disposable Email Address */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-gray-100">How to Use a Disposable Email Address?</h3>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          Instead of creating a new email account with Gmail or other providers, opt for <strong>Freecustom.email</strong> to avoid managing multiple inboxes. You can forward emails from your disposable address to your real inbox, allowing you to filter and manage only the necessary emails. If the disposable email address is compromised or if you suspect any suspicious activity, you can immediately discard it without affecting your primary email.
+       <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('usage_title')}</h3>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">
+          {t.rich('usage_p1', {
+            strong: (chunks) => <strong>{chunks}</strong>,
+            link: (chunks) => <Link href="/blog/how-to-create-temp-mail" className="text-blue-600 underline dark:text-blue-400">{chunks}</Link>
+          })}
         </p>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">{t('usage_p2')}</p>
       </div>
 
-      {/* To Conclude */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-gray-100">To Conclude</h3>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          Setting up a disposable email system with <strong>Freecustom.email</strong> ensures your real identity remains protected. Whether you&apos;re signing up for online forums, chat rooms, or file-sharing services, your privacy stays intact. Say goodbye to spam and unwanted emails, and enjoy a safer online experience with <strong>Freecustom.email</strong>.
+      <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('conclusion_title')}</h3>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">{t('conclusion_p1')}</p>
+        <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+          {t.rich('conclusion_p2', {
+            link: (chunks) => <Link href="/blog/best-practices-for-using-temp-mail" className="text-blue-600 underline dark:text-blue-400">{chunks}</Link>
+          })}
         </p>
       </div>
     </section>

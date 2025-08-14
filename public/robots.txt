@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.freecustom.email
+
+# Sitemaps
+Sitemap: https://www.freecustom.email/sitemap.xml
