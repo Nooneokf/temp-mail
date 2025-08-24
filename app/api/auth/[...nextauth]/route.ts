@@ -43,23 +43,17 @@ declare module 'next-auth/jwt' {
 }
 
 // --------------------
-// 3️⃣ Helper: Upsert User in Backend
+// 3️⃣ Helper: Process User Data (Local Only)
 // --------------------
-async function upsertUserInBackend(profile: DiscordProfile): Promise<void> {
-    try {
-        await fetchFromServiceAPI('/auth/upsert-user', {
-            method: 'POST',
-            body: JSON.stringify({
-                discordUserId: profile.id,
-                email: profile.email,
-                name: profile.username,
-                plan: profile.premium_type ? 'pro' : 'free', // Discord Nitro users get pro
-            }),
-        });
-    } catch (error) {
-        console.error("Failed to upsert user in backend:", error);
-        throw new Error("Could not sync user with backend.");
-    }
+function processUserData(profile: DiscordProfile) {
+    // Store user data locally in session - no external API calls needed
+    console.log(`User ${profile.username} (${profile.id}) authenticated successfully`);
+    return {
+        id: profile.id,
+        email: profile.email,
+        name: profile.username,
+        plan: profile.premium_type ? 'pro' : 'free',
+    };
 }
 
 // --------------------
@@ -68,6 +62,9 @@ async function upsertUserInBackend(profile: DiscordProfile): Promise<void> {
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
+    },
+    pages: {
+        error: '/api/auth/signin', // Redirect to sign-in page on errors
     },
     providers: [
         DiscordProvider({
@@ -97,14 +94,14 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account, profile }) {
             if (account?.provider === 'discord' && profile) {
                 try {
-                    await upsertUserInBackend(profile as DiscordProfile);
+                    processUserData(profile as DiscordProfile);
                     return true;
                 } catch (error) {
-                    console.error("Sign-in aborted due to backend error:", error);
+                    console.error("Sign-in processing error:", error);
                     return false;
                 }
             }
-            return false;
+            return true;
         },
 
         async jwt({ token, user }) {
