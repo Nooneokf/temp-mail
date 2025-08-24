@@ -1,6 +1,6 @@
 ---
-title: "Major Upgrade: Attachment Support & Enhanced Security Now Live on FreeCustom.Email, Powered by DITMail!"
-description: "FreeCustom.Email just got a huge upgrade! Our underlying engine is now powered by DITMail, bringing enhanced security scanning and full attachment support to your temporary emails. See your attachments safely!"
+title: "Major Upgrade: Attachment Support & Enhanced Security Now Live on tempmail.encorebot.me, Powered by DITMail!"
+description: "tempmail.encorebot.me just got a huge upgrade! Our underlying engine is now powered by DITMail, bringing enhanced security scanning and full attachment support to your temporary emails. See your attachments safely!"
 date: 2025-07-18
 updated: 2025-06-10
 author:
@@ -13,19 +13,19 @@ tags:
     - DITMail
     - email security
     - malware scanning
-    - FreeCustom.Email update
+    - tempmail.encorebot.me update
     - attachment support
 image: /images/blog/freecustomemail-attachment-upgrade-ditmail.png # Suggest: An email icon with a paperclip and a security shield.
-canonicalUrl: https://yourdomain.com/blog/freecustomemail-attachment-upgrade
-url: https://yourdomain.com/blog/freecustomemail-attachment-upgrade
-website: https://www.freecustom.email
+canonicalUrl: https://tempmail.encorebot.me/blog/freecustomemail-attachment-upgrade
+url: https://tempmail.encorebot.me/blog/freecustomemail-attachment-upgrade
+website: https://www.tempmail.encorebot.me
 ---
 
-# Major Upgrade: Attachment Support & Enhanced Security Now Live on FreeCustom.Email, Powered by DITMail!
+# Major Upgrade: Attachment Support & Enhanced Security Now Live on tempmail.encorebot.me, Powered by DITMail!
 
-[Experience the New, More Powerful FreeCustom.Email →](https://www.freecustom.email)
+[Experience the New, More Powerful tempmail.encorebot.me →](https://www.tempmail.encorebot.me)
 
-At DishIs Technology, we believe that powerful tools should constantly evolve. Today, we're thrilled to announce a significant backend upgrade to our beloved free temporary email service, [FreeCustom.Email](https://www.freecustom.email). We have integrated the core engine of our new professional email platform, **[DITMail](https://pro.freecustom.email)**, to supercharge every inbound email on our free service.
+At DishIs Technology, we believe that powerful tools should constantly evolve. Today, we're thrilled to announce a significant backend upgrade to our beloved free temporary email service, [tempmail.encorebot.me](https://www.tempmail.encorebot.me). We have integrated the core engine of our new professional email platform, **[DITMail](https://pro.tempmail.encorebot.me)**, to supercharge every inbound email on our free service.
 
 This upgrade brings two massive new features to your temporary email experience:
 1.  **Full Attachment Visibility & Access:** You can now see and access attachments sent to your temp mail addresses.
@@ -37,7 +37,7 @@ Let's dive into what this means for you.
 
 ## The Old Challenge: Missing Attachments
 
-Previously, while [FreeCustom.Email](https://www.freecustom.email) was excellent for receiving text-based emails, verification codes, and links, it did not process or display attachments. If someone sent you an email with an attached PDF, image, or document, you simply wouldn't see it. This limited the use cases for our service.
+Previously, while [tempmail.encorebot.me](https://www.tempmail.encorebot.me) was excellent for receiving text-based emails, verification codes, and links, it did not process or display attachments. If someone sent you an email with an attached PDF, image, or document, you simply wouldn't see it. This limited the use cases for our service.
 
 We knew this was a major feature our users wanted, but implementing it required a robust, secure, and scalable backend. That's where DITMail comes in.
 
@@ -45,7 +45,7 @@ We knew this was a major feature our users wanted, but implementing it required 
 
 ## The DITMail Engine: Powering a Safer Experience
 
-The technology we built for our professional-grade DITMail service—including its secure Haraka-based SMTP reception and GridFS (GFS) file handling—is now the backbone for all incoming mail on [FreeCustom.Email](https://www.freecustom.email).
+The technology we built for our professional-grade DITMail service—including its secure Haraka-based SMTP reception and GridFS (GFS) file handling—is now the backbone for all incoming mail on [tempmail.encorebot.me](https://www.tempmail.encorebot.me).
 
 ### How It Works: The Journey of Your Inbound Email
 
@@ -59,7 +59,7 @@ When an email is sent to your temporary address (e.g., `mytempaddress@junkstoppe
     *   The goal is to identify and flag potentially harmful files before they are ever presented to you.
 4.  **Secure Storage (Temporary):** Clean attachments are stored temporarily using our secure GridFS system, which is designed to handle files efficiently.
 5.  **Display in Your Inbox:**
-    *   When you view the email in your [FreeCustom.Email](https://www.freecustom.email) inbox, you will now see the email body as usual.
+    *   When you view the email in your [tempmail.encorebot.me](https://www.tempmail.encorebot.me) inbox, you will now see the email body as usual.
     *   **New Feature:** At the end of the message, you will see a new, dedicated "Attachments" section. Each attachment will be listed clearly by its filename and size.
 
 This process ensures that you not only get access to your attachments but that you get them through a system designed with security as a primary focus.
@@ -105,8 +105,8 @@ You'll be able to download the files directly. For common image types, we may al
 
 ## Our Commitment to a Secure, Free Service
 
-By integrating DITMail's powerful backend, we are reinforcing our commitment to making [FreeCustom.Email](https://www.freecustom.email) the most capable and secure free temporary email service available. You get the benefits of a professional-grade security and attachment handling system, completely free of charge.
+By integrating DITMail's powerful backend, we are reinforcing our commitment to making [tempmail.encorebot.me](https://www.tempmail.encorebot.me) the most capable and secure free temporary email service available. You get the benefits of a professional-grade security and attachment handling system, completely free of charge.
 
 This is a testament to our philosophy: build powerful, scalable technology, and use it to improve our services for all users. We're excited for you to experience this major leap in functionality.
 
-[Send an email with an attachment to your temp mail address and see the new feature in action! →](https://www.freecustom.email)
+[Send an email with an attachment to your temp mail address and see the new feature in action! →](https://www.tempmail.encorebot.me)

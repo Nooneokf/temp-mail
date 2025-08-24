@@ -33,7 +33,7 @@ export async function generateMetadata(
       title: truncate(data.title, 60),
       description: truncate(data.description, 150),
       alternates: {
-        canonical: `https://www.freecustom.email/blog/${resolvedParams.slug}`,
+        canonical: `https://www.tempmail.encorebot.me/blog/${resolvedParams.slug}`,
       },
     };
   } catch {
@@ -59,18 +59,18 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       "datePublished": data.date,
       "author": {
         "@type": "Organization",
-        "name": "FreeCustom.Email"
+        "name": "tempmail.encorebot.me"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "FreeCustom.Email",
+        "name": "tempmail.encorebot.me",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://www.freecustom.email/logo.webp"
+          "url": "https://www.tempmail.encorebot.me/logo.webp"
         }
       },
       "description": data.description,
-      "mainEntityOfPage": `https://www.freecustom.email/blog/${resolvedParams.slug}`
+      "mainEntityOfPage": `https://www.tempmail.encorebot.me/blog/${resolvedParams.slug}`
     }
 
     if (!data || !content) {

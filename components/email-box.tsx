@@ -170,7 +170,7 @@ export function EmailBox({
   useEffect(() => {
     if (!email || !token) return;
     refreshInbox();
-    const socket = new WebSocket(`wss://api2.freecustom.email/?mailbox=${email}`);
+    const socket = new WebSocket(`wss://api2.tempmail.encorebot.me/?mailbox=${email}`);
     socket.onopen = () => console.log("WebSocket connection established");
     socket.onmessage = () => refreshInbox();
     return () => socket.close();

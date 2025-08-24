@@ -31,10 +31,10 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
         openGraph: {
             title: t('openGraph.title'),
             description: t('openGraph.description'),
-            url: `https://www.freecustom.email/${locale}`,
+            url: `https://www.tempmail.encorebot.me/${locale}`,
             images: [
                 {
-                    url: 'https://www.freecustom.email/logo.webp',
+                    url: 'https://www.tempmail.encorebot.me/logo.webp',
                     alt: t('openGraph.alt'),
                 },
             ],

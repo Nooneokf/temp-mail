@@ -22,7 +22,7 @@ export function AppFooter() {
               Terms of Service
             </Link>
             <a
-              href="https://github.com/DishIs/temp-mail"
+              href="https://github.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-gray-600 hover:text-blue-600 transition-colors"

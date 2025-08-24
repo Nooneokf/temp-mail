@@ -64,8 +64,8 @@ export default async function Page({ params }: Props) {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: tJsonLd('name'),
-        url: 'https://www.freecustom.email',
-        logo: 'https://www.freecustom.email/logo.webp',
+        url: 'https://www.tempmail.encorebot.me',
+        logo: 'https://www.tempmail.encorebot.me/logo.webp',
         description: tJsonLd('description'),
         sameAs: [
             'https://www.linkedin.com/company/freecustom-email',

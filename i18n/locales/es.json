@@ -6,16 +6,16 @@
     "openGraph": {
       "title": "Correo Temporal Personalizado – Funciones Pro para Empresas y Desarrolladores",
       "description": "Genere una dirección de correo temporal personalizada al instante. Use sus propios dominios con nuestro plan de correo temporal pro. Sin anuncios, opción gratuita para siempre disponible.",
-      "alt": "Logo de FreeCustom.Email"
+      "alt": "Logo de tempmail.encorebot.me"
     }
   },
   "JsonLd": {
-    "name": "FreeCustom.Email",
-    "description": "FreeCustom.Email es una plataforma de correo desechable centrada en la privacidad para pruebas, desarrolladores y registros rápidos. Ofrece planes gratuitos y pro."
+    "name": "tempmail.encorebot.me",
+    "description": "tempmail.encorebot.me es una plataforma de correo desechable centrada en la privacidad para pruebas, desarrolladores y registros rápidos. Ofrece planes gratuitos y pro."
   },
   "PageContent": {
     "h1": "Cómo Funciona Nuestra Tecnología de Correo Temporal Desechable, Rápida y Personalizada",
-    "p1": "En el mundo actual, los servicios en línea, desde pruebas gratuitas hasta chats comunitarios, exigen direcciones de correo electrónico, exponiéndote a spam, bots y rastreo no solicitado. <strong>Con FreeCustom.Email, obtienes una dirección de correo temporal personalizada, instantánea y sin anuncios</strong> en múltiples dominios, sin necesidad de registrarte y siempre segura.",
+    "p1": "En el mundo actual, los servicios en línea, desde pruebas gratuitas hasta chats comunitarios, exigen direcciones de correo electrónico, exponiéndote a spam, bots y rastreo no solicitado. <strong>Con tempmail.encorebot.me, obtienes una dirección de correo temporal personalizada, instantánea y sin anuncios</strong> en múltiples dominios, sin necesidad de registrarte y siempre segura.",
     "p2_part1": "<strong>Este servicio es gratuito para siempre, totalmente sin anuncios y optimizado para la velocidad utilizando código ligero, caché en el borde y dominios globales.</strong> Aprende más sobre nuestra ",
     "p2_link1": "promesa de ser gratis y sin anuncios",
     "p2_part2": " y nuestra ",
@@ -73,11 +73,11 @@
   },
   "WhySection": {
     "snippet_title": "¿Qué es el “Correo Temporal Personalizado”?",
-    "snippet_p": "El <strong>correo temporal personalizado</strong> es su primera línea de defensa para la privacidad digital. Genere una dirección de correo desechable y sin anuncios al instante desde múltiples dominios. Con <strong>FreeCustom.Email</strong>, obtiene un correo temporal seguro para privacidad, protección contra spam y registros rápidos y anónimos. Ahora con planes Gratuitos y Pro para funciones avanzadas.",
-    "domain_list_title": "Dominios de FreeCustom.Email para Correo Temporal Personalizado",
+    "snippet_p": "El <strong>correo temporal personalizado</strong> es su primera línea de defensa para la privacidad digital. Genere una dirección de correo desechable y sin anuncios al instante desde múltiples dominios. Con <strong>tempmail.encorebot.me</strong>, obtiene un correo temporal seguro para privacidad, protección contra spam y registros rápidos y anónimos. Ahora con planes Gratuitos y Pro para funciones avanzadas.",
+    "domain_list_title": "Dominios de tempmail.encorebot.me para Correo Temporal Personalizado",
     "domain_list_p": "Elija de nuestra lista curada de dominios para asegurar que su correo temporal siempre sea entregable y nunca sea bloqueado.",
     "updates_title": "Del Uso Anónimo al Poder Pro: Nuevas Funciones",
-    "updates_p": "FreeCustom.Email ha evolucionado. Aunque el uso anónimo sigue siendo rápido y gratuito, ahora puede iniciar sesión con su cuenta de whatsyour.info para desbloquear nuevas y potentes funciones adaptadas para usuarios habituales, desarrolladores y empresas.",
+    "updates_p": "tempmail.encorebot.me ha evolucionado. Aunque el uso anónimo sigue siendo rápido y gratuito, ahora puede iniciar sesión con su cuenta de whatsyour.info para desbloquear nuevas y potentes funciones adaptadas para usuarios habituales, desarrolladores y empresas.",
     "updates_item1_title": "Invitado Anónimo",
     "updates_item1_desc": "Para tareas rápidas y únicas. Obtenga un correo temporal instantáneo con un historial de 5 mensajes y almacenamiento de 12 horas. Sin archivos adjuntos, no se necesita iniciar sesión.",
     "updates_item2_title": "Usuario Gratuito de WYI",
@@ -98,12 +98,12 @@
     "checklist_item4": "Opciones de almacenamiento flexibles, desde Redis temporal hasta almacenamiento permanente en la nube.",
     "checklist_item5": "Una plataforma confiable con el compromiso público de ser gratuita para siempre.",
     "checklist_item6": "Funciones avanzadas para usuarios Pro, incluyendo archivos adjuntos grandes y acceso a la API.",
-    "checklist_p": "<strong>Freecustom.email</strong> cumple en todos los frentes, proporcionando una solución versátil que escala desde un uso simple y anónimo hasta una herramienta poderosa para profesionales.",
-    "usage_title": "Cómo Usar el Correo Temporal de FreeCustom.Email",
+    "checklist_p": "<strong>tempmail.encorebot.me</strong> cumple en todos los frentes, proporcionando una solución versátil que escala desde un uso simple y anónimo hasta una herramienta poderosa para profesionales.",
+    "usage_title": "Cómo Usar el Correo Temporal de tempmail.encorebot.me",
     "usage_p1": "Simplemente visite el sitio, escriba un nombre personalizado, elija un dominio y su bandeja de entrada temporal estará activa. Sin anuncios, sin registro. Para desbloquear más poder, simplemente inicie sesión con su cuenta de WYI. Para más detalles, vea nuestra publicación sobre <link>cómo crear una dirección de correo temporal</link>.",
     "usage_p2": "Si una dirección recibe demasiado spam, elimínela y cree otra en segundos. Su bandeja de entrada real siempre está a salvo.",
     "conclusion_title": "La Mejor Opción para Correo Temporal Personalizado y Profesional",
-    "conclusion_p1": "Ya sea que necesite una dirección desechable rápida o una solución robusta de <strong>correo temporal pro</strong> para su negocio, FreeCustom.Email está diseñado para satisfacer sus necesidades. Ofrecemos velocidad, privacidad y flexibilidad inigualables, todo sin anuncios.",
+    "conclusion_p1": "Ya sea que necesite una dirección desechable rápida o una solución robusta de <strong>correo temporal pro</strong> para su negocio, tempmail.encorebot.me está diseñado para satisfacer sus necesidades. Ofrecemos velocidad, privacidad y flexibilidad inigualables, todo sin anuncios.",
     "conclusion_p2": "Explore nuestra <link>guía de mejores prácticas</link> para aprovechar al máximo sus direcciones de correo temporal."
   }
 }

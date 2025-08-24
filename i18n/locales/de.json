@@ -6,16 +6,16 @@
     "openGraph": {
       "title": "Benutzerdefinierte temporäre Mail – Pro-Funktionen für Unternehmen & Entwickler",
       "description": "Generieren Sie sofort eine benutzerdefinierte temporäre E-Mail-Adresse. Nutzen Sie Ihre eigenen Domains mit unserem Temp-Mail-Pro-Plan. Keine Werbung, für immer kostenlose Option verfügbar.",
-      "alt": "FreeCustom.Email Logo"
+      "alt": "tempmail.encorebot.me Logo"
     }
   },
   "JsonLd": {
-    "name": "FreeCustom.Email",
-    "description": "FreeCustom.Email ist eine datenschutzorientierte Einweg-E-Mail-Plattform für Tests, Entwickler und schnelle Anmeldungen. Bietet kostenlose und Pro-Pläne."
+    "name": "tempmail.encorebot.me",
+    "description": "tempmail.encorebot.me ist eine datenschutzorientierte Einweg-E-Mail-Plattform für Tests, Entwickler und schnelle Anmeldungen. Bietet kostenlose und Pro-Pläne."
   },
   "PageContent": {
     "h1": "Wie unsere schnelle & benutzerdefinierte Einweg-Temp-Mail-Technologie funktioniert",
-    "p1": "In der heutigen Welt verlangen Online-Dienste – von kostenlosen Testversionen bis hin zu Community-Chats – E-Mail-Adressen und setzen Sie Spam, Bots und unerwünschtem Tracking aus. <strong>Mit FreeCustom.Email erhalten Sie sofort eine werbefreie, benutzerdefinierte temporäre E-Mail-Adresse</strong> über mehrere Domains hinweg – keine Anmeldung erforderlich und immer sicher.",
+    "p1": "In der heutigen Welt verlangen Online-Dienste – von kostenlosen Testversionen bis hin zu Community-Chats – E-Mail-Adressen und setzen Sie Spam, Bots und unerwünschtem Tracking aus. <strong>Mit tempmail.encorebot.me erhalten Sie sofort eine werbefreie, benutzerdefinierte temporäre E-Mail-Adresse</strong> über mehrere Domains hinweg – keine Anmeldung erforderlich und immer sicher.",
     "p2_part1": "<strong>Dieser Dienst ist für immer kostenlos, völlig werbefrei und auf Geschwindigkeit optimiert, indem er leichten Code, Edge-Caching und globale Domains verwendet.</strong> Erfahren Sie mehr über unser ",
     "p2_link1": "Versprechen für kostenlose & werbefreie Nutzung",
     "p2_part2": " und unsere ",
@@ -73,11 +73,11 @@
   },
   "WhySection": {
     "snippet_title": "Was ist „Benutzerdefinierte temporäre Mail“?",
-    "snippet_p": "<strong>Benutzerdefinierte temporäre Mail</strong> ist Ihre erste Verteidigungslinie für die digitale Privatsphäre. Generieren Sie sofort eine werbefreie Einweg-E-Mail-Adresse von mehreren Domains. Mit <strong>FreeCustom.Email</strong> erhalten Sie eine sichere temporäre E-Mail für Datenschutz, Spamschutz und schnelle, anonyme Anmeldungen. Jetzt mit kostenlosen und Pro-Plänen für erweiterte Funktionen.",
-    "domain_list_title": "FreeCustom.Email Domains für benutzerdefinierte temporäre Mails",
+    "snippet_p": "<strong>Benutzerdefinierte temporäre Mail</strong> ist Ihre erste Verteidigungslinie für die digitale Privatsphäre. Generieren Sie sofort eine werbefreie Einweg-E-Mail-Adresse von mehreren Domains. Mit <strong>tempmail.encorebot.me</strong> erhalten Sie eine sichere temporäre E-Mail für Datenschutz, Spamschutz und schnelle, anonyme Anmeldungen. Jetzt mit kostenlosen und Pro-Plänen für erweiterte Funktionen.",
+    "domain_list_title": "tempmail.encorebot.me Domains für benutzerdefinierte temporäre Mails",
     "domain_list_p": "Wählen Sie aus unserer kuratierten Liste von Domains, um sicherzustellen, dass Ihre temporäre Mail immer zustellbar ist und nie blockiert wird.",
     "updates_title": "Von anonymer Nutzung zu Pro-Power: Neue Funktionen",
-    "updates_p": "FreeCustom.Email hat sich weiterentwickelt. Während die anonyme Nutzung schnell und kostenlos bleibt, können Sie sich jetzt mit Ihrem whatsyour.info-Konto anmelden, um leistungsstarke neue Funktionen freizuschalten, die auf regelmäßige Benutzer, Entwickler und Unternehmen zugeschnitten sind.",
+    "updates_p": "tempmail.encorebot.me hat sich weiterentwickelt. Während die anonyme Nutzung schnell und kostenlos bleibt, können Sie sich jetzt mit Ihrem whatsyour.info-Konto anmelden, um leistungsstarke neue Funktionen freizuschalten, die auf regelmäßige Benutzer, Entwickler und Unternehmen zugeschnitten sind.",
     "updates_item1_title": "Anonymer Gast",
     "updates_item1_desc": "Für schnelle, einmalige Aufgaben. Erhalten Sie eine sofortige temporäre E-Mail mit einem 5-Nachrichten-Verlauf und 12-stündiger Speicherung. Keine Anhänge, keine Anmeldung erforderlich.",
     "updates_item2_title": "WYI Free Benutzer",
@@ -98,12 +98,12 @@
     "checklist_item4": "Flexible Speicheroptionen, von temporärem Redis bis hin zu permanentem Cloud-Speicher.",
     "checklist_item5": "Eine zuverlässige Plattform mit einer öffentlichen Verpflichtung, für immer kostenlos zu sein.",
     "checklist_item6": "Erweiterte Funktionen für Pro-Benutzer, einschließlich großer Anhänge und API-Zugriff.",
-    "checklist_p": "<strong>Freecustom.email</strong> überzeugt auf allen Fronten und bietet eine vielseitige Lösung, die von der einfachen, anonymen Nutzung bis hin zu einem leistungsstarken Werkzeug für Profis skaliert.",
-    "usage_title": "Wie man FreeCustom.Email Temp Mail verwendet",
+    "checklist_p": "<strong>tempmail.encorebot.me</strong> überzeugt auf allen Fronten und bietet eine vielseitige Lösung, die von der einfachen, anonymen Nutzung bis hin zu einem leistungsstarken Werkzeug für Profis skaliert.",
+    "usage_title": "Wie man tempmail.encorebot.me Temp Mail verwendet",
     "usage_p1": "Besuchen Sie einfach die Seite, geben Sie einen benutzerdefinierten Namen ein, wählen Sie eine Domain aus, und Ihr temporärer Posteingang ist live. Keine Werbung, keine Anmeldung. Um mehr Leistung freizuschalten, melden Sie sich einfach mit Ihrem WYI-Konto an. Weitere Details finden Sie in unserem Beitrag zum <link>Erstellen einer temporären E-Mail-Adresse</link>.",
     "usage_p2": "Wenn eine Adresse zu viel Spam erhält, löschen Sie sie und erstellen Sie in Sekundenschnelle eine neue. Ihr echter Posteingang ist immer sicher.",
     "conclusion_title": "Die beste Wahl für benutzerdefinierte & professionelle temporäre Mails",
-    "conclusion_p1": "Ob Sie eine schnelle Wegwerfadresse oder eine robuste <strong>Temp-Mail-Pro</strong>-Lösung für Ihr Unternehmen benötigen, FreeCustom.Email ist darauf ausgelegt, Ihre Bedürfnisse zu erfüllen. Wir bieten unübertroffene Geschwindigkeit, Datenschutz und Flexibilität, alles ohne Werbung.",
+    "conclusion_p1": "Ob Sie eine schnelle Wegwerfadresse oder eine robuste <strong>Temp-Mail-Pro</strong>-Lösung für Ihr Unternehmen benötigen, tempmail.encorebot.me ist darauf ausgelegt, Ihre Bedürfnisse zu erfüllen. Wir bieten unübertroffene Geschwindigkeit, Datenschutz und Flexibilität, alles ohne Werbung.",
     "conclusion_p2": "Erkunden Sie unseren <link>Leitfaden zu bewährten Praktiken</link>, um das Beste aus Ihren temporären E-Mail-Adressen herauszuholen."
   }
 }

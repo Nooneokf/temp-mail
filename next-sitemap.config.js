@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://www.freecustom.email',
+  siteUrl: 'https://www.tempmail.encorebot.me',
   generateRobotsTxt: true,
   changefreq: 'weekly',
   priority: 0.7,

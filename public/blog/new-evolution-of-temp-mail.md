@@ -1,6 +1,6 @@
 ---
 title: "The Next Evolution of Temp Mail: Introducing Pro Plans, Custom Domains, and Permanent Storage!"
-description: "FreeCustom.Email has evolved! Go beyond basic temp mail with our new Free and Pro plans powered by WYI. Use your own custom domains, get permanent cloud storage, 25MB attachments, and full API access. The ultimate temp mail for business and developers is here."
+description: "tempmail.encorebot.me has evolved! Go beyond basic temp mail with our new Free and Pro plans powered by WYI. Use your own custom domains, get permanent cloud storage, 25MB attachments, and full API access. The ultimate temp mail for business and developers is here."
 date: 2025-08-12
 updated: 2025-08-12
 author:
@@ -14,20 +14,20 @@ tags:
     - disposable email api
     - permanent temp mail
     - whatsyour.info
-    - FreeCustom.Email update
+    - tempmail.encorebot.me update
 image: /images/blog/freecustomemail-pro-plans-upgrade.png # Suggest: A graphic showing three tiers: a ghost (anonymous), a user icon (free), and a briefcase/code icon (pro).
-canonicalUrl: https://www.freecustom.email/blog/temp-mail-pro-plans-custom-domains
-url: https://www.freecustom.email/blog/temp-mail-pro-plans-custom-domains
-website: https://www.freecustom.email
+canonicalUrl: https://www.tempmail.encorebot.me/blog/temp-mail-pro-plans-custom-domains
+url: https://www.tempmail.encorebot.me/blog/temp-mail-pro-plans-custom-domains
+website: https://www.tempmail.encorebot.me
 ---
 
 # The Next Evolution of Temp Mail: Introducing Pro Plans, Custom Domains, and Permanent Storage!
 
-[Explore the New Tiers of Temp Mail →](https://www.freecustom.email)
+[Explore the New Tiers of Temp Mail →](https://www.tempmail.encorebot.me)
 
-Temporary email was born out of a simple need: to get a quick, disposable address to avoid spam. For years, [FreeCustom.Email](https://www.freecustom.email) has perfected that experience, offering the fastest, ad-free anonymous temp mail service. But what if a temporary email could be more? What if it could be a powerful tool for developers, a flexible asset for businesses, and a more robust utility for power users?
+Temporary email was born out of a simple need: to get a quick, disposable address to avoid spam. For years, [tempmail.encorebot.me](https://www.tempmail.encorebot.me) has perfected that experience, offering the fastest, ad-free anonymous temp mail service. But what if a temporary email could be more? What if it could be a powerful tool for developers, a flexible asset for businesses, and a more robust utility for power users?
 
-Today, we're excited to announce the single biggest evolution in our platform's history. We are introducing **three distinct tiers of service**, powered by our secure identity provider, [whatsyour.info (WYI)](https://whatsyour.info). This upgrade transforms FreeCustom.Email from a simple utility into a full-fledged, scalable email platform, offering everything from anonymous inboxes to **temp mail with custom domains** and **permanent cloud storage**.
+Today, we're excited to announce the single biggest evolution in our platform's history. We are introducing **three distinct tiers of service**, powered by our secure identity provider, [whatsyour.info (WYI)](https://whatsyour.info). This upgrade transforms tempmail.encorebot.me from a simple utility into a full-fledged, scalable email platform, offering everything from anonymous inboxes to **temp mail with custom domains** and **permanent cloud storage**.
 
 ---
 
@@ -38,7 +38,7 @@ The classic temp mail experience isn't going anywhere. Our commitment to a fast,
 This new structure allows us to serve everyone better:
 
 ### 1. Anonymous Guest: The Classic, Reimagined
-This is the FreeCustom.Email you know and love, but better. It's perfect for quick, one-off tasks where anonymity is key.
+This is the tempmail.encorebot.me you know and love, but better. It's perfect for quick, one-off tasks where anonymity is key.
 *   **Instant Access:** No login, no registration. Just land on the page and go.
 *   **Email History:** The 5 most recent emails are kept for each mailbox.
 *   **12-Hour Storage:** Emails are automatically and permanently purged after 12 hours.
@@ -56,7 +56,7 @@ By logging in with your free [whatsyour.info](https://whatsyour.info) account, y
 ### 3. WYI Pro: The Ultimate Temp Mail for Business & Developers
 This is the game-changer. For a small subscription fee, WYI Pro users get a suite of features that transforms temporary email into a professional tool. This is the **temp mail pro** solution you've been waiting for.
 
-*   **Use Your Own Custom Domains:** This is our most requested feature. You can now use FreeCustom.Email's powerful engine with your own domain. Receive emails at addresses like `qa-testing@your-company.com` or `project-alpha@your-business.com`. Full MX and TXT verification support is included.
+*   **Use Your Own Custom Domains:** This is our most requested feature. You can now use tempmail.encorebot.me's powerful engine with your own domain. Receive emails at addresses like `qa-testing@your-company.com` or `project-alpha@your-business.com`. Full MX and TXT verification support is included.
 *   **5GB Permanent Cloud Storage:** Say goodbye to auto-deletion. Your emails are saved to your private, secure 5GB cloud storage on our MongoDB cluster. They are only deleted when you choose to delete them.
 *   **25MB Attachment Limit:** Powered by GridFS, you can now receive large files, reports, and assets, making this a viable tool for professional collaboration.
 *   **Full API & Embedding:** Embed a full-featured inbox directly into your website or application. Perfect for dev environments, internal tools, or customer support platforms.
@@ -80,10 +80,10 @@ The introduction of our Pro plan addresses key limitations of traditional dispos
 
 ## Our Philosophy: Grow with Our Users
 
-This major upgrade is a direct result of listening to you. We built FreeCustom.Email to solve a simple problem, but as our user base grew, we saw the potential to solve much bigger ones.
+This major upgrade is a direct result of listening to you. We built tempmail.encorebot.me to solve a simple problem, but as our user base grew, we saw the potential to solve much bigger ones.
 
 Our core promise remains: **we will always offer a world-class, free, and anonymous temporary email service.** But by building a sustainable professional tier, we can continue to invest in the infrastructure that powers the entire platform, ensuring it remains fast, secure, and innovative for years to come.
 
-This is more than an update; it's a new chapter. Whether you need an email for 10 seconds or a sophisticated testing platform for 10 months, FreeCustom.Email is now the answer.
+This is more than an update; it's a new chapter. Whether you need an email for 10 seconds or a sophisticated testing platform for 10 months, tempmail.encorebot.me is now the answer.
 
-[Check out the new plans and find the perfect fit for you →](https://www.freecustom.email)
+[Check out the new plans and find the perfect fit for you →](https://www.tempmail.encorebot.me)

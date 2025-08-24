@@ -1,6 +1,6 @@
 ---
 title: "We’re Giving Away $10 Gift Cards to Say Thank You! Your Review Matters."
-description: "We're live on G2! To celebrate and thank our amazing community, we're giving a $10 gift card to everyone who leaves an honest review of FreeCustom.Email. Help others discover a better temp mail experience."
+description: "We're live on G2! To celebrate and thank our amazing community, we're giving a $10 gift card to everyone who leaves an honest review of tempmail.encorebot.me. Help others discover a better temp mail experience."
 date: 2025-07-19
 updated: 2025-06-10
 author:
@@ -10,7 +10,7 @@ author:
 tags:
     - G2 Review
     - Gift Card Offer
-    - FreeCustom.Email
+    - tempmail.encorebot.me
     - TempMail
     - Customer Feedback
     - SaaS
@@ -18,16 +18,16 @@ tags:
     - DeveloperTools
     - StartupLife
 image: /images/blog/freecustomemail-g2-review-offer.png # We'll use the provided URL but also have a path for the blog system.
-website: https://www.freecustom.email
+website: https://www.tempmail.encorebot.me
 ---
 
-![FreeCustom.Email G2 Review Gift Card Offer](https://i.ibb.co/chny6z1x/Free-Custom-Email.png)
+![tempmail.encorebot.me G2 Review Gift Card Offer](https://i.ibb.co/chny6z1x/Free-Custom-Email.png)
 
 # We’re Giving Away $10 Gift Cards to Say THANK YOU! 🎁
 
 To our incredible community of users, developers, marketers, and privacy advocates,
 
-From the very beginning, our mission with [FreeCustom.Email](https://www.freecustom.email) has been to create a simple, powerful, and genuinely free tool to help you navigate the digital world more safely and with less clutter. Whether you've used our service for creating a quick **temp mail**, testing your application's sign-up flow, or maintaining your privacy, you are the reason we build and improve every single day.
+From the very beginning, our mission with [tempmail.encorebot.me](https://www.tempmail.encorebot.me) has been to create a simple, powerful, and genuinely free tool to help you navigate the digital world more safely and with less clutter. Whether you've used our service for creating a quick **temp mail**, testing your application's sign-up flow, or maintaining your privacy, you are the reason we build and improve every single day.
 
 Today, we have a special announcement and a small request. We are now officially live on **G2**, one of the world's most trusted software review platforms!
 
@@ -37,7 +37,7 @@ Your honest feedback is the most valuable asset we have. It helps us understand 
 
 ## Your Voice Matters — And We Want to Thank You For It
 
-To show our genuine appreciation for your time and insights, we're partnering with G2 to offer a **$10 gift card** to *everyone* who leaves an honest review of FreeCustom.Email.
+To show our genuine appreciation for your time and insights, we're partnering with G2 to offer a **$10 gift card** to *everyone* who leaves an honest review of tempmail.encorebot.me.
 
 This isn't a contest or a lottery. It’s a thank you gift.
 
@@ -53,12 +53,12 @@ This isn't a contest or a lottery. It’s a thank you gift.
 Getting your gift card is incredibly simple. There are no strings attached.
 
 **Step 1: Visit Our G2 Review Page**
-Click the link below to go directly to the FreeCustom.Email review form on G2:
+Click the link below to go directly to the tempmail.encorebot.me review form on G2:
 
-👉 **[Review FreeCustom.Email on G2](https://www.g2.com/wizard/workflow-wiz-apr28-amzn10/products/freecustom-email/reviews/start?g2_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&last_completed_step=4&product_id=freecustom-email&return_to=https%3A%2F%2Fwww.g2.com%2Fwizard%2Fworkflow-wiz-apr28-amzn10%2Fproducts%2Ffreecustom-email%2Ftake_survey%3Futm_source%3DIterable%26utm_medium%3Demail%26utm_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_%26g2_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_medium=email&utm_source=Iterable)**
+👉 **[Review tempmail.encorebot.me on G2](https://www.g2.com/wizard/workflow-wiz-apr28-amzn10/products/freecustom-email/reviews/start?g2_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&last_completed_step=4&product_id=freecustom-email&return_to=https%3A%2F%2Fwww.g2.com%2Fwizard%2Fworkflow-wiz-apr28-amzn10%2Fproducts%2Ffreecustom-email%2Ftake_survey%3Futm_source%3DIterable%26utm_medium%3Demail%26utm_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_%26g2_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_medium=email&utm_source=Iterable)**
 
 **Step 2: Write Your Honest Review**
-Share your thoughts on your experience with FreeCustom.Email. You might consider mentioning:
+Share your thoughts on your experience with tempmail.encorebot.me. You might consider mentioning:
 *   What do you primarily use it for? (#TempMail, testing, privacy, etc.)
 *   What features do you like most? (e.g., custom names, multiple domains, ad-free experience)
 *   How has it helped your workflow or protected your privacy?
@@ -74,7 +74,7 @@ Once your review is verified and approved by the G2 team (this is their standard
 
 As a growing service in the #SaaS space, building trust is everything. G2 is a platform where real users share real experiences, helping to level the playing field for independent tools like ours. Your review provides the social proof that can't be bought—it can only be earned through providing a great product.
 
-This is a huge milestone in our #StartupLife and a key part of our #ProductLaunch strategy as we continue to grow and develop new services like the upcoming **[DITMail](https://pro.freecustom.email)**.
+This is a huge milestone in our #StartupLife and a key part of our #ProductLaunch strategy as we continue to grow and develop new services like the upcoming **[DITMail](https://pro.tempmail.encorebot.me)**.
 
 We are immensely grateful for your support on this journey. Thank you for helping us build a more private and user-centric web.
 

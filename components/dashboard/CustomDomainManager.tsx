@@ -35,7 +35,7 @@ function normalizeDomain(input: Partial<CustomDomain> & { domain?: string }): Cu
   return {
     domain: input.domain,
     verified: !!input.verified,
-    mxRecord: input.mxRecord ?? "mx.freecustom.email",
+    mxRecord: input.mxRecord ?? "mx.tempmail.encorebot.me",
     txtRecord: input.txtRecord ?? "",
   };
 }
@@ -125,7 +125,7 @@ function DomainSetupGuide({ domain }: { domain: string }) {
                   Add or update the following DNS records:
                   <ul className="list-disc ml-5 mt-1">
                     <li>
-                      <strong>MX:</strong> <code>mx.freecustom.email</code> (priority default)
+                      <strong>MX:</strong> <code>mx.tempmail.encorebot.me</code> (priority default)
                     </li>
                     <li>
                       <strong>TXT:</strong> The verification token shown in your dashboard for this domain (starts with <code>freecustomemail-verification=</code>)
@@ -202,7 +202,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
         const built = normalizeDomain({
           domain: newDomain,
           verified: false,
-          mxRecord: result?.mxRecord ?? "mx.freecustom.email",
+          mxRecord: result?.mxRecord ?? "mx.tempmail.encorebot.me",
           txtRecord: result?.txtRecord ?? result?.token ?? "",
         });
         if (built) {

@@ -17,15 +17,15 @@ draft: false
 language: en
 ---
 
-# FreeCustom.Email Privacy Policy
+# tempmail.encorebot.me Privacy Policy
 
-> **Important:** You should have **no expectation of privacy** when using FreeCustom.Email.
+> **Important:** You should have **no expectation of privacy** when using tempmail.encorebot.me.
 
 ---
 
 ## Public Inboxes
 
-- **All inboxes are public.** Any message sent to FreeCustom.Email can be read by any user.
+- **All inboxes are public.** Any message sent to tempmail.encorebot.me can be read by any user.
 - **No sign-in required.** There are no security measures to access inboxes or view messages.
 - **Do not send sensitive information.** Avoid sharing personal data such as your home address, phone number, or any confidential details.
 
@@ -43,8 +43,8 @@ language: en
 ## Logging and Anonymity
 
 - **Connections are logged.**
-        - All email and web connections to FreeCustom.Email are recorded to help improve the service.
-        - FreeCustom.Email is **not designed for anonymity** and is not a replacement for anonymous re-mailers.
+        - All email and web connections to tempmail.encorebot.me are recorded to help improve the service.
+        - tempmail.encorebot.me is **not designed for anonymity** and is not a replacement for anonymous re-mailers.
         - We cannot provide users with information about specific emails or their status.
 
 ---
@@ -58,5 +58,5 @@ language: en
 
 ---
 
-> **Summary:** Treat FreeCustom.Email as a public service where privacy is not guaranteed. Use it only for non-sensitive, non-personal communications.
+> **Summary:** Treat tempmail.encorebot.me as a public service where privacy is not guaranteed. Use it only for non-sensitive, non-personal communications.
 

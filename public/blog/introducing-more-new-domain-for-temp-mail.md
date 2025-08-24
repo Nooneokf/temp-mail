@@ -1,6 +1,6 @@
 ---
 title: "New Domains Added! More Power and Flexibility for Your Temporary Emails"
-description: "We're excited to announce a major expansion of our domain list! FreeCustom.Email now offers over a dozen new domains like junkstopper.info, arrangewith.me, and more, giving you greater flexibility and control."
+description: "We're excited to announce a major expansion of our domain list! tempmail.encorebot.me now offers over a dozen new domains like junkstopper.info, arrangewith.me, and more, giving you greater flexibility and control."
 date: 2025-07-11
 updated: 2025-06-10
 author:
@@ -12,20 +12,20 @@ tags:
     - temp mail domains
     - temporary email options
     - disposable email
-    - FreeCustom.Email update
+    - tempmail.encorebot.me update
     - privacy tools
     - spam prevention
 image: /images/blog/new-domains-announcement-temp-mail.png # Suggest: A grid of the new domain names, or a branching path showing multiple options.
-canonicalUrl: https://yourdomain.com/blog/new-domains-announcement
-url: https://yourdomain.com/blog/new-domains-announcement
-website: https://www.freecustom.email
+canonicalUrl: https://tempmail.encorebot.me/blog/new-domains-announcement
+url: https://tempmail.encorebot.me/blog/new-domains-announcement
+website: https://www.tempmail.encorebot.me
 ---
 
 # New Domains Added! More Power and Flexibility for Your Temporary Emails
 
-[Try Out Our New Domains Now at FreeCustom.Email →](https://www.freecustom.email)
+[Try Out Our New Domains Now at tempmail.encorebot.me →](https://www.tempmail.encorebot.me)
 
-At [FreeCustom.Email](https://www.freecustom.email), our mission has always been to provide the most powerful, flexible, and user-friendly temporary email service available. A core part of that flexibility is giving you choices. Today, we're thrilled to announce a massive expansion of our service with the addition of **13 new domains** available for you to use immediately!
+At [tempmail.encorebot.me](https://www.tempmail.encorebot.me), our mission has always been to provide the most powerful, flexible, and user-friendly temporary email service available. A core part of that flexibility is giving you choices. Today, we're thrilled to announce a massive expansion of our service with the addition of **13 new domains** available for you to use immediately!
 
 This update significantly enhances your ability to create the perfect temporary email address for any situation, giving you more control and a higher chance of success when signing up for services online.
 
@@ -72,7 +72,7 @@ Showcasing the power of the DishIs Technology ecosystem, these domains are great
 
 Using our new domains is as simple as ever.
 
-1.  **Navigate to [FreeCustom.Email](https://www.freecustom.email).**
+1.  **Navigate to [tempmail.encorebot.me](https://www.tempmail.encorebot.me).**
 2.  **Enter Your Custom Name:** Type any prefix you want in the email address field.
 3.  **Click the Domain Dropdown:** Click on the domain part of the email address (the part after the "@" symbol).
 4.  **Select Your Choice:** A dropdown menu will now display our full list of domains, including all the new additions. Simply click the one you want to use.
@@ -93,8 +93,8 @@ The table below shows some creative examples:
 
 This domain expansion is part of our ongoing commitment to providing you with the best possible temporary email experience. We are constantly monitoring the digital landscape to ensure our service remains effective, reliable, and ahead of the curve.
 
-We'll continue to add new domains and features to give you unparalleled control over your online privacy and communications. Thank you for being part of the FreeCustom.Email community!
+We'll continue to add new domains and features to give you unparalleled control over your online privacy and communications. Thank you for being part of the tempmail.encorebot.me community!
 
 Ready to take them for a spin?
 
-[Try out our new domains and create your perfect temporary email now! →](https://www.freecustom.email)
+[Try out our new domains and create your perfect temporary email now! →](https://www.tempmail.encorebot.me)

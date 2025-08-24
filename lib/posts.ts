@@ -34,7 +34,7 @@ export function getAllPostSlugs(): string[] {
 export async function getPostBySlug(slug: string) {
   // This part of your code was already correct!
   // We fetch the raw markdown file from its public URL.
-  const res = await fetch(`https://www.freecustom.email/blog/${slug}.md`);
+  const res = await fetch(`https://www.tempmail.encorebot.me/blog/${slug}.md`);
 
   if (!res.ok) {
     // Handle the case where the post is not found

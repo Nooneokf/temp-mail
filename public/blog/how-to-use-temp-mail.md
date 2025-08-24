@@ -15,7 +15,7 @@ tags:
     - spam prevention
 description: Discover how to use Temp Mail to protect your privacy, avoid spam, and manage disposable email addresses. Learn best practices, use cases, and tips for maximizing your online security.
 image: /images/blog/how-to-use-temp-mail-cover.png
-canonicalUrl: https://www.freecustom.email/blog/how-to-use-temp-mail
+canonicalUrl: https://www.tempmail.encorebot.me/blog/how-to-use-temp-mail
 keywords:
     - temp mail
     - disposable email
@@ -31,7 +31,7 @@ keywords:
 
 In today's digital world, protecting your personal information is more important than ever. Temp Mail is a free service that provides you with temporary, disposable email addresses—perfect for situations where you want to keep your real inbox safe from spam, phishing, or unwanted newsletters. In this comprehensive guide, you'll learn how to use Temp Mail effectively, discover its benefits, and explore best practices for online privacy.
 
-> **Looking for a reliable disposable email service? Visit our homepage: [FreeCustom.Email](https://www.freecustom.email)**
+> **Looking for a reliable disposable email service? Visit our homepage: [tempmail.encorebot.me](https://www.tempmail.encorebot.me)**
 
 ---
 
@@ -52,7 +52,7 @@ Using Temp Mail offers several advantages:
 ## Step-by-Step Guide: How to Use Temp Mail
 
 1. **Visit a Temp Mail Service**  
-     Go to [FreeCustom.Email](https://www.freecustom.email) or any reputable disposable email provider.
+     Go to [tempmail.encorebot.me](https://www.tempmail.encorebot.me) or any reputable disposable email provider.
 
 2. **Generate a Temporary Email Address**  
      The website will automatically create a unique, disposable email address for you. Simply copy the address with one click.
@@ -96,7 +96,7 @@ Addresses typically last from a few minutes to several hours, depending on the s
 
 Temp Mail is a powerful tool for maintaining your online privacy, reducing spam, and managing disposable email addresses with ease. By following the steps and best practices outlined above, you can take control of your inbox and protect your personal information from unwanted exposure.
 
-Ready to try it out? Visit [FreeCustom.Email](https://www.freecustom.email) for a fast, secure, and user-friendly disposable email experience.
+Ready to try it out? Visit [tempmail.encorebot.me](https://www.tempmail.encorebot.me) for a fast, secure, and user-friendly disposable email experience.
 
 ---
 

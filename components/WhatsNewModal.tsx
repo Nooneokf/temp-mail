@@ -52,7 +52,7 @@ export function WhatsNewModal({ isOpen, onClose }: WhatsNewModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-4xl max-h-[90vh] flex flex-col">
         <DialogHeader className="text-center pb-4">
-          <DialogTitle className="text-2xl">What's New in FreeCustom.Email</DialogTitle>
+          <DialogTitle className="text-2xl">What's New in tempmail.encorebot.me</DialogTitle>
           <DialogDescription>
             We're constantly working to improve your experience. Here are the latest updates.
           </DialogDescription>

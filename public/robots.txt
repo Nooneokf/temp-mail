@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.freecustom.email
+Host: https://www.tempmail.encorebot.me
 
 # Sitemaps
-Sitemap: https://www.freecustom.email/sitemap.xml
+Sitemap: https://www.tempmail.encorebot.me/sitemap.xml

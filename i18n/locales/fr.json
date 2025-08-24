@@ -6,16 +6,16 @@
     "openGraph": {
       "title": "Email Temporaire Personnalisé – Fonctionnalités Pro pour Entreprises & Développeurs",
       "description": "Générez une adresse e-mail temporaire personnalisée instantanément. Utilisez vos propres domaines avec notre plan pro d'email temporaire. Sans publicité, option gratuite pour toujours disponible.",
-      "alt": "Logo de FreeCustom.Email"
+      "alt": "Logo de tempmail.encorebot.me"
     }
   },
   "JsonLd": {
-    "name": "FreeCustom.Email",
-    "description": "FreeCustom.Email est une plateforme d'email jetable axée sur la confidentialité pour les tests, les développeurs et les inscriptions rapides. Propose des plans gratuits et pro."
+    "name": "tempmail.encorebot.me",
+    "description": "tempmail.encorebot.me est une plateforme d'email jetable axée sur la confidentialité pour les tests, les développeurs et les inscriptions rapides. Propose des plans gratuits et pro."
   },
   "PageContent": {
     "h1": "Comment fonctionne notre technologie d'e-mail temporaire jetable, rapide et personnalisée",
-    "p1": "Dans le monde d'aujourd'hui, les services en ligne — des essais gratuits aux discussions communautaires — exigent des adresses e-mail, vous exposant au spam, aux bots et au suivi non sollicité. <strong>Avec FreeCustom.Email, vous obtenez une adresse e-mail temporaire personnalisée, instantanée et sans publicité</strong> sur plusieurs domaines — aucune inscription requise et toujours sécurisée.",
+    "p1": "Dans le monde d'aujourd'hui, les services en ligne — des essais gratuits aux discussions communautaires — exigent des adresses e-mail, vous exposant au spam, aux bots et au suivi non sollicité. <strong>Avec tempmail.encorebot.me, vous obtenez une adresse e-mail temporaire personnalisée, instantanée et sans publicité</strong> sur plusieurs domaines — aucune inscription requise et toujours sécurisée.",
     "p2_part1": "<strong>Ce service est gratuit pour toujours, entièrement sans publicité et optimisé pour la vitesse grâce à un code léger, une mise en cache en périphérie et des domaines mondiaux.</strong> Apprenez-en plus sur notre ",
     "p2_link1": "promesse de gratuité et d'absence de publicité",
     "p2_part2": " et notre ",
@@ -73,11 +73,11 @@
   },
   "WhySection": {
     "snippet_title": "Qu'est-ce qu'un « E-mail Temporaire Personnalisé » ?",
-    "snippet_p": "L'<strong>email temporaire personnalisé</strong> est votre première ligne de défense pour la confidentialité numérique. Générez instantanément une adresse e-mail jetable et sans publicité à partir de plusieurs domaines. Avec <strong>FreeCustom.Email</strong>, vous obtenez un e-mail temporaire sécurisé pour la confidentialité, la protection contre le spam et des inscriptions rapides et anonymes. Maintenant avec des plans Gratuits et Pro pour des fonctionnalités avancées.",
-    "domain_list_title": "Domaines FreeCustom.Email pour E-mail Temporaire Personnalisé",
+    "snippet_p": "L'<strong>email temporaire personnalisé</strong> est votre première ligne de défense pour la confidentialité numérique. Générez instantanément une adresse e-mail jetable et sans publicité à partir de plusieurs domaines. Avec <strong>tempmail.encorebot.me</strong>, vous obtenez un e-mail temporaire sécurisé pour la confidentialité, la protection contre le spam et des inscriptions rapides et anonymes. Maintenant avec des plans Gratuits et Pro pour des fonctionnalités avancées.",
+    "domain_list_title": "Domaines tempmail.encorebot.me pour E-mail Temporaire Personnalisé",
     "domain_list_p": "Choisissez parmi notre liste de domaines sélectionnés pour garantir que votre e-mail temporaire soit toujours livrable et jamais bloqué.",
     "updates_title": "De l'utilisation anonyme à la puissance Pro : Nouvelles fonctionnalités",
-    "updates_p": "FreeCustom.Email a évolué. Bien que l'utilisation anonyme reste rapide et gratuite, vous pouvez maintenant vous connecter avec votre compte whatsyour.info pour débloquer de nouvelles fonctionnalités puissantes conçues pour les utilisateurs réguliers, les développeurs et les entreprises.",
+    "updates_p": "tempmail.encorebot.me a évolué. Bien que l'utilisation anonyme reste rapide et gratuite, vous pouvez maintenant vous connecter avec votre compte whatsyour.info pour débloquer de nouvelles fonctionnalités puissantes conçues pour les utilisateurs réguliers, les développeurs et les entreprises.",
     "updates_item1_title": "Invité Anonyme",
     "updates_item1_desc": "Pour des tâches rapides et uniques. Obtenez un e-mail temporaire instantané avec un historique de 5 messages et un stockage de 12 heures. Pas de pièces jointes, aucune connexion requise.",
     "updates_item2_title": "Utilisateur Gratuit WYI",
@@ -98,12 +98,12 @@
     "checklist_item4": "Options de stockage flexibles, de Redis temporaire au stockage cloud permanent.",
     "checklist_item5": "Une plateforme fiable avec un engagement public à être gratuite pour toujours.",
     "checklist_item6": "Fonctionnalités avancées pour les utilisateurs Pro, y compris les grosses pièces jointes et l'accès à l'API.",
-    "checklist_p": "<strong>Freecustom.email</strong> répond à toutes les attentes, offrant une solution polyvalente qui s'adapte d'une utilisation simple et anonyme à un outil puissant pour les professionnels.",
-    "usage_title": "Comment utiliser l'E-mail Temporaire de FreeCustom.Email",
+    "checklist_p": "<strong>tempmail.encorebot.me</strong> répond à toutes les attentes, offrant une solution polyvalente qui s'adapte d'une utilisation simple et anonyme à un outil puissant pour les professionnels.",
+    "usage_title": "Comment utiliser l'E-mail Temporaire de tempmail.encorebot.me",
     "usage_p1": "Visitez simplement le site, entrez un nom personnalisé, choisissez un domaine et votre boîte de réception temporaire est active. Sans publicité, sans inscription. Pour débloquer plus de puissance, connectez-vous simplement avec votre compte WYI. Pour plus de détails, consultez notre article sur <link>comment créer une adresse e-mail temporaire</link>.",
     "usage_p2": "Si une adresse reçoit trop de spam, supprimez-la et créez-en une autre en quelques secondes. Votre vraie boîte de réception est toujours en sécurité.",
     "conclusion_title": "Le meilleur choix pour un E-mail Temporaire Personnalisé et Professionnel",
-    "conclusion_p1": "Que vous ayez besoin d'une adresse jetable rapide ou d'une solution robuste d'<strong>email temporaire pro</strong> pour votre entreprise, FreeCustom.Email est conçu pour répondre à vos besoins. Nous offrons une vitesse, une confidentialité et une flexibilité inégalées, le tout sans publicité.",
+    "conclusion_p1": "Que vous ayez besoin d'une adresse jetable rapide ou d'une solution robuste d'<strong>email temporaire pro</strong> pour votre entreprise, tempmail.encorebot.me est conçu pour répondre à vos besoins. Nous offrons une vitesse, une confidentialité et une flexibilité inégalées, le tout sans publicité.",
     "conclusion_p2": "Explorez notre <link>guide des meilleures pratiques</link> pour tirer le meilleur parti de vos adresses e-mail temporaires."
   }
 }

@@ -141,12 +141,12 @@ export function AppHeader({ initialSession }: { initialSession: Session | null; 
           <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
             <Image
               src="/logo.webp"
-              alt="FreeCustom.Email Logo"
+              alt="tempmail.encorebot.me Logo"
               width={40}
               height={40}
               className="h-8 w-8 sm:h-10 sm:w-10"
             />
-            <span className="text-base hidden xs:block sm:text-lg md:text-xl font-bold whitespace-nowrap">FreeCustom.Email</span>
+            <span className="text-base hidden xs:block sm:text-lg md:text-xl font-bold whitespace-nowrap">tempmail.encorebot.me</span>
             <span className="text-base block xs:hidden font-bold whitespace-nowrap">FC.E</span>
           </Link>
 
@@ -193,7 +193,7 @@ export function AppHeader({ initialSession }: { initialSession: Session | null; 
                 <div className="flex flex-col gap-2">
                   <Link href="/docs" className="text-sm hover:underline py-1" onClick={handleMobileLinkClick}>{t('api_docs')}</Link>
                   <Link href="/blog" className="text-sm hover:underline py-1" onClick={handleMobileLinkClick}>Blog</Link>
-                  <a href="https://github.com/DishIs/temp-mail" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaGithub className="h-4 w-4" /> {t('github')}</a>
+                  <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaGithub className="h-4 w-4" /> {t('github')}</a>
                   <a href="https://www.patreon.com/maildrop" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaPatreon className="h-4 w-4" /> {t('patreon')}</a>
                   <a href="https://discord.gg/Ztp7kT2QBz" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaDiscord className="h-4 w-4" /> {t('discord')}</a>
                   <Button variant="ghost" onClick={() => { openWhatsNew(); handleMobileLinkClick(); }} className="relative p-2 w-full justify-start gap-2 mt-auto" aria-label={'whats new'}>

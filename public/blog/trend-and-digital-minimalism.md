@@ -1,6 +1,6 @@
 ---
 title: "The De‑Influencing Trend of 2025: Use Temp Mail to Take Back Your Inbox and Spending Power"
-description: "De-influencing is the antidote to impulse buying and inbox overload. Learn how a temporary email from FreeCustom.Email helps you practice digital minimalism and protect your attention in 2025."
+description: "De-influencing is the antidote to impulse buying and inbox overload. Learn how a temporary email from tempmail.encorebot.me helps you practice digital minimalism and protect your attention in 2025."
 date: 2025-07-27
 updated: 2025-07-30
 author:
@@ -15,22 +15,22 @@ tags:
   - inbox zero
   - stop impulse buying
   - email declutter
-  - FreeCustom.Email
+  - tempmail.encorebot.me
 image: /images/blog/deinfluencing-temp-mail.png
-canonicalUrl: https://www.freecustom.email/blog/deinfluencing-digital-minimalism
-url: https://www.freecustom.email/blog/deinfluencing-digital-minimalism
-website: https://www.freecustom.email
+canonicalUrl: https://www.tempmail.encorebot.me/blog/deinfluencing-digital-minimalism
+url: https://www.tempmail.encorebot.me/blog/deinfluencing-digital-minimalism
+website: https://www.tempmail.encorebot.me
 ---
 
 # 🧘‍♂️ The De‑Influencing Trend of 2025: Use Temp Mail to Take Back Your Inbox and Spending Power
 
-[Practice digital minimalism with a free temp email →](https://www.freecustom.email)
+[Practice digital minimalism with a free temp email →](https://www.tempmail.encorebot.me)
 
 By 2025, **de-influencing** is no longer a fringe trend — it’s a movement. Tired of being bombarded with “must-have” products and overhyped launches, people are pushing back. The goal? **Mindful consumption** and a clean, clutter-free digital life.
 
 A major battleground in this fight? **Your inbox.**
 
-From flash sales to endless loyalty emails, your inbox has become a billboard you never asked for. But there’s a simple tool to help you take back control: **temporary email** from [FreeCustom.Email](https://www.freecustom.email).
+From flash sales to endless loyalty emails, your inbox has become a billboard you never asked for. But there’s a simple tool to help you take back control: **temporary email** from [tempmail.encorebot.me](https://www.tempmail.encorebot.me).
 
 ---
 
@@ -56,7 +56,7 @@ A **temporary email** gives you the benefit (discount, access, info) **without t
 You want that 20% discount? Fair enough. Just don’t sign up for a lifetime of emails.
 
 - **Old way:** Use your main email → get promo code → spammed daily.
-- **New way:** Use [FreeCustom.Email](https://www.freecustom.email) → receive code in your temp inbox → discard the address. Done.
+- **New way:** Use [tempmail.encorebot.me](https://www.tempmail.encorebot.me) → receive code in your temp inbox → discard the address. Done.
 
 ### ✅ 2. Watch Product Hype From a Safe Distance
 
@@ -106,10 +106,10 @@ It lets you:
 
 Your inbox is your space. Reclaim it.
 
-FreeCustom.Email gives you **fast, free, anonymous** email addresses you can use for shopping, testing, signing up, and disappearing. No login. No spam. Just freedom.
+tempmail.encorebot.me gives you **fast, free, anonymous** email addresses you can use for shopping, testing, signing up, and disappearing. No login. No spam. Just freedom.
 
 🛡️ Stay mindful.  
 🧘‍♀️ Stay minimalist.  
 📧 Stay in control.
 
-[Start with your first disposable email today →](https://www.freecustom.email)
+[Start with your first disposable email today →](https://www.tempmail.encorebot.me)

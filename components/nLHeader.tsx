@@ -33,14 +33,14 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
             <Image
               src="/logo.webp" // Ensure this path is correct in your public folder
-              alt="FreeCustom.Email Logo" // Slightly more descriptive alt
+              alt="tempmail.encorebot.me Logo" // Slightly more descriptive alt
               width={40}
               height={40}
               className="h-8 w-8 sm:h-10 sm:w-10" // These sizes are fine
               priority={false} // Correct for non-LCP images
             />
           <span className="text-base sm:text-lg md:text-xl font-bold whitespace-nowrap">
-            FreeCustom.Email
+            tempmail.encorebot.me
           </span>
         </Link>
 
@@ -133,7 +133,7 @@ export function AppHeader() {
             API
           </a>
           <a
-            href="https://github.com/DishIs/temp-mail"
+            href="https://github.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm hover:underline flex items-center gap-1 py-1"

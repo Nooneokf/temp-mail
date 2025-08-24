@@ -1,7 +1,7 @@
 import { verify } from '@/lib/jwt';
 
 // These environment variables point to your *SERVICE API*, not the Next.js app itself.
-const SERVICE_API_URL = process.env.SERVICE_API_URL; // e.g., https://api.freecustom.email
+const SERVICE_API_URL = process.env.SERVICE_API_URL; // e.g., https://api.tempmail.encorebot.me
 const INTERNAL_API_KEY = process.env.INTERNAL_API_KEY; // The *same* key as in your service API
 
 if (!SERVICE_API_URL || !INTERNAL_API_KEY) {

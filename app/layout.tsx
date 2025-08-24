@@ -5,11 +5,11 @@ export const metadata = {
   openGraph: {
     title: 'Custom Temp Mail – Fastest Ad‑Free Disposable Email',
     description: 'Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.',
-    url: 'https://www.freecustom.email/',
+    url: 'https://www.tempmail.encorebot.me/',
     images: [
       {
-        url: 'https://www.freecustom.email/logo.webp',
-        alt: 'FreeCustom.Email Logo',
+        url: 'https://www.tempmail.encorebot.me/logo.webp',
+        alt: 'tempmail.encorebot.me Logo',
       },
     ],
   },

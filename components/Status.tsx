@@ -78,7 +78,7 @@ export default function Status() {
 
   // WebSocket connection
   useEffect(() => {
-    const ws = new WebSocket(`wss://api2.freecustom.email/?mailbox=stats`);
+    const ws = new WebSocket(`wss://api2.tempmail.encorebot.me/?mailbox=stats`);
     wsRef.current = ws;
 
     ws.onopen = () => {

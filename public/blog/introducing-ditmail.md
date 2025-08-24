@@ -1,6 +1,6 @@
 ---
 title: "Introducing DITMail: Professional Email on Your Domain, Redefined & Radically Affordable"
-description: "Meet DITMail (pro.freecustom.email), the professional evolution of freecustom.email. Get secure, full-featured email hosting on your own domain with SMTP, IMAP, and a modern UI. Starts with a forever-free plan!"
+description: "Meet DITMail (pro.tempmail.encorebot.me), the professional evolution of tempmail.encorebot.me. Get secure, full-featured email hosting on your own domain with SMTP, IMAP, and a modern UI. Starts with a forever-free plan!"
 date: 2025-07-11
 updated: 2025-07-07
 author:
@@ -18,24 +18,24 @@ tags:
     - SMTP
     - IMAP
     - DishIs Technology
-    - FreeCustom.Email
+    - tempmail.encorebot.me
 image: /images/blog/introducing-ditmail-pro.png # Suggest: A sleek, professional image of an inbox on a laptop, with your logo.
-canonicalUrl: https://yourdomain.com/blog/introducing-ditmail-pro
-url: https://yourdomain.com/blog/introducing-ditmail-pro
-website: https://pro.freecustom.email
+canonicalUrl: https://tempmail.encorebot.me/blog/introducing-ditmail-pro
+url: https://tempmail.encorebot.me/blog/introducing-ditmail-pro
+website: https://pro.tempmail.encorebot.me
 ---
 
 # Introducing DITMail: Professional Email on Your Domain, Redefined & Radically Affordable
 
 ![Inbox demo](https://freeimghost.vercel.app/i/BHtwqzkh/Screenshot-2025-07-07-at-1-10-06-AM-png.png)
 
-[Check out the DITMail Demo at pro.freecustom.email →](https://pro.freecustom.email)
+[Check out the DITMail Demo at pro.tempmail.encorebot.me →](https://pro.tempmail.encorebot.me)
 
-For years, [FreeCustom.Email](https://www.freecustom.email) has served millions of users with a simple, powerful promise: a fast, free, and ad-free temporary email service. It was designed for privacy, convenience, and disposability. But as we spoke with our users—developers, freelancers, and small business owners—we heard a recurring need for something more. A need for the same simplicity and control, but with the permanence, professionalism, and power of a full-fledged email hosting service.
+For years, [tempmail.encorebot.me](https://www.tempmail.encorebot.me) has served millions of users with a simple, powerful promise: a fast, free, and ad-free temporary email service. It was designed for privacy, convenience, and disposability. But as we spoke with our users—developers, freelancers, and small business owners—we heard a recurring need for something more. A need for the same simplicity and control, but with the permanence, professionalism, and power of a full-fledged email hosting service.
 
-Today, we are thrilled to officially launch **DITMail**, the professional-grade evolution of our email philosophy, now live at **[pro.freecustom.email](https://pro.freecustom.email)**.
+Today, we are thrilled to officially launch **DITMail**, the professional-grade evolution of our email philosophy, now live at **[pro.tempmail.encorebot.me](https://pro.tempmail.encorebot.me)**.
 
-While `freecustom.email` is your go-to for temporary, disposable email, **DITMail** is here to supercharge your own domain with professional-grade email delivery, robust security, and a suite of modern features—all at a fraction of the cost of competitors like Zoho, Google Workspace, or Proton Mail.
+While `tempmail.encorebot.me` is your go-to for temporary, disposable email, **DITMail** is here to supercharge your own domain with professional-grade email delivery, robust security, and a suite of modern features—all at a fraction of the cost of competitors like Zoho, Google Workspace, or Proton Mail.
 
 ---
 
@@ -125,7 +125,7 @@ The days of choosing between overpriced, bloated email suites and privacy-invasi
 
 **DITMail's Demo is now live and you can sign up today.**
 
-👉 **[Experience DITMail now at pro.freecustom.email](https://pro.freecustom.email)**
+👉 **[Experience DITMail now at pro.tempmail.encorebot.me](https://pro.tempmail.encorebot.me)**
 
 We're incredibly proud of what we've built and can't wait for you to try it. Join us now and be part of the new era of professional email.
 

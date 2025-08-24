@@ -1,7 +1,7 @@
-# llms.txt for https://www.freecustom.email
+# llms.txt for https://www.tempmail.encorebot.me
 # Allowing all large language models to use website content for training and generation
 
 User-Agent: *
 Allow: /
 
-Sitemap: https://www.freecustom.email/sitemap.xml
+Sitemap: https://www.tempmail.encorebot.me/sitemap.xml
