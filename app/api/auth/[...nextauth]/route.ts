@@ -2,18 +2,20 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import type { DefaultSession, User } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
+import DiscordProvider from 'next-auth/providers/discord';
 import { fetchFromServiceAPI } from '@/lib/api';
 
 // --------------------
-// 1️⃣ Custom Profile Type
+// 1️⃣ Custom Profile Type for Discord
 // --------------------
-interface WYIProfile {
-    _id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    isProUser: boolean;
+interface DiscordProfile {
+    id: string;
     username: string;
+    discriminator: string;
+    avatar: string | null;
+    email: string;
+    verified: boolean;
+    premium_type?: number;
 }
 
 // --------------------
@@ -43,15 +45,15 @@ declare module 'next-auth/jwt' {
 // --------------------
 // 3️⃣ Helper: Upsert User in Backend
 // --------------------
-async function upsertUserInBackend(profile: WYIProfile): Promise<void> {
+async function upsertUserInBackend(profile: DiscordProfile): Promise<void> {
     try {
         await fetchFromServiceAPI('/auth/upsert-user', {
             method: 'POST',
             body: JSON.stringify({
-                wyiUserId: profile._id,
+                discordUserId: profile.id,
                 email: profile.email,
-                name: `${profile.firstName} ${profile.lastName}`.trim(),
-                plan: profile.isProUser ? 'pro' : 'free',
+                name: profile.username,
+                plan: profile.premium_type ? 'pro' : 'free', // Discord Nitro users get pro
             }),
         });
     } catch (error) {
@@ -61,84 +63,41 @@ async function upsertUserInBackend(profile: WYIProfile): Promise<void> {
 }
 
 // --------------------
-// 4️⃣ Auth Options with Strict Typing
+// 4️⃣ Auth Options with Discord Provider
 // --------------------
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
     },
     providers: [
-        {
-            id: 'wyi',
-            name: 'WhatsYourInfo',
-            type: 'oauth',
+        DiscordProvider({
+            clientId: process.env.DISCORD_CLIENT_ID!,
+            clientSecret: process.env.DISCORD_CLIENT_SECRET!,
             authorization: {
-                url: "https://whatsyour.info/oauth/authorize",
-                params: { scope: "profile:read email:read" },
-            },
-            token: {
-                url: "https://whatsyour.info/api/v1/oauth/token",
-                async request(context) {
-                    const response = await fetch("https://whatsyour.info/api/v1/oauth/token", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            grant_type: "authorization_code",
-                            code: context.params.code,
-                            redirect_uri: context.provider.callbackUrl,
-                            client_id: context.provider.clientId,
-                            client_secret: context.provider.clientSecret,
-                        }),
-                    });
-
-                    const tokens = await response.json();
-                    if (!response.ok) {
-                        console.error("Token request failed:", tokens);
-                        throw new Error(tokens.error_description || "Token request failed");
-                    }
-                    return { tokens };
+                params: {
+                    scope: 'identify email',
                 },
             },
-            userinfo: {
-                url: "https://whatsyour.info/api/v1/me",
-                async request(context) {
-                    const { tokens } = context;
-                    const response = await fetch("https://whatsyour.info/api/v1/me", {
-                        headers: {
-                            Authorization: `Bearer ${tokens.access_token}`,
-                            "User-Agent": "freecustom-email-app",
-                        }
-                    });
+            profile(profile: DiscordProfile): User {
+                const avatarUrl = profile.avatar
+                    ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+                    : `https://cdn.discordapp.com/embed/avatars/${parseInt(profile.discriminator) % 5}.png`;
 
-                    if (!response.ok) {
-                        const text = await response.text();
-                        throw new Error(`Userinfo request failed: ${text}`);
-                    }
-
-                    const profile: WYIProfile = await response.json();
-                    return profile;
-                }
-            },
-            clientId: process.env.WYI_CLIENT_ID,
-            clientSecret: process.env.WYI_CLIENT_SECRET,
-            profile(profile: WYIProfile): User {
                 return {
-                    id: profile._id,
-                    name: `${profile.firstName} ${profile.lastName}`.trim(),
+                    id: profile.id,
+                    name: profile.username,
                     email: profile.email,
-                    image: `https://whatsyour.info/api/v1/avatar/${profile.username}`,
-                    plan: profile.isProUser ? 'pro' : 'free',
+                    image: avatarUrl,
+                    plan: profile.premium_type ? 'pro' : 'free',
                 };
             },
-        },
+        }),
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
-            if (account?.provider === 'wyi' && profile) {
+            if (account?.provider === 'discord' && profile) {
                 try {
-                    await upsertUserInBackend(profile as WYIProfile);
+                    await upsertUserInBackend(profile as DiscordProfile);
                     return true;
                 } catch (error) {
                     console.error("Sign-in aborted due to backend error:", error);
