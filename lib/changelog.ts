@@ -29,7 +29,7 @@ export const changelogData: ChangelogEntry[] = [
                 icon: Crown,
                 tag: 'Pro',
                 title: "Pro & Free Tiers Introduced",
-                description: "Log in with your whatsyour.info account to unlock a suite of powerful new features.",
+                description: "Log in with your Discord account to unlock a suite of powerful new features.",
                 link: '/#pricing'
             },
             {
@@ -55,8 +55,8 @@ export const changelogData: ChangelogEntry[] = [
             {
                 icon: LogIn,
                 tag: 'New',
-                title: "Login with WYI",
-                description: "Securely log in using your whatsyour.info account to access enhanced features.",
+                title: "Discord Login",
+                description: "Securely log in using your Discord account to access enhanced features.",
             },
             {
                 icon: Lock,

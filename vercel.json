@@ -1,0 +1,22 @@
+
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NEXTAUTH_URL": "@nextauth_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "DISCORD_CLIENT_ID": "@discord_client_id",
+    "DISCORD_CLIENT_SECRET": "@discord_client_secret",
+    "SERVICE_API_URL": "@service_api_url",
+    "INTERNAL_API_KEY": "@internal_api_key",
+    "RAPIDAPI_HOST": "@rapidapi_host",
+    "RAPIDAPI_KEY": "@rapidapi_key",
+    "REDEEM_CODE": "@redeem_code"
+  }
+}

@@ -27,7 +27,7 @@ website: https://www.tempmail.encorebot.me
 
 Temporary email was born out of a simple need: to get a quick, disposable address to avoid spam. For years, [tempmail.encorebot.me](https://www.tempmail.encorebot.me) has perfected that experience, offering the fastest, ad-free anonymous temp mail service. But what if a temporary email could be more? What if it could be a powerful tool for developers, a flexible asset for businesses, and a more robust utility for power users?
 
-Today, we're excited to announce the single biggest evolution in our platform's history. We are introducing **three distinct tiers of service**, powered by our secure identity provider, [whatsyour.info (WYI)](https://whatsyour.info). This upgrade transforms tempmail.encorebot.me from a simple utility into a full-fledged, scalable email platform, offering everything from anonymous inboxes to **temp mail with custom domains** and **permanent cloud storage**.
+Today, we're excited to announce the single biggest evolution in our platform's history. We are introducing **three distinct tiers of service**, powered by our secure identity provider, [Discord](https://discord.com). This upgrade transforms tempmail.encorebot.me from a simple utility into a full-fledged, scalable email platform, offering everything from anonymous inboxes to **temp mail with custom domains** and **permanent cloud storage**.
 
 ---
 
@@ -44,8 +44,8 @@ This is the tempmail.encorebot.me you know and love, but better. It's perfect fo
 *   **12-Hour Storage:** Emails are automatically and permanently purged after 12 hours.
 *   **No Attachments:** For maximum speed and security, attachments are not processed. You'll be notified if an email contains one.
 
-### 2. WYI Free User: More Power, Still Free
-By logging in with your free [whatsyour.info](https://whatsyour.info) account, you unlock a new level of functionality designed for regular use.
+### 2. Discord Free User: More Power, Still Free
+By logging in with your free [Discord](https://discord.com) account, you unlock a new level of functionality designed for regular use.
 *   **1MB Attachment Support:** Receive small files, QR codes, and documents.
 *   **Customizable Inboxes:** You can now edit your email address prefix.
 *   **Expanded History:** Your inbox now holds up to 10 emails.
