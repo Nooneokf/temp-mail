@@ -25,8 +25,8 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
     const t = await getTranslations({ locale, namespace: 'Metadata' });
 
     return {
-        title: t('metadata_title'),
-        description: t('metadata_description'),
+        title: t('title'),
+        description: t('description'),
         keywords: 'temporary email, disposable email, temp mail, anonymous email, privacy, spam protection',
         authors: [{ name: 'Team Epic' }],
     };
