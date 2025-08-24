@@ -139,9 +139,14 @@ export async function WhySection() {
 
       <div className="bg-white dark:bg-black border dark:border-gray-700 p-6 rounded-lg">
         <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('conclusion_title')}</h3>
-        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">{t('conclusion_p1')}</p>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed">
+          {t.rich('conclusion_p1', {
+            strong: (chunks) => <strong>{chunks}</strong>
+          })}
+        </p>
         <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
           {t.rich('conclusion_p2', {
+            strong: (chunks) => <strong>{chunks}</strong>,
             link: (chunks) => <Link href="/blog/best-practices-for-using-temp-mail" className="text-blue-600 underline dark:text-blue-400">{chunks}</Link>
           })}
         </p>
