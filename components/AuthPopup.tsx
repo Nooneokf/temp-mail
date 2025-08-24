@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CheckCircle, XCircle, Info, Loader2 } from "lucide-react"; // <-- Import Loader2
+import { CheckCircle, XCircle, Info, Loader2, Gift } from "lucide-react"; // <-- Import Loader2 and Gift
 import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 // --- DATA STRUCTURE FOR PLANS ---
 // We define the features and plan details here to keep the JSX clean.
@@ -123,6 +125,8 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
     const [pricing, setPricing] = useState(USD_PRICING);
     const [isGeoLoading, setIsGeoLoading] = useState(true);
     const [loadingPlan, setLoadingPlan] = useState<string | null>(null); // <-- NEW: State to track loading plan
+    const [redeemCode, setRedeemCode] = useState("");
+    const [isRedeeming, setIsRedeeming] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -138,6 +142,39 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                 .finally(() => setIsGeoLoading(false));
         }
     }, [isOpen]);
+
+    const handleRedeemCode = async () => {
+        if (!redeemCode.trim()) {
+            toast.error("Please enter a redeem code");
+            return;
+        }
+
+        setIsRedeeming(true);
+        try {
+            const response = await fetch("/api/redeem-code", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ code: redeemCode }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast.success("Code redeemed successfully! Please sign in with Discord to activate your pro plan.");
+                setRedeemCode("");
+                // Trigger Discord sign-in after successful redemption
+                signIn('discord', { callbackUrl: '/dashboard' });
+            } else {
+                toast.error(data.message || "Invalid redeem code");
+            }
+        } catch (error) {
+            toast.error("Failed to redeem code. Please try again.");
+        } finally {
+            setIsRedeeming(false);
+        }
+    };
 
 
     return (
@@ -217,6 +254,37 @@ export function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                                             </>
                                         )}
                                     </Button>
+                                    
+                                    {/* Redeem Code Section - Only show for Discord Pro plan */}
+                                    {plan.title === "Discord Pro" && (
+                                        <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Gift className="h-4 w-4 text-primary" />
+                                                <span className="text-sm font-medium">Have a redeem code?</span>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Enter redeem code"
+                                                    value={redeemCode}
+                                                    onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
+                                                    className="flex-1"
+                                                    disabled={isRedeeming}
+                                                />
+                                                <Button
+                                                    onClick={handleRedeemCode}
+                                                    disabled={isRedeeming || !redeemCode.trim()}
+                                                    size="sm"
+                                                >
+                                                    {isRedeeming ? (
+                                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                                    ) : (
+                                                        "Redeem"
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )
                         })}
