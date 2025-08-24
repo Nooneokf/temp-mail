@@ -6,7 +6,7 @@ export function AppFooter() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-center text-gray-600 mb-4 sm:mb-0">
-            © {new Date().getFullYear()} DishIs Technologies. All rights reserved.
+            © {new Date().getFullYear()} Team Epic. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-4 items-center">
             <Link
