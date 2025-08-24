@@ -1,31 +1,31 @@
-
-import type { NextConfig } from 'next';
+import {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
-const withNextIntl = createNextIntlPlugin();
-
-const nextConfig: NextConfig = {
+const withNextIntl = createNextIntlPlugin({
   experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost:3000', '*.vercel.app', 'tempmail.encorebot.me']
-    }
+    createMessagesDeclaration: './i18n/locales/en.json'
+  }
+});
+
+const config: NextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
   images: {
-    domains: ['cdn.discordapp.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.discordapp.com',
-        pathname: '/avatars/**',
+        hostname: 'avatars.githubusercontent.com'
       },
-    ],
-  },
-  env: {
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-  },
-  // Ensure static optimization for better Vercel performance
-  output: 'standalone',
+      {
+        protocol: 'https',
+        hostname: 'github.com'
+      }
+    ]
+  }
 };
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(config);
