@@ -12,41 +12,5 @@ localPort = 3000
 externalPort = 80
 
 [[ports]]
-localPort = 41633
-externalPort = 6800
-exposeLocalhost = true
-
-[[ports]]
-localPort = 41637
-externalPort = 6000
-exposeLocalhost = true
-
-[[ports]]
-localPort = 42491
-externalPort = 8008
-exposeLocalhost = true
-
-[[ports]]
-localPort = 42659
-externalPort = 8000
-exposeLocalhost = true
-
-[[ports]]
-localPort = 43135
-externalPort = 8080
-exposeLocalhost = true
-
-[[ports]]
-localPort = 43445
-externalPort = 8081
-exposeLocalhost = true
-
-[[ports]]
-localPort = 43971
-externalPort = 8099
-exposeLocalhost = true
-
-[[ports]]
-localPort = 45843
-externalPort = 9000
-exposeLocalhost = true
+localPort = 3001
+externalPort = 3001
