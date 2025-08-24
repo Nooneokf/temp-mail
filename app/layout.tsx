@@ -1,10 +1,10 @@
 export const metadata = {
-  title: 'Custom Temp Mail – Fastest Ad‑Free Disposable Email',
-  description: 'Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.',
+  title: 'Temp-Mail - Professional Temporary Email Service',
+  description: 'Create instant, secure temporary email addresses. Perfect for protecting privacy, avoiding spam, and managing online registrations.',
   keywords: 'temp mail, disposable email, custom mail, fake email, temporary inbox, no ads email, 10minmail, email privacy, free temp mail',
   openGraph: {
-    title: 'Custom Temp Mail – Fastest Ad‑Free Disposable Email',
-    description: 'Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.',
+    title: 'Temp-Mail - Professional Temporary Email Service',
+    description: 'Create instant, secure temporary email addresses. Perfect for protecting privacy, avoiding spam, and managing online registrations.',
     url: 'https://www.freecustom.email/',
     images: [
       {

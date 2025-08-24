@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { FaDiscord, FaGithub, FaPatreon } from "react-icons/fa";
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
+import { Logo } from "./Logo";
 import Navigation from "./Navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { AuthPopup } from './AuthPopup';
@@ -139,15 +140,9 @@ export function AppHeader({ initialSession }: { initialSession: Session | null; 
       <header className="border-b w-full relative z-50 bg-background">
         <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2" aria-label="Home" onClick={menuOpen ? handleMobileLinkClick : undefined}>
-            <Image
-              src="/logo.webp"
-              alt="FreeCustom.Email Logo"
-              width={40}
-              height={40}
-              className="h-8 w-8 sm:h-10 sm:w-10"
-            />
-            <span className="text-base hidden xs:block sm:text-lg md:text-xl font-bold whitespace-nowrap">FreeCustom.Email</span>
-            <span className="text-base block xs:hidden font-bold whitespace-nowrap">FC.E</span>
+            <Logo size="md" animated={true} />
+            <span className="text-base hidden xs:block sm:text-lg md:text-xl font-bold whitespace-nowrap bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Temp-Mail</span>
+            <span className="text-base block xs:hidden font-bold whitespace-nowrap bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">TM</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-2">

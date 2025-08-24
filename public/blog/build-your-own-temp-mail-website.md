@@ -4,8 +4,8 @@ description: "Learn how to create your own fully functional temporary email webs
 date: 2025-06-10
 updated: 2025-06-10
 author:
-    - name: "Dishant Singh"
-      bio: "Founder @ DishIs Technology | CTO @ PlayArena | Full Stack & Python Developer | ML/ DL Developer | Problem Solver | Math & Science Teacher"
+    - name: "Team Epic"
+      bio: "Innovative development team | Full Stack & Python Developers | ML/DL Specialists | Problem Solvers | Tech Educators"
       avatar: "https://avatars.githubusercontent.com/u/121028242?v=4&size=64"
 tags:
     - create temp mail website

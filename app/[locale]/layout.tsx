@@ -25,20 +25,10 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
     const t = await getTranslations({ locale, namespace: 'Metadata' });
 
     return {
-        title: t('title'),
-        description: t('description'),
-        keywords: t('keywords'),
-        openGraph: {
-            title: t('openGraph.title'),
-            description: t('openGraph.description'),
-            url: `https://www.freecustom.email/${locale}`,
-            images: [
-                {
-                    url: 'https://www.freecustom.email/logo.webp',
-                    alt: t('openGraph.alt'),
-                },
-            ],
-        },
+        title: t('metadata_title'),
+        description: t('metadata_description'),
+        keywords: 'temporary email, disposable email, temp mail, anonymous email, privacy, spam protection',
+        authors: [{ name: 'Team Epic' }],
     };
 }
 export default async function LocaleLayout({ children, params }: Props) {

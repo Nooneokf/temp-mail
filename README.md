@@ -1,18 +1,20 @@
 
-# FreeCustom.Email - Professional Temporary Email Service
+# Temp-Mail - Professional Temporary Email Service
 
-FreeCustom.Email is a professional temporary email service built by Team Epic. This Next.js application provides secure, fast, and reliable disposable email addresses for privacy-conscious users.
+Temp-Mail is a professional temporary email service built by Team Epic. This Next.js application provides secure, fast, and reliable disposable email addresses for privacy-conscious users.
 
-## Features
+## ✨ Features
 
-- **Instant Email Generation**: Create temporary email addresses instantly
-- **Real-time Inbox**: Receive emails in real-time without page refresh
-- **Attachment Support**: Handle email attachments securely
-- **Multi-language Support**: Available in multiple languages
-- **Mobile Responsive**: Works perfectly on all devices
-- **Privacy Focused**: No registration required, fully anonymous
+- **⚡ Instant Email Generation**: Create temporary email addresses instantly
+- **🔄 Real-time Inbox**: Receive emails in real-time without page refresh
+- **📎 Attachment Support**: Handle email attachments securely
+- **🌍 Multi-language Support**: Available in multiple languages
+- **📱 Mobile Responsive**: Works perfectly on all devices
+- **🔒 Privacy Focused**: No registration required, fully anonymous
+- **🎨 Modern UI**: Beautiful gradient design with smooth animations
+- **⚡ Lightning Fast**: Optimized for speed and performance
 
-## Getting Started
+## 🚀 Getting Started
 
 First, install dependencies:
 
@@ -28,22 +30,46 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Technology Stack
+## 🛠️ Technology Stack
 
-This project uses:
-- [Next.js](https://nextjs.org) - React framework
-- [Tailwind CSS](https://tailwindcss.com) - Styling
-- [TypeScript](https://www.typescriptlang.org) - Type safety
-- [NextAuth.js](https://next-auth.js.org) - Authentication
+This project uses modern web technologies:
 
-## About Team Epic
+- **[Next.js 15](https://nextjs.org)** - React framework with App Router
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[TypeScript](https://www.typescriptlang.org)** - Type safety and developer experience
+- **[NextAuth.js](https://next-auth.js.org)** - Authentication solution
+- **[Framer Motion](https://www.framer.com/motion/)** - Smooth animations
+- **[Lucide Icons](https://lucide.dev)** - Beautiful icon library
 
-Team Epic is an innovative development team specializing in privacy-focused web applications, full-stack development, and modern web technologies.
+## 🎨 Design Features
 
-## Deploy on Replit
+- **Gradient Branding**: Eye-catching blue to purple gradients
+- **Dark Theme Support**: Beautiful dark/light mode toggle
+- **Responsive Design**: Perfect on all screen sizes
+- **Smooth Animations**: Powered by Framer Motion
+- **Modern Typography**: Clean and readable fonts
 
-This application is optimized for deployment on Replit. Simply fork the project and deploy directly from the Replit platform.
+## 👥 About Team Epic
+
+Team Epic is an innovative development team specializing in:
+- 🔐 Privacy-focused web applications
+- 🌐 Full-stack development
+- ⚡ Modern web technologies
+- 🚀 High-performance applications
+
+## 🚀 Deploy on Replit
+
+This application is optimized for deployment on Replit:
+
+1. Fork this repository on Replit
+2. Install dependencies automatically
+3. Deploy with one click
+4. Your Temp-Mail service is live!
+
+## 📄 License
+
+© 2025 Team Epic. All rights reserved.
 
 ---
 
-© 2025 Team Epic. All rights reserved.
+**Temp-Mail** - Your privacy, our priority. 🛡️
