@@ -22,7 +22,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-    const { locale } = params;
+    const { locale } = await params;
     setRequestLocale(locale);
 
     const t = await getTranslations({ locale, namespace: 'PageContent' });

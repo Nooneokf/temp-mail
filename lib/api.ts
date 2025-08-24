@@ -18,10 +18,11 @@ if (!SERVICE_API_URL || !INTERNAL_API_KEY) {
 export async function fetchFromServiceAPI(path: string, options: RequestInit = {}) {
     const url = `${SERVICE_API_URL}${path}`;
 
-    // Securely add the internal API key to the request headers.
+    // Securely add the RapidAPI headers
     const headers = {
         'Content-Type': 'application/json',
-        'x-internal-api-key': INTERNAL_API_KEY!,
+        'X-RapidAPI-Key': INTERNAL_API_KEY!,
+        'X-RapidAPI-Host': process.env.RAPIDAPI_HOST!,
         ...options.headers,
     };
 
