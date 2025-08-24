@@ -9,11 +9,10 @@ export default function UnauthView() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
       <h1 className="text-2xl font-bold mb-4">
-        Sign in to Access the Pro Dashboard
+        Sign in to Access the Dashboard
       </h1>
       <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
-        This page is for PRO plan users only. Please sign in to your account to
-        continue.
+        Please sign in with your Discord account to access the dashboard features.
       </p>
       <button
         onClick={() => setIsAuthOpen(true)}

@@ -53,8 +53,8 @@ By logging in with your free [whatsyour.info](https://whatsyour.info) account, y
 *   **24-Hour Storage:** The auto-deletion window is extended to a full day.
 *   **Basic Keyboard Shortcuts:** Navigate your inbox faster.
 
-### 3. WYI Pro: The Ultimate Temp Mail for Business & Developers
-This is the game-changer. For a small subscription fee, WYI Pro users get a suite of features that transforms temporary email into a professional tool. This is the **temp mail pro** solution you've been waiting for.
+### 3. Discord Pro: The Ultimate Temp Mail for Business & Developers
+This is the game-changer. Discord Pro users get a suite of features that transforms temporary email into a professional tool. This is the **temp mail pro** solution you've been waiting for.
 
 *   **Use Your Own Custom Domains:** This is our most requested feature. You can now use tempmail.encorebot.me's powerful engine with your own domain. Receive emails at addresses like `qa-testing@your-company.com` or `project-alpha@your-business.com`. Full MX and TXT verification support is included.
 *   **5GB Permanent Cloud Storage:** Say goodbye to auto-deletion. Your emails are saved to your private, secure 5GB cloud storage on our MongoDB cluster. They are only deleted when you choose to delete them.

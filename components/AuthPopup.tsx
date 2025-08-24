@@ -53,13 +53,13 @@ const plansData = [
         ]
     },
     {
-        title: "WYI Pro",
+        title: "Discord Pro",
         description: "For power users & developers.",
         isPopular: true,
         button: {
-            label: "Upgrade with WYI",
+            label: "Sign in with Discord",
             variant: "default",
-            onClick: () => signIn('wyi', { callbackUrl: '/dashboard?upgraded=true' })
+            onClick: () => signIn('discord', { callbackUrl: '/dashboard' })
         },
         features: [
             { text: "Unlimited Mailbox Size" },
@@ -69,7 +69,7 @@ const plansData = [
             { text: "Use Your Own Domains", tooltip: "Add, verify, and use your personal domains to create emails." },
             { text: "Mute Senders", tooltip: "Block unwanted senders from reaching your inbox." },
             { text: "No Announcement Popups" },
-            { text: "All WYI Pro Features", tooltip: "Your subscription includes all Pro features on whatsyour.info as well." },
+            { text: "Discord Integration", tooltip: "Connect with your Discord account for enhanced features." },
         ]
     }
 ];
