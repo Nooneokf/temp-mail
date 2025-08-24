@@ -193,7 +193,6 @@ export function AppHeader({ initialSession }: { initialSession: Session | null; 
                 <div className="flex flex-col gap-2">
                   <Link href="/docs" className="text-sm hover:underline py-1" onClick={handleMobileLinkClick}>{t('api_docs')}</Link>
                   <Link href="/blog" className="text-sm hover:underline py-1" onClick={handleMobileLinkClick}>Blog</Link>
-                  <a href="https://github.com/DishIs/temp-mail" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaGithub className="h-4 w-4" /> {t('github')}</a>
                   <a href="https://www.patreon.com/maildrop" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaPatreon className="h-4 w-4" /> {t('patreon')}</a>
                   <a href="https://discord.gg/Ztp7kT2QBz" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline flex items-center gap-2 py-1" onClick={handleMobileLinkClick}><FaDiscord className="h-4 w-4" /> {t('discord')}</a>
                   <Button variant="ghost" onClick={() => { openWhatsNew(); handleMobileLinkClick(); }} className="relative p-2 w-full justify-start gap-2 mt-auto" aria-label={'whats new'}>

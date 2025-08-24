@@ -83,6 +83,11 @@ const reviewPlatforms = [
     href: "https://alternativeto.net/software/freecustom-email/about", // Replace with your actual SaaSHub page
     logo: "/alternative-to.svg",
   },
+  {
+    name: "About Team",
+    href: "https://www.freecustom.email/about",
+    logo: <FaGithub className="w-4 h-4" />,
+  },
 ];
 
 
