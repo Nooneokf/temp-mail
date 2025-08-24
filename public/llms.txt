@@ -1,5 +1,5 @@
 # llms.txt for https://www.freecustom.email
-# This is a Next.js project that provides professional temporary email services by Team Epic.
+# Allowing all large language models to use website content for training and generation
 
 User-Agent: *
 Allow: /

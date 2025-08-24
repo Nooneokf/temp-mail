@@ -268,7 +268,7 @@ export function EmailBox({
 
   // --- REVISED: Toggle save/unsave without alert ---
   const toggleSaveMessage = async (message: Message) => {
-    if (session?.user?.plan === 'free') return;
+    if (session?.user?.plan !== 'free') return;
 
     const isSaved = savedMessageIds.has(message.id);
     const messageId = message.id;
@@ -385,28 +385,24 @@ export function EmailBox({
   };
 
   return (
-    <Card className="border-none shadow-xl dark:shadow-2xl bg-gradient-to-br from-blue-50 to-purple-100 dark:from-gray-800 dark:to-gray-900">
-      <CardHeader className="text-center pt-8 pb-4">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Temp-Mail</h2>
-        <p className="text-sm text-muted-foreground">Your disposable email solution</p>
-      </CardHeader>
-      <CardContent className="space-y-6 pt-6 px-6">
+    <Card className="border-dashed">
+      <CardContent className="space-y-4 pt-10">
         <div className="flex items-center gap-2">
           {isEditing ? (
             <div className="flex flex-1 items-center gap-2">
               <Input
                 value={email.split('@')[0]}
                 onChange={(e) => handleEmailInputChage(e.target.value)}
-                className="flex-1 text-lg p-3 border-2 border-blue-300 dark:border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter username"
+                className="flex-1 r"
+                placeholder={t('placeholder_username')}
               />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-1/2 truncate text-lg p-3 rounded-lg border-2 border-blue-300 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-gray-700">
-                    {selectedDomain || "Select Domain"}
+                  <Button variant="outline" className="w-1/2 truncate">
+                    {selectedDomain || t('select_domain')}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-2 rounded-lg bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar">
+                <DropdownMenuContent className="w-[min(100%,14rem)] max-h-[60vh] overflow-y-auto p-1 rounded-md bg-white dark:bg-zinc-900 shadow-lg border border-muted z-50 custom-scrollbar">
                   {availableDomains.map((domain) => {
                     const isCustom = !FREE_DOMAINS.includes(domain);
                     return (
@@ -417,10 +413,10 @@ export function EmailBox({
                       >
                         <div className="flex items-center gap-2">
                           {isCustom && <Crown className="h-4 w-4 text-amber-500" />}
-                          <span className="text-lg">{domain}</span>
+                          <span>{domain}</span>
                         </div>
                         <Button
-                          title={primaryDomain === domain ? "Unset as primary" : "Set as primary"}
+                          title={primaryDomain === domain ? t('unset_primary') : t('set_primary')}
                           variant="ghost"
                           size="icon"
                           onClick={(e) => { e.stopPropagation(); handlePrimaryDomainChange(domain); }}
@@ -436,26 +432,24 @@ export function EmailBox({
               </DropdownMenu>
             </div>
           ) : (
-            <div className="flex-1 rounded-lg bg-blue-100 dark:bg-gray-700 p-3 text-center text-lg font-semibold text-blue-800 dark:text-white truncate">
-              {email || "Loading..."}
-            </div>
+            <div className="flex-1 rounded-md bg-muted p-2">{email || t('loading')}</div>
           )}
           <TooltipProvider delayDuration={200}>
             <div className="flex gap-2" role="group" aria-label="Email actions">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" className="relative border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700" onClick={copyEmail} disabled={blockButtons} aria-label="Copy email address" title="Copy email address">
-                    <Copy className={cn("h-5 w-5 transition-all", copied && "opacity-0")} />
+                  <Button variant="secondary" size="icon" onClick={copyEmail} className="relative" disabled={blockButtons} aria-label="Copy email address" title="Copy email address">
+                    <Copy className={cn("h-4 w-4 transition-all", copied && "opacity-0")} />
                     <span className={cn("absolute inset-0 flex items-center justify-center transition-all", copied ? "opacity-100" : "opacity-0")}>
-                      <Check className="h-5 w-5 transition-all text-green-500" />
+                      <Check className="h-4 w-4 transition-all" />
                     </span>
                     <span className="absolute top-[-2px] text-xs right-0 hidden sm:block">C</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent><p>{isAuthenticated ? 'Press C to copy' : 'Login to use shortcuts'}</p></TooltipContent>
               </Tooltip>
-              <Button className="hidden xs:flex" variant="outline" size="icon" onClick={() => setIsQRModalOpen(true)} disabled={blockButtons} title="Show QR Code" aria-label="Show QR Code" className="border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700">
-                <QrCode className="h-5 w-5" />
+              <Button className="hidden xs:flex" variant="secondary" size="icon" onClick={() => setIsQRModalOpen(true)} disabled={blockButtons} title={t('show_qr')} aria-label={t('show_qr')}>
+                <QrCode className="h-4 w-4" />
               </Button>
               <ShareDropdown />
             </div>
@@ -465,9 +459,9 @@ export function EmailBox({
           <div className="flex gap-2 flex-wrap" role="group" aria-label="Email management actions">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1 border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700" onClick={refreshInbox} aria-label={isRefreshing ? 'Refreshing...' : 'Refresh Inbox'}>
+                <Button disabled={blockButtons || isRefreshing} variant="outline" className="flex-1" onClick={refreshInbox} aria-label={isRefreshing ? t('refreshing') : t('refresh')}>
                   <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
-                  <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
+                  <span className="hidden sm:inline">{isRefreshing ? t('refreshing') : t('refresh')}</span>
                   <Badge variant="outline" className="ml-auto hidden sm:block">R</Badge>
                 </Button>
               </TooltipTrigger>
@@ -475,13 +469,13 @@ export function EmailBox({
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button disabled={blockButtons} variant="outline" className="flex-1 border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700" onClick={() => { changeEmail(); handleNewDomainUpdates(); }} aria-label={isEditing ? 'Save Email' : 'Change Email'}>
+                <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={() => { changeEmail(); handleNewDomainUpdates(); }} aria-label={isEditing ? t('save') : t('change')}>
                   {!session?.user ? <RotateCwSquare className="mr-2 h-4 w-4" /> : isEditing ? <CheckCheck className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
-                  <span className="hidden sm:inline">{!session?.user ? 'Change' : isEditing ? 'Save' : 'Change'}</span>
+                  <span className="hidden sm:inline">{!session?.user ? t('change') : isEditing ? t('save') : t('change')}</span>
                   {isAuthenticated && <Badge variant="outline" className="ml-auto hidden sm:block">N</Badge>}
                   <AnimatePresence>
                     {!discoveredUpdates.newDomains && (
-                      <motion.span key="new-badge" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="text-[10px] bg-blue-600 text-white rounded-full px-1.5 ml-1">New</motion.span>
+                      <motion.span key="new-badge" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="text-[10px] bg-black text-white rounded-full px-1.5">{t('new')}</motion.span>
                     )}
                   </AnimatePresence>
                 </Button>
@@ -490,9 +484,9 @@ export function EmailBox({
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button disabled={blockButtons} variant="outline" className="flex-1 border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700" onClick={deleteEmail} aria-label="Delete Email Address">
+                <Button disabled={blockButtons} variant="outline" className="flex-1" onClick={deleteEmail} aria-label={t('delete')}>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  <span className="hidden sm:inline">Delete</span>
+                  <span className="hidden sm:inline">{t('delete')}</span>
                   <Badge variant="outline" className="ml-auto hidden sm:block">D</Badge>
                 </Button>
               </TooltipTrigger>
@@ -501,7 +495,7 @@ export function EmailBox({
             {(session?.user?.plan === 'pro') && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" className="flex-1 border-2 border-blue-300 dark:border-gray-700 rounded-lg hover:bg-blue-200 dark:hover:bg-gray-700" onClick={() => setIsManageModalOpen(true)} aria-label="Manage all inboxes">
+                  <Button variant="outline" className="flex-1" onClick={() => setIsManageModalOpen(true)} aria-label="Manage all inboxes">
                     <ListOrdered className="mr-2 h-4 w-4" />
                     <span className="hidden sm:inline">Manage Inboxes</span>
                   </Button>
@@ -511,35 +505,35 @@ export function EmailBox({
             )}
           </div>
         </TooltipProvider>
-        <Table className="border-2 border-blue-200 dark:border-gray-700 rounded-lg overflow-hidden">
+        <Table>
           <TableHeader>
-            <TableRow className="bg-blue-50 dark:bg-gray-800">
-              <TableHead className="text-blue-700 dark:text-blue-300">{t('table_sender')}</TableHead>
-              <TableHead className="text-blue-700 dark:text-blue-300">{t('table_subject')}</TableHead>
-              <TableHead className="text-blue-700 dark:text-blue-300">{t('table_date')}</TableHead>
-              <TableHead className="text-blue-700 dark:text-blue-300">{t('table_actions')}</TableHead>
+            <TableRow>
+              <TableHead>{t('table_sender')}</TableHead>
+              <TableHead>{t('table_subject')}</TableHead>
+              <TableHead>{t('table_date')}</TableHead>
+              <TableHead>{t('table_actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {messages.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center py-12">
-                  <div className="flex flex-col items-center justify-center">
-                    <Mail className="h-16 w-16 text-blue-400 dark:text-blue-500 mb-4" />
-                    <div className="text-xl font-semibold text-gray-800 dark:text-white mb-2">Your inbox is empty</div>
-                    <div className="text-sm text-muted-foreground">No new emails yet. Keep an eye on this space!</div>
+                <TableCell colSpan={4} className="text-center">
+                  <div className="py-12">
+                    <div className="mb-4 flex justify-center"><Mail className="h-12 w-12 text-muted-foreground" /></div>
+                    <div className="text-lg font-medium">{t('inbox_empty_title')}</div>
+                    <div className="text-sm text-muted-foreground">{t('inbox_empty_subtitle')}</div>
                   </div>
                 </TableCell>
               </TableRow>
             ) : (
               messages.map((message, index) => (
-                <TableRow key={message.id} className={cn(index % 2 === 0 ? 'bg-blue-50 dark:bg-gray-850' : 'bg-white dark:bg-gray-900', 'hover:bg-blue-100 dark:hover:bg-gray-700 transition-colors')}>
-                  <TableCell className="py-4 px-4 text-gray-800 dark:text-gray-200">{message.from}</TableCell>
-                  <TableCell className="py-4 px-4 text-gray-800 dark:text-gray-200">{message.subject}</TableCell>
-                  <TableCell className="py-4 px-4 text-gray-600 dark:text-gray-300">{new Date(message.date).toLocaleString()}</TableCell>
-                  <TableCell className="py-4 px-4 flex items-center space-x-2">
-                    <Button variant="link" className="text-blue-600 hover:text-blue-800" onClick={() => viewMessage(message)}>{t('view')}</Button>
-                    <Button variant="link" className="text-red-600 hover:text-red-800" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
+                <TableRow key={message.id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}>
+                  <TableCell>{message.from}</TableCell>
+                  <TableCell>{message.subject}</TableCell>
+                  <TableCell>{new Date(message.date).toLocaleString()}</TableCell>
+                  <TableCell>
+                    <Button variant="link" onClick={() => viewMessage(message)}>{t('view')}</Button>
+                    <Button variant="link" onClick={() => deleteMessage(message.id)}>{t('delete')}</Button>
                     {/* --- REVISED: Save button with dynamic state --- */}
                     {(session?.user?.plan === 'free') && (
                       <Button
@@ -547,9 +541,8 @@ export function EmailBox({
                         size="icon"
                         title={savedMessageIds.has(message.id) ? "Unsave from Browser" : "Save to Browser"}
                         onClick={() => toggleSaveMessage(message)}
-                        className="text-yellow-600 hover:text-yellow-800"
                       >
-                        <Star className={cn("h-4 w-4", savedMessageIds.has(message.id) && "fill-yellow-500 text-yellow-500")} />
+                        <Star className={cn("h-4 w-4", savedMessageIds.has(message.id) && "fill-amber-500 text-amber-500")} />
                       </Button>
                     )}
                   </TableCell>
@@ -558,23 +551,27 @@ export function EmailBox({
             )}
           </TableBody>
         </Table>
-        <div className="mt-8 bg-blue-50 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Inbox History</h3>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">{t('history_title')}</h3>
           <ul className="space-y-2">
             {emailHistory.map((historyEmail, index) => (
-              <li key={index} className="flex items-center justify-between bg-white dark:bg-gray-850 p-2 rounded-md">
-                <span className="text-sm text-muted-foreground truncate">{historyEmail}</span>
-                <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-800" onClick={() => { setEmail(historyEmail); setOldEmailUsed(!oldEmailUsed); }}>Use</Button>
+              <li key={index} className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{historyEmail}</span>
+                <Button variant="ghost" size="sm" onClick={() => { setEmail(historyEmail); setOldEmailUsed(!oldEmailUsed); }}>{t('history_use')}</Button>
               </li>
             ))}
           </ul>
         </div>
       </CardContent>
       {showAttachmentNotice && (
-        <div className="p-3 mx-6 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 text-center border border-yellow-300">
+        <div className="p-3 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 text-center">
           An email arrived with an attachment that exceeds your plan's limit. <button className="font-bold underline ml-2">Upgrade Now</button> to receive larger attachments.
         </div>
       )}
+      <CardHeader>
+        <h2 className="text-xl font-semibold">{t('card_header_title')}</h2>
+        <p className="text-sm text-muted-foreground">{t('card_header_p')}</p>
+      </CardHeader>
       <ManageInboxesModal isOpen={isManageModalOpen} onClose={() => setIsManageModalOpen(false)} inboxes={initialInboxes} onSelectInbox={useHistoryEmail} />
       <QRCodeModal email={email} isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} />
       <MessageModal message={selectedMessage} isOpen={isMessageModalOpen} onClose={() => setIsMessageModalOpen(false)} />

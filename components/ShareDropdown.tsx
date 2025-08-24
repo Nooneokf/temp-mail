@@ -16,11 +16,11 @@ import Link from "next/link";
 import { toast } from "sonner"; // Using sonner for notifications, see step 3
 
 // Recommended: using react-icons for brand logos
-import { FaTwitter, FaFacebook, FaLinkedin, FaReddit, FaWhatsapp, FaTelegramPlane, FaEnvelope, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaFacebook, FaLinkedin, FaReddit, FaWhatsapp, FaTelegramPlane, FaEnvelope } from "react-icons/fa";
 import Image from "next/image";
 
-const shareUrl = "https://tempmail.encorebot.me";
-const shareText = "Create your temporary email address today! Check out Temp-Mail";
+const shareUrl = "https://www.freecustom.email";
+const shareText = "Create your free custom email address today! Check out FreeCustom.Email";
 
 // 1. Define your sharing platforms
 const sharePlatforms = [
@@ -65,28 +65,23 @@ const sharePlatforms = [
 const reviewPlatforms = [
   {
     name: "Product Hunt",
-    href: "https://www.producthunt.com/products/temp-mail",
+    href: "https://www.producthunt.com/products/freecustom-email", // Replace with your actual Product Hunt page
     logo: "/product-hunt.svg",
   },
   {
     name: "Trustpilot",
-    href: "https://www.trustpilot.com/review/tempmail.encorebot.me",
+    href: "https://www.trustpilot.com/review/freecustom.email",
     logo: "/trustpilot.svg",
   },
   {
     name: "G2",
-    href: "https://www.g2.com/products/temp-mail/reviews",
+    href: "https://www.g2.com/wizard/workflow-wiz-apr28-amzn10/products/freecustom-email/reviews/start?g2_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&last_completed_step=4&product_id=freecustom-email&return_to=https%3A%2F%2Fwww.g2.com%2Fwizard%2Fworkflow-wiz-apr28-amzn10%2Fproducts%2Ffreecustom-email%2Ftake_survey%3Futm_source%3DIterable%26utm_medium%3Demail%26utm_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_%26g2_campaign%3Dit_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_campaign=it_auto_txn_snd_2025_07_19_wfl_169257_cmp_2671423_tpl_3658179_loc_&utm_medium=email&utm_source=Iterable", // Replace with your actual G2 page
     logo: "/g2.svg",
   },
   {
     name: "AlternativeTo",
-    href: "https://alternativeto.net/software/temp-mail/about",
+    href: "https://alternativeto.net/software/freecustom-email/about", // Replace with your actual SaaSHub page
     logo: "/alternative-to.svg",
-  },
-  {
-    name: "About Team",
-    href: "https://tempmail.encorebot.me/about",
-    logo: <FaGithub className="w-4 h-4" />,
   },
 ];
 

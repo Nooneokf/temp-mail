@@ -3,8 +3,8 @@
 
 declare const messages: {
   "Metadata": {
-    "title": "Temp-Mail - Professional Temporary Email Service",
-    "description": "Create instant, secure temporary email addresses. Perfect for protecting privacy, avoiding spam, and managing online registrations with our modern, fast platform.",
+    "title": "Custom Temp Mail – Fastest Ad‑Free Disposable Email",
+    "description": "Generate a custom temp mail address instantly—choose from multiple domains, no registration, no ads, forever free.",
     "keywords": "temp mail, disposable email, custom mail, fake email, temporary inbox, no ads email, 10minmail, email privacy, free temp mail, temp mail pro, temp mail business",
     "openGraph": {
       "title": "Custom Temp Mail – Pro Features for Business & Devs",
@@ -35,17 +35,17 @@ declare const messages: {
   },
   "AppHeader": {
     "api": "API",
-    "api_docs": "API Docs",
+    "api_docs": "API - Docs",
     "aria_api_docs": "View API documentation",
     "aria_discord": "Join our Discord community",
     "aria_toggle_theme": "Toggle theme",
-    "aria_open_menu": "Open menu",
-    "aria_close_menu": "Close menu",
+    "aria_open_menu": "Open mobile menu",
+    "aria_close_menu": "Close mobile menu",
     "github": "GitHub",
     "aria_github": "View GitHub repository",
-    "patreon": "Support",
+    "patreon": "Patreon",
     "aria_patreon": "View Patreon",
-    "discord": "Community"
+    "discord": "Discord"
   },
   "EmailBox": {
     "loading": "Loading...",

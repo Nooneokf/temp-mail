@@ -27,8 +27,18 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
     return {
         title: t('title'),
         description: t('description'),
-        keywords: 'temporary email, disposable email, temp mail, anonymous email, privacy, spam protection',
-        authors: [{ name: 'Team Epic' }],
+        keywords: t('keywords'),
+        openGraph: {
+            title: t('openGraph.title'),
+            description: t('openGraph.description'),
+            url: `https://www.freecustom.email/${locale}`,
+            images: [
+                {
+                    url: 'https://www.freecustom.email/logo.webp',
+                    alt: t('openGraph.alt'),
+                },
+            ],
+        },
     };
 }
 export default async function LocaleLayout({ children, params }: Props) {

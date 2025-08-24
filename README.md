@@ -1,28 +1,8 @@
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-# Temp-Mail - Professional Temporary Email Service
+## Getting Started
 
-Temp-Mail is a professional temporary email service built by Team Epic. This Next.js application provides secure, fast, and reliable disposable email addresses for privacy-conscious users.
-
-## ✨ Features
-
-- **⚡ Instant Email Generation**: Create temporary email addresses instantly
-- **🔄 Real-time Inbox**: Receive emails in real-time without page refresh
-- **📎 Attachment Support**: Handle email attachments securely
-- **🌍 Multi-language Support**: Available in multiple languages
-- **📱 Mobile Responsive**: Works perfectly on all devices
-- **🔒 Privacy Focused**: No registration required, fully anonymous
-- **🎨 Modern UI**: Beautiful gradient design with smooth animations
-- **⚡ Lightning Fast**: Optimized for speed and performance
-
-## 🚀 Getting Started
-
-First, install dependencies:
-
-```bash
-npm install
-```
-
-Then, run the development server:
+First, run the development server:
 
 ```bash
 npm run dev
@@ -30,46 +10,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🛠️ Technology Stack
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses modern web technologies:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- **[Next.js 15](https://nextjs.org)** - React framework with App Router
-- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
-- **[TypeScript](https://www.typescriptlang.org)** - Type safety and developer experience
-- **[NextAuth.js](https://next-auth.js.org)** - Authentication solution
-- **[Framer Motion](https://www.framer.com/motion/)** - Smooth animations
-- **[Lucide Icons](https://lucide.dev)** - Beautiful icon library
+## Learn More
 
-## 🎨 Design Features
+To learn more about Next.js, take a look at the following resources:
 
-- **Gradient Branding**: Eye-catching blue to purple gradients
-- **Dark Theme Support**: Beautiful dark/light mode toggle
-- **Responsive Design**: Perfect on all screen sizes
-- **Smooth Animations**: Powered by Framer Motion
-- **Modern Typography**: Clean and readable fonts
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 👥 About Team Epic
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Team Epic is an innovative development team specializing in:
-- 🔐 Privacy-focused web applications
-- 🌐 Full-stack development
-- ⚡ Modern web technologies
-- 🚀 High-performance applications
+## Deploy on Vercel
 
-## 🚀 Deploy on Replit
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-This application is optimized for deployment on Replit:
-
-1. Fork this repository on Replit
-2. Install dependencies automatically
-3. Deploy with one click
-4. Your Temp-Mail service is live!
-
-## 📄 License
-
-© 2025 Team Epic. All rights reserved.
-
----
-
-**Temp-Mail** - Your privacy, our priority. 🛡️
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
