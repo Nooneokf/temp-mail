@@ -60,7 +60,7 @@ This is the game-changer. Discord Pro users get a suite of features that transfo
 *   **5GB Permanent Cloud Storage:** Say goodbye to auto-deletion. Your emails are saved to your private, secure 5GB cloud storage on our MongoDB cluster. They are only deleted when you choose to delete them.
 *   **25MB Attachment Limit:** Powered by GridFS, you can now receive large files, reports, and assets, making this a viable tool for professional collaboration.
 *   **Full API & Embedding:** Embed a full-featured inbox directly into your website or application. Perfect for dev environments, internal tools, or customer support platforms.
-*   **Mute Senders:** Block spammy or unwanted senders from reaching your inboxes.
+*   **Mute Senders:** Block spammy or unwanted senders to reach your inboxes.
 *   **No Interruptions:** Enjoy a completely clean, ad-free, and popup-free experience.
 
 ---

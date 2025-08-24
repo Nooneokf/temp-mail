@@ -187,7 +187,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
       const response = await fetch("/api/user/domains", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ domain: newDomain, wyiUserId: user.id }),
+        body: JSON.stringify({ domain: newDomain, userId: user.id }),
       });
 
       const result = await response.json().catch(() => ({}));
@@ -229,7 +229,7 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
       const response = await fetch("/api/user/domains", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ domain: domainToDelete, wyiUserId: user.id }),
+        body: JSON.stringify({ domain: domainToDelete, userId: user.id }),
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) {
@@ -255,9 +255,9 @@ export function CustomDomainManager({ initialDomains }: CustomDomainManagerProps
       const response = await fetch("/api/user/domains/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ domain: domainToVerify, wyiUserId: user.id }),
+        body: JSON.stringify({ domain: domainToVerify, userId: user.id }),
       });
-      const result = await response.json().catch(() => ({}));
+      const result = await res.json().catch(() => ({}));
       if (!response.ok) {
         throw new Error(result?.message || "Verification failed.");
       }

@@ -31,9 +31,9 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { domain } = await request.json();
-    if (!domain) {
-        return NextResponse.json({ message: 'Domain is required.' }, { status: 400 });
+    const { domain, userId } = await request.json(); // Changed wyiUserId to userId
+    if (!domain || !userId) { // Changed wyiUserId to userId
+        return NextResponse.json({ message: 'Domain and userId are required.' }, { status: 400 });
     }
 
     try {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
             method: 'POST',
             body: JSON.stringify({
                 domain: domain,
-                wyiUserId: session.user.id // Pass the authenticated user ID
+                userId: userId // Pass the authenticated user ID
             }),
         });
 
@@ -62,12 +62,12 @@ export async function DELETE(request: Request) {
     if (!session || !session.user) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const { domain } = await request.json();
+    const { domain, userId } = await request.json(); // Changed wyiUserId to userId
 
     try {
         const serviceResponse = await fetchFromServiceAPI(`/user/domains`, {
             method: 'DELETE',
-            body: JSON.stringify({ domain, wyiUserId: session.user.id }) // Pass the authenticated user ID,
+            body: JSON.stringify({ domain, userId: userId }) // Pass the authenticated user ID, changed wyiUserId to userId
         });
         return NextResponse.json(serviceResponse);
 

@@ -12,15 +12,15 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
-    const { senderToMute } = await request.json();
-    if (!senderToMute) {
-        return NextResponse.json({ message: 'Sender is required.' }, { status: 400 });
+    const { senderToMute, userId } = await request.json();
+    if (!senderToMute || !userId) {
+        return NextResponse.json({ message: 'Sender and userId are required.' }, { status: 400 });
     }
 
     try {
-        const serviceResponse = await fetchFromServiceAPI(`/user/mute`, {
+        const serviceResponse = await fetchFromServiceAPI(`/user/${userId}/mute`, {
             method: 'POST',
-            body: JSON.stringify({ senderToMute, wyiUserId: session.user.id }),
+            body: JSON.stringify({ senderToMute, userId }),
         });
         return NextResponse.json(serviceResponse);
     } catch (error: any) {
@@ -35,14 +35,15 @@ export async function DELETE(request: Request) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { senderToUnmute } = await request.json();
+    const { senderToUnmute, userId } = await request.json();
+    if (!senderToUnmute || !userId) {
+        return NextResponse.json({ message: 'Sender and userId are required.' }, { status: 400 });
+    }
 
     try {
-        // Your backend uses DELETE for this, but the handler name is unmuteSenderHandler.
-        // The HTTP method and path should match the Express route definition.
-        const serviceResponse = await fetchFromServiceAPI(`/user/mute`, {
+        const serviceResponse = await fetchFromServiceAPI(`/user/${userId}/mute/${senderToUnmute}`, {
             method: 'DELETE',
-            body: JSON.stringify({ senderToUnmute, wyiUserId: session.user.id }),
+            body: JSON.stringify({ senderToUnmute, userId }),
         });
         return NextResponse.json(serviceResponse);
     } catch (error: any) {

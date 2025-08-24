@@ -30,7 +30,7 @@ export function MuteListManager({ initialSenders }: MuteListManagerProps) {
             const response = await fetch('/api/user/mute', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ senderToMute: newSender, wyiUserId: user.id }),
+                body: JSON.stringify({ sender: newSender, userId: user.id }),
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || 'Failed to mute sender.');
@@ -44,7 +44,7 @@ export function MuteListManager({ initialSenders }: MuteListManagerProps) {
             setIsLoading(false);
         }
     };
-    
+
     const handleUnmuteSender = async (senderToUnmute: string) => {
         if (!user) return;
         setIsLoading(true);
@@ -54,7 +54,7 @@ export function MuteListManager({ initialSenders }: MuteListManagerProps) {
             const response = await fetch('/api/user/mute', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ senderToUnmute, wyiUserId: user.id }),
+                body: JSON.stringify({ sender: senderToUnmute, userId: user.id }),
             });
 
             const result = await response.json();

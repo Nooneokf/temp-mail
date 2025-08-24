@@ -11,22 +11,22 @@ export async function POST(request: Request) {
     if (!session || !session.user) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    
-    const { domain } = await request.json();
-    if (!domain) {
-        return NextResponse.json({ message: 'Domain is required.' }, { status: 400 });
+
+    const { domain, userId } = await request.json();
+    if (!domain || !userId) {
+        return NextResponse.json({ message: 'Domain and userId are required.' }, { status: 400 });
     }
 
     try {
         // Proxy the request to the Service API's new verification endpoint
-        const serviceResponse = await fetchFromServiceAPI(`/user/domains/verify`, {
+        const serviceResponse = await fetchFromServiceAPI(`/user/${userId}/domains/${domain}/verify`, {
             method: 'POST',
             body: JSON.stringify({
                 domain: domain,
-                wyiUserId: session.user.id // Pass the authenticated user ID
+                userId: userId // Pass the authenticated user ID
             }),
         });
-        
+
         return NextResponse.json(serviceResponse);
 
     } catch (error: any) {
