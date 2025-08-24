@@ -63,6 +63,54 @@ export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
     },
+    cookies: {
+        pkceCodeVerifier: {
+            name: "next-auth.pkce.code_verifier",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            }
+        },
+        state: {
+            name: "next-auth.state",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+                maxAge: 900, // 15 minutes
+            }
+        },
+        sessionToken: {
+            name: "next-auth.session-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            }
+        },
+        callbackUrl: {
+            name: "next-auth.callback-url",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            }
+        },
+        csrfToken: {
+            name: "next-auth.csrf-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            }
+        },
+    },
     pages: {
         error: '/api/auth/signin', // Redirect to sign-in page on errors
     },
@@ -75,6 +123,7 @@ export const authOptions: NextAuthOptions = {
                     scope: 'identify email',
                 },
             },
+            checks: ["state"],
             profile(profile: DiscordProfile): User {
                 const avatarUrl = profile.avatar
                     ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
@@ -92,6 +141,7 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
+            console.log("SignIn callback triggered", { provider: account?.provider });
             if (account?.provider === 'discord' && profile) {
                 try {
                     processUserData(profile as DiscordProfile);
